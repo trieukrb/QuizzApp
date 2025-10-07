@@ -10,6 +10,11 @@ export const quizData = [
         answer: "Andes",
     },
     {
+        question: "Dãy núi dài nhất thế giới là gì?",
+        options: ["Himalaya", "Andes", "Rocky", "Alps"],
+        answer: "Andes",
+    },
+    {
         question: "Sông nào dài nhất thế giới?",
         options: ["Amazon", "Nile", "Yangtze", "Mississippi"],
         answer: "Nile",

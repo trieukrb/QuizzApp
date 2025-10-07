@@ -60,7 +60,6 @@ const Quizz = () => {
             reset = {reset}
         />)
     }
-
     return (
     <>
         <h1>App Quizz học tiếng anh của Triều</h1>
