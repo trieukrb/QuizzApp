@@ -1,8 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {quizData} from './data.jsx'
+import Home from "./Home.jsx";
 const Result = ({score, question, correctarray,reset}) => {
+    const [home, setHome] = useState(false)
+
+    if (home){
+        return (
+            <Home/>
+        )
+    }
   return (
-     <>
+     <div className='container'>
          <div className='result__heading'>
              <button className='result_return-top' onClick={reset}>Làm lại</button>
              <h1 className='result__heading-title'>Kết quả</h1>
@@ -35,8 +43,8 @@ const Result = ({score, question, correctarray,reset}) => {
             </div>
 
         ) )}
-         <button className='result_return' onClick={reset}>Làm lại</button>
-    </>
+         <button className='result_return' onClick={() => setHome(true)}>Làm lại</button>
+     </div>
   );
 };
 
