@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import {quizData} from './data.jsx'
-import Home from "./Home.jsx";
+import {Link} from 'react-router-dom'
 const Result = ({score, question, correctarray,reset}) => {
-    const [home, setHome] = useState(false)
-
-    if (home){
-        return (
-            <Home/>
-        )
-    }
+    // const [home, setHome] = useState(false)
+    //
+    // if (home){
+    //     return (
+    //         <Home/>
+    //     )
+    // }
   return (
      <div className='container'>
          <div className='result__heading'>
@@ -43,7 +43,9 @@ const Result = ({score, question, correctarray,reset}) => {
             </div>
 
         ) )}
-         <button className='result_return' onClick={() => setHome(true)}>Làm lại</button>
+         <Link to='/'>
+             <button className='result_return'>Làm lại</button>
+         </Link>
      </div>
   );
 };
