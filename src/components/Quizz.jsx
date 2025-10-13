@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {quizData} from './data.jsx'
 import Result from "./Result.jsx";
-import Home from "./Home.jsx";
 import Navigation from "./Navigation.jsx";
 import Question from "./Question.jsx";
 import AnswerOptions from "./AnswerOptions.jsx";
@@ -47,11 +46,7 @@ const Quizz = () => {
      * Nếu đang ở câu đầu tiên, sẽ quay về trang chủ.
      */
     const onPrev = () => {
-        if (quenstionnum === 0) {
-            setIsHome(true);
-        } else {
-            setQuenstionnum(prevState => prevState - 1);
-        }
+        setQuenstionnum(prevState => prevState - 1);
     };
 
     /**
@@ -144,11 +139,6 @@ const Quizz = () => {
     }
 
     // Nếu chọn quay về trang chủ, hiển thị component isHome
-    if (isHome) {
-        return (
-            <Home/>
-        )
-    }
 
     // =================================================================================================================
     // MAIN RENDER (Giao diện chính)
