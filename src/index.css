@@ -44,6 +44,10 @@ h1,h2{
         height: 100%;
         padding: 0;
 }
+.option__link{
+    text-decoration: none;
+    color: #222222;
+}
 .menu__option{
     background-color: #86b7fe;
     list-style: none;
