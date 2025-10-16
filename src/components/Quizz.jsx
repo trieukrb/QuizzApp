@@ -27,8 +27,6 @@ const Quizz = () => {
     const [score, setScore] = useState(0);
     // `isSubmitted`: Cờ xác định người dùng đã nộp bài hay chưa.
     const [isSubmitted, setIsSubmitted] = useState(false);
-    // `isHome`: Cờ xác định có quay về trang chủ hay không (hiện tại chưa dùng).
-    const [isHome, setIsHome] = useState(false);
     // `selectedOptionIndex`: Chỉ số của câu trả lời đã chọn cho câu hỏi hiện tại.
     const selectedOptionIndex = selectedAnswers[quenstionnum]
 
@@ -41,21 +39,15 @@ const Quizz = () => {
     useEffect(() => {
         const fetchQuestions = async () => {
             try{
-                const res = await axios.get('https://opentdb.com/api.php?amount=10&category=18&type=multiple')
-                const formattedQuestions = res.data.results.map((result) => {
-                    const options = [...result.incorrect_answers, result.correct_answer];
-                    return {
-                        question: he.decode(result.question),
-                        options: options.map(opt => he.decode(opt)),
-                        answer: he.decode(result.correct_answer),
-                    }
-                })
+                const res = await axios.get('http://localhost:3000/questions')
+                const questionData = res.data;
+
                 // Trộn ngẫu nhiên các phương án trả lời.
-                formattedQuestions.forEach(q => q.options.sort(() => Math.random() - 0.5));
+                // formattedQuestions.forEach(q => q.options.sort(() => Math.random() - 0.5));
 
                 // Cập nhật state sau khi xử lý dữ liệu thành công.
-                setQuestions(formattedQuestions);
-                setSelectedAnswers(Array(formattedQuestions.length).fill(undefined));
+                setQuestions(questionData);
+                setSelectedAnswers(Array(questionData.length).fill(undefined));
             }
             catch(err){
                 setError("Không thể tải được câu hỏi, vui lòng thử lại.");
@@ -133,8 +125,11 @@ const Quizz = () => {
     const handlesubmit = () => {
         let finalScore = 0;
         selectedAnswers.forEach((answerIndex, questionIndex) => {
+            // lấy ra đáp án đúng trong db
             const correctAnswer = questions[questionIndex].answer;
+            // lấy ra đáp án người dùng chọn trong array selectedAnswers
             const userAnswer = questions[questionIndex].options[answerIndex];
+            // nếu này đúng khớp với nhau thì cộng một điểm
             if (userAnswer === correctAnswer) {
                 finalScore++;
             }
@@ -151,7 +146,6 @@ const Quizz = () => {
         setSelectedAnswers([]);
         setScore(0);
         setIsSubmitted(false);
-        setIsHome(false);
     };
 
     // --- CONDITIONAL RENDERING --- //
@@ -202,8 +196,8 @@ const Quizz = () => {
                 onPrev = {onPrev}
                 onNext = {onNext}
                 handlesubmit = {handlesubmit}
-                isFirstQuestion={quenstionnum === 0}
-                isLastQuestion={quenstionnum === questions.length - 1}
+                isFirstQuestion= {quenstionnum === 0}
+                isLastQuestion= {quenstionnum === questions.length - 1}
             />
         </div>
     );
