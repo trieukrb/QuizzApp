@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {quizData} from './data.jsx'
 import Result from "./Result.jsx";
 import Navigation from "./Navigation.jsx";
 import Question from "./Question.jsx";
 import AnswerOptions from "./AnswerOptions.jsx";
 import axios from "axios";
-import he from 'he'
 
 /**
  * Component Quizz: Chịu trách nhiệm hiển thị và quản lý toàn bộ logic của bài trắc nghiệm.
@@ -29,7 +27,6 @@ const Quizz = () => {
     const [isSubmitted, setIsSubmitted] = useState(false);
     // `selectedOptionIndex`: Chỉ số của câu trả lời đã chọn cho câu hỏi hiện tại.
     const selectedOptionIndex = selectedAnswers[quenstionnum]
-
     // --- SIDE EFFECTS --- //
 
     /**
@@ -41,13 +38,13 @@ const Quizz = () => {
             try{
                 const res = await axios.get('http://localhost:3000/questions')
                 const questionData = res.data;
-
                 // Trộn ngẫu nhiên các phương án trả lời.
                 // formattedQuestions.forEach(q => q.options.sort(() => Math.random() - 0.5));
 
                 // Cập nhật state sau khi xử lý dữ liệu thành công.
                 setQuestions(questionData);
                 setSelectedAnswers(Array(questionData.length).fill(undefined));
+
             }
             catch(err){
                 setError("Không thể tải được câu hỏi, vui lòng thử lại.");
@@ -155,6 +152,7 @@ const Quizz = () => {
         return (
             <Result
                 score={score}
+                questions={questions}
                 question={questions.length}
                 correctarray={selectedAnswers}
                 reset={reset}

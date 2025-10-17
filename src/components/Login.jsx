@@ -1,12 +1,19 @@
 import React, {useState} from 'react';
-
+import useUserStore from '../stores/userStore.js'
 const Login = () => {
     const [emailValue, setEmailValue] = useState('')
     const [passwordValue, setPasswordValue] = useState('')
+    const setUserName = useUserStore(state => state.setUserName)
 
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log({emailValue, passwordValue})
+        if(emailValue.trim()){
+            setUserName(emailValue)
+            setEmailValue('')
+            setPasswordValue('')
+        }
+
     }
 
     return (
