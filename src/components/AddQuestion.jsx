@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {quizData} from "./data.jsx";
 import {Link} from "react-router-dom";
 import axios from "axios";
@@ -16,25 +16,26 @@ const AddQuestion = () => {
     const [answerValue4, setAnswerValue4] = useState("")
     const [correctAnswerValue, setCorrectAnswerValue] = useState("")
 
-
+    const [editingId, setEditingId] = useState(null)
+    const [editingData, setEditingData] = useState({
+        question: "",
+        options: ["", "", "", ""],
+        answer: ""
+    })
+    const [isShowModelAdd, setIsShowModelAdd] = useState(false)
+    const [isShowModelEdit, setIsShowModelEdit] = useState(false)
+    const inputAddRef = useRef(null)
     useEffect(() => {
         const fetchQuestions = async () => {
             try{
                 const res = await axios.get('http://localhost:3000/questions')
                 const questionData = res.data;
-                // Trộn ngẫu nhiên các phương án trả lời.
-                // formattedQuestions.forEach(q => q.options.sort(() => Math.random() - 0.5));
-
-                // Cập nhật state sau khi xử lý dữ liệu thành công.
                 setQuestions(questionData);
-
             }
             catch(err){
                 setError("Không thể tải được câu hỏi, vui lòng thử lại.");
                 console.error("Lỗi khi gọi API:", err);
-
             } finally {
-                // Tắt trạng thái loading sau khi hoàn tất (thành công hoặc thất bại).
                 setLoading(false);
             }
         }
@@ -51,7 +52,7 @@ const AddQuestion = () => {
     }
 
 
-    const handleSubmit =async (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const newQuestion = {
             question: questionValue,
@@ -59,83 +60,206 @@ const AddQuestion = () => {
             answer: correctAnswerValue
         }
         try {
-            await axios.post('http://localhost:3000/questions', newQuestion)
-                .then(res => {
-                    console.log(res)
-                    console.log(res.data)
-                    setQuestionValue("")
-                    setAnswerValue1("")
-                    setAnswerValue2("")
-                    setAnswerValue3("")
-                    setAnswerValue4("")
-                    setCorrectAnswerValue("")
-                })
+            const res = await axios.post('http://localhost:3000/questions', newQuestion)
+            console.log(res)
+            const newQues = res.data
+            setQuestions([...questions, newQues])
+            setQuestionValue("")
+            setAnswerValue1("")
+            setAnswerValue2("")
+            setAnswerValue3("")
+            setAnswerValue4("")
+            setCorrectAnswerValue("")
+            inputAddRef.current.focus()
         }
         catch(err){
             console.error('them cau hỏi that bai', err)
         }
     }
+    // Hàm để xoá
+    const handeleDelete = async (id) => {
+        try {
+            const res = await axios.delete(`http://localhost:3000/questions/${id}`)
+            // window.location.reload()
+            console.log(res)
+            if (res.status === 200) {
+                // Cập nhật lại state mà không cần reload trang
+                setQuestions(prevQuestions => prevQuestions.filter(q => q.id !== id));
+            }
+        }
+        catch(err){
+            console.error('xoa cau hoi that bai', err)
+        }
+    }
+
+
+    const handleShowEditForm = (question) => {
+        setIsShowModelEdit(true)
+        setEditingId(question.id)
+        setEditingData(question)
+    }
+    const handleEditFormChange = (e) => {
+        const {name, value} = e.target
+        setEditingData(predata => ({...predata, [name]: value}))
+    }
+    const handleEditOptionChange = (e, index) => {
+        const newOptionArray = [...editingData.options]
+        newOptionArray[index] = e.target.value
+        console.log(newOptionArray)
+        setEditingData(predata => ({...predata, options: newOptionArray}))
+    }
+
+    const handleSubmitEditForm = async (e) => {
+        e.preventDefault()
+        try {
+            const response = await axios.put(`http://localhost:3000/questions/${editingId}`, editingData)
+            console.log(response.data)
+            setQuestions(prevState => prevState.map((q) => q.id === editingId ? response.data: q ))
+            setIsShowModelEdit(false)
+        }
+        catch (err){
+            console.log('loi')
+        }
+    }
+    const handlestopPropagation = (e) => {
+        e.stopPropagation()
+    }
     return (
-        <div className='container'>
-            <div className='result__heading'>
-                <h1 className='result__heading-title'>Kết quả</h1>
-            </div>
-            <div>
-                <form onSubmit={handleSubmit}>
-                    <div className="question">
-                        <label>Question</label>
-                        <input type="text" placeholder='Nhập câu hỏi'
-                               value={questionValue}
-                               onChange={(e) => setQuestionValue(e.target.value) }
-                        />
+        <>
+            <div className='container'>
+                <div className='add__container'>
+                    <h1 className='add__title'>Kết quả</h1>
+                    <button className='add__btn'
+                            onClick={() => setIsShowModelAdd(true)}>+ Add question</button>
+                </div>
+                {questions.map((question, index)  => (
+                    <div className='edit__question-container' key={question.id}>
+                            <p className='edit__question-title'>Cau {index+1}: {question.question}</p>
+                            <div className="edit__question-btn">
+                                <button className="edit__btn edit__btn_change"
+                                        onClick={() => handleShowEditForm(question)}
+                                >Sửa</button>
+                                <button className="edit__btn dit__btn_delete"
+                                        onClick={() =>handeleDelete(question.id)}
+                                >Xoá</button>
+                            </div>
                     </div>
-                    <div className="answer">
-                        <label>Answer</label>
-                        <input type="text" placeholder='Nhập câu trả lời'
-                               value={answerValue1}
-                               onChange={(e) => setAnswerValue1(e.target.value) }
-                        />
-                        <input type="text" placeholder='Nhập câu trả lời'
-                               value={answerValue2}
-                               onChange={(e) => setAnswerValue2(e.target.value) }
-                        />
-                        <input type="text" placeholder='Nhập câu trả lời'
-                               value={answerValue3}
-                               onChange={(e) => setAnswerValue3(e.target.value) }
-                        />
-                        <input type="text" placeholder='Nhập câu trả lời'
-                               value={answerValue4}
-                               onChange={(e) => setAnswerValue4(e.target.value) }
-                        />
-                    </div>
-                    <div className="correct_answer">
-                        <label>Correct Answer</label>
-                        <input type="text" placeholder='Nhập câu trả lời đúng'
-                               value={correctAnswerValue}
-                               onChange={(e) => setCorrectAnswerValue(e.target.value)} />
-                    </div>
-                    <button type='submit' >Thêm câu hỏi</button>
-                </form>
 
+                ) )}
+                <Link to='/'>
+                    <button className='result_return'>Quay lại</button>
+                </Link>
             </div>
-            {questions.map((quiz, numques)  => (
-                <div className='result_container' key={numques} >
+            {isShowModelEdit &&
+                <div className='form_edit' onClick={() => setIsShowModelEdit(false)}>
+                    <form action="" className="form_edit_submit" onSubmit={handleSubmitEditForm} onClick={handlestopPropagation}>
+                        <h1>sua cau hoi {editingId}</h1>
+                        <label htmlFor="">Edit Question</label>
+                        <input type="text"
+                               placeholder='question'
+                               name='question'
+                               required
+                               value={editingData.question}
+                               onChange={handleEditFormChange}
+                        />
 
-                    <div className='result_title'>Cau {numques+1}: {quiz.question}</div>
-                    {quiz.options.map((option, index) => (
-                        <button
-                            className={`result__option`}
-                            key={index}
-                        >{option}</button>
-                    ))
-                    }
+                        {editingData.options.map((option, index) => (
+                            <div key={index}>
+                                <label htmlFor="">Edit option {index + 1}</label>
+                                <input type="text"
+                                       value={option}
+                                       required
+                                       placeholder='edit option'
+                                        onChange={(e) => handleEditOptionChange(e, index)}
+                                />
+                            </div>
+                            ))
+                        }
+                        <label htmlFor="">Edit Answer</label>
+                        <input type="text"
+                               name='answer'
+                               placeholder='edit answer'
+                               required
+                               value={editingData.answer}
+                               onChange={handleEditFormChange}
+                        />
+                        <div className="btn_edit">
+                            <button className="btn_edit_save"
+                                type='submit'
+                            >Save</button>
+                            <button className="btn_edit_quit"
+                                    onClick={() => setIsShowModelEdit(false)}
+                            >Quit</button>
+                        </div>
+                    </form>
                 </div>
 
-            ) )}
-            <Link to='/'>
-                <button className='result_return'>Làm lại</button>
-            </Link>
-        </div>
+            }
+            {
+                isShowModelAdd && (
+                    <div className='form_add' onClick={() => setIsShowModelAdd(false)} >
+                        <form onSubmit={handleSubmit} className='form_edit_add' onClick={handlestopPropagation}>
+                            <div className='form__add-header'>
+                                <h1 className='add-header-title'>Create question</h1>
+                                <p className='add-header-icon' onClick={() => setIsShowModelAdd(false)}>X</p>
+                            </div>
+                            <div className="question">
+                                <label className='answer-label'>Question</label>
+                                <input type="text" placeholder='Nhập câu hỏi'
+                                       className='answer-input'
+                                       required
+                                       ref={inputAddRef}
+                                       value={questionValue}
+                                       onChange={(e) => setQuestionValue(e.target.value) }
+                                />
+                            </div>
+                            <div className="edit__answer">
+                                <label className='answer-label'>Answer 1</label>
+                                <input type="text" placeholder='Nhập câu trả lời'
+                                       className='answer-input'
+                                       required
+                                       value={answerValue1}
+                                       onChange={(e) => setAnswerValue1(e.target.value) }
+                                />
+                                <label className='answer-label'>Answer 2</label>
+                                <input type="text" placeholder='Nhập câu trả lời'
+                                       className='answer-input'
+                                       required
+                                       value={answerValue2}
+                                       onChange={(e) => setAnswerValue2(e.target.value) }
+                                />
+                                <label className='answer-label'>Answer 3</label>
+                                <input type="text" placeholder='Nhập câu trả lời'
+                                       className='answer-input'
+                                       required
+                                       value={answerValue3}
+                                       onChange={(e) => setAnswerValue3(e.target.value) }
+                                />
+                                <label className='answer-label'>Answer 4</label>
+                                <input type="text" placeholder='Nhập câu trả lời'
+                                       className='answer-input'
+                                       required
+                                       value={answerValue4}
+                                       onChange={(e) => setAnswerValue4(e.target.value) }
+                                />
+                            </div>
+                            <div className="correct_answer">
+                                <label className='answer-label'>Correct Answer</label>
+                                <input type="text" placeholder='Nhập câu trả lời đúng'
+                                       className='answer-input'
+                                       value={correctAnswerValue}
+                                       onChange={(e) => setCorrectAnswerValue(e.target.value)} />
+                            </div>
+                            <div className='model__nav-add'>
+                                <button onClick={() => setIsShowModelAdd(false)} className='model__btn-add model__btn-add-quit'>Quit</button>
+                                <button type='submit' className='model__btn-add model__btn-add-submit'>Add Question</button>
+                            </div>
+                        </form>
+                    </div>
+                )
+            }
+        </>
+
     );
 };
 

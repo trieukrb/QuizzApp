@@ -26,9 +26,7 @@ const Quizz = () => {
     // `isSubmitted`: Cờ xác định người dùng đã nộp bài hay chưa.
     const [isSubmitted, setIsSubmitted] = useState(false);
     // `selectedOptionIndex`: Chỉ số của câu trả lời đã chọn cho câu hỏi hiện tại.
-    const selectedOptionIndex = selectedAnswers[quenstionnum]
-    // --- SIDE EFFECTS --- //
-
+    const selectedOptionIndex = selectedAnswers[quenstionnum];
     /**
      * `useEffect` để lấy dữ liệu câu hỏi từ API khi component được mount.
      * Dữ liệu sau khi lấy về sẽ được xử lý (decode HTML entities, trộn đáp án) và cập nhật vào state.
