@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link, Outlet} from "react-router-dom";
 import useUserStore from "../stores/userStore.js";
-import AddQuestion from "./AddQuestion.jsx";
+import AddQuestion from "../features/question-management/AddQuestion.jsx";
 
 
 const Layout = () => {

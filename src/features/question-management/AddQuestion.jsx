@@ -24,6 +24,8 @@ const AddQuestion = () => {
     const [isShowModelAdd, setIsShowModelAdd] = useState(false)
     const [isShowModelEdit, setIsShowModelEdit] = useState(false)
     const inputAddRef = useRef(null)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [questionsPerPage] = useState(10)
     useEffect(() => {
         const fetchQuestions = async () => {
             try{
@@ -160,6 +162,21 @@ const AddQuestion = () => {
     const handlestopPropagation = (e) => {
         e.stopPropagation()
     }
+
+
+    //Logic phan trang
+    // Tính toán chỉ số của câu hỏi cuối cùng trên trang hiện tại
+    const indexOfLastQuestion = currentPage * questionsPerPage;
+// Tính toán chỉ số của câu hỏi đầu tiên trên trang hiện tại
+    const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
+// "Cắt" mảng questions để lấy ra đúng các câu hỏi cho trang hiện tại
+    const currentQuestions = questions.slice(indexOfFirstQuestion, indexOfLastQuestion);
+
+// Tính tổng số trang
+    const totalPages = Math.ceil(questions.length / questionsPerPage);
+
+// === HÀM ĐỂ THAY ĐỔI TRANG ===
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
     return (
         <>
             <div className='container'>
@@ -243,7 +260,7 @@ const AddQuestion = () => {
                             <div className="question">
                                 <label className='answer-label'>Question</label>
                                 <input type="text" placeholder='Nhập câu hỏi'
-                                       className='answer-input'
+                                       className='question-input'
                                        required
                                        ref={inputAddRef}
                                        value={questionValue}
@@ -253,57 +270,69 @@ const AddQuestion = () => {
                             {/*Add Option*/}
                             <div className="edit__answer">
                                 <label className='answer-label'>Answer 1</label>
-                                <input type="text" placeholder='Nhập câu trả lời'
-                                       className='answer-input'
-                                       required
-                                       value={answerValue1}
-                                       onChange={(e) => setAnswerValue1(e.target.value) }
-                                />
-                                <input type="radio"
-                                        name='option'
-                                       value='1'
-                                       onChange={(e) => setCorrectAnswerValue(e.target.value)}
-                                       checked={correctAnswerValue === '1'}
-                                />
+                                <div className='input-answer input-answer1 '>
+                                    <input type="text" placeholder='Nhập câu trả lời'
+                                           className='answer-input'
+                                           required
+                                           value={answerValue1}
+                                           onChange={(e) => setAnswerValue1(e.target.value) }
+                                    />
+                                    <input type="radio"
+                                            name='option'
+                                           className='answer-radio-input'
+                                           value='1'
+                                           onChange={(e) => setCorrectAnswerValue(e.target.value)}
+                                           checked={correctAnswerValue === '1'}
+                                    />
+                                </div>
                                 <label className='answer-label'>Answer 2</label>
-                                <input type="text" placeholder='Nhập câu trả lời'
-                                       className='answer-input'
-                                       required
-                                       value={answerValue2}
-                                       onChange={(e) => setAnswerValue2(e.target.value) }
-                                />
-                                <input type="radio"
-                                        name='option'
-                                       value='2'
-                                       onChange={(e) => setCorrectAnswerValue(e.target.value)}
-                                       checked={correctAnswerValue === '2'}
-                                />
+                                <div className='input-answer input-answer2 '>
+                                    <input type="text" placeholder='Nhập câu trả lời'
+                                           className='answer-input'
+                                           required
+                                           value={answerValue2}
+                                           onChange={(e) => setAnswerValue2(e.target.value) }
+                                    />
+                                    <input type="radio"
+                                            name='option'
+                                           className='answer-radio-input'
+                                           value='2'
+                                           onChange={(e) => setCorrectAnswerValue(e.target.value)}
+                                           checked={correctAnswerValue === '2'}
+                                    />
+                                </div>
                                 <label className='answer-label'>Answer 3</label>
-                                <input type="text" placeholder='Nhập câu trả lời'
-                                       className='answer-input'
-                                       required
-                                       value={answerValue3}
-                                       onChange={(e) => setAnswerValue3(e.target.value) }
-                                />
-                                <input type="radio"
-                                        name='option'
-                                       value='3'
-                                       onChange={(e) => setCorrectAnswerValue(e.target.value)}
-                                       checked={correctAnswerValue === '3'}
-                                />
+                                <div className='input-answer input-answer3 '>
+                                    <input type="text" placeholder='Nhập câu trả lời'
+                                           className='answer-input'
+                                           required
+                                           value={answerValue3}
+                                           onChange={(e) => setAnswerValue3(e.target.value) }
+                                    />
+                                    <input type="radio"
+                                            name='option'
+                                           className='answer-radio-input'
+                                           value='3'
+                                           onChange={(e) => setCorrectAnswerValue(e.target.value)}
+                                           checked={correctAnswerValue === '3'}
+                                    />
+                                </div>
                                 <label className='answer-label'>Answer 4</label>
-                                <input type="text" placeholder='Nhập câu trả lời'
-                                       className='answer-input'
-                                       required
-                                       value={answerValue4}
-                                       onChange={(e) => setAnswerValue4(e.target.value) }
-                                />
-                                <input type="radio"
-                                        name='option'
-                                       value='4'
-                                       onChange={(e) => setCorrectAnswerValue(e.target.value)}
-                                       checked={correctAnswerValue === '4'}
-                                />
+                                <div className='input-answer input-answer4'>
+                                    <input type="text" placeholder='Nhập câu trả lời'
+                                           className='answer-input'
+                                           required
+                                           value={answerValue4}
+                                           onChange={(e) => setAnswerValue4(e.target.value) }
+                                    />
+                                    <input type="radio"
+                                            name='option'
+                                           className='answer-radio-input'
+                                           value='4'
+                                           onChange={(e) => setCorrectAnswerValue(e.target.value)}
+                                           checked={correctAnswerValue === '4'}
+                                    />
+                                </div>
                             </div>
                             {/*Add answer*/}
                             {/*<div className="correct_answer">*/}

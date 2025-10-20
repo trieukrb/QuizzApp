@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import Result from "./Result.jsx";
-import Navigation from "./Navigation.jsx";
-import Question from "./Question.jsx";
-import AnswerOptions from "./AnswerOptions.jsx";
+import Result from "./component/Result.jsx";
+import Navigation from "./component/Navigation.jsx";
+import Question from "./component/Question.jsx";
+import AnswerOptions from "./component/AnswerOptions.jsx";
 import axios from "axios";
 
 /**
