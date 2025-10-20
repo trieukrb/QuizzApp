@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {quizData} from './data.jsx'
 import {Link} from 'react-router-dom'
 const Result = ({score, question, questions, correctarray,reset}) => {
   return (

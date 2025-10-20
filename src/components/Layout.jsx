@@ -13,7 +13,7 @@ const Layout = () => {
                     <Link to='/' className='option__link'><li className='menu__option'>Home</li></Link>
                     <Link to='/quiz' className='option__link'><li className='menu__option'>Play</li></Link>
                     <Link to='/login' className='option__link'><li className='menu__option'>Login</li></Link>
-                    <Link to='/achieve' className='option__link'><li className='menu__option'>AddQuestion</li></Link>
+                    <Link to='/addquestion' className='option__link'><li className='menu__option'>AddQuestion</li></Link>
                 </ul>
                 <Outlet/>
         </div>

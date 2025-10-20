@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {quizData} from "./data.jsx";
 import {Link} from "react-router-dom";
 import axios from "axios";
 
@@ -14,7 +13,7 @@ const AddQuestion = () => {
     const [answerValue2, setAnswerValue2] = useState("")
     const [answerValue3, setAnswerValue3] = useState("")
     const [answerValue4, setAnswerValue4] = useState("")
-    const [correctAnswerValue, setCorrectAnswerValue] = useState("")
+    const [correctAnswerValue, setCorrectAnswerValue] = useState(null)
 
     const [editingId, setEditingId] = useState(null)
     const [editingData, setEditingData] = useState({
@@ -54,26 +53,63 @@ const AddQuestion = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        //Logic kiểm tra 4 đáp án có trùng nhau không
+        // 1. Gom các đáp án vào một mảng và bỏ khoảng trống
+        const options = [answerValue1.trim(), answerValue2.trim(), answerValue3.trim(), answerValue4.trim()];
+
+
+        // 3. Kiểm tra trùng lặp bằng Set
+        const uniqueOptions = new Set(options);
+        // Nếu kích thước Set nhỏ hơn 4, tức là có trùng lặp
+        if (uniqueOptions.size < options.length) {
+            alert("Các đáp án không được trùng nhau!");
+            return; // Dừng hàm, không submit
+        }
+        //Logic lấy value answer từ radio
+        let answerText = "";
+        if (correctAnswerValue === '1') {
+            answerText = answerValue1;
+        } else if (correctAnswerValue === '2') {
+            answerText = answerValue2;
+        } else if (correctAnswerValue === '3') {
+            answerText = answerValue3;
+        } else if (correctAnswerValue === '4') {
+            answerText = answerValue4;
+        }
+        // Kiểm tra có radio có được chọn chưa
+        if (correctAnswerValue === null){
+            alert('Vui lòng chọn đáp án đúng')
+            return;
+        }
         const newQuestion = {
-            question: questionValue,
-            options: [answerValue1, answerValue2, answerValue3, answerValue4],
-            answer: correctAnswerValue
+            question: questionValue.trim(),
+            options: options,
+            answer: answerText
         }
         try {
             const res = await axios.post('http://localhost:3000/questions', newQuestion)
-            console.log(res)
             const newQues = res.data
             setQuestions([...questions, newQues])
+            // setQuestionValue("")
+            // setAnswerValue1("")
+            // setAnswerValue2("")
+            // setAnswerValue3("")
+            // setAnswerValue4("")
+            // setCorrectAnswerValue(null)
+            // inputAddRef.current.focus()
+        }
+        catch(err){
+            console.error('them cau hỏi that bai', err)
+        }
+        finally {
             setQuestionValue("")
             setAnswerValue1("")
             setAnswerValue2("")
             setAnswerValue3("")
             setAnswerValue4("")
-            setCorrectAnswerValue("")
-            inputAddRef.current.focus()
-        }
-        catch(err){
-            console.error('them cau hỏi that bai', err)
+            setCorrectAnswerValue(null)
+            inputAddRef.current?.focus()
+
         }
     }
     // Hàm để xoá
@@ -203,6 +239,7 @@ const AddQuestion = () => {
                                 <h1 className='add-header-title'>Create question</h1>
                                 <p className='add-header-icon' onClick={() => setIsShowModelAdd(false)}>X</p>
                             </div>
+                            {/*Add Question*/}
                             <div className="question">
                                 <label className='answer-label'>Question</label>
                                 <input type="text" placeholder='Nhập câu hỏi'
@@ -213,6 +250,7 @@ const AddQuestion = () => {
                                        onChange={(e) => setQuestionValue(e.target.value) }
                                 />
                             </div>
+                            {/*Add Option*/}
                             <div className="edit__answer">
                                 <label className='answer-label'>Answer 1</label>
                                 <input type="text" placeholder='Nhập câu trả lời'
@@ -221,12 +259,24 @@ const AddQuestion = () => {
                                        value={answerValue1}
                                        onChange={(e) => setAnswerValue1(e.target.value) }
                                 />
+                                <input type="radio"
+                                        name='option'
+                                       value='1'
+                                       onChange={(e) => setCorrectAnswerValue(e.target.value)}
+                                       checked={correctAnswerValue === '1'}
+                                />
                                 <label className='answer-label'>Answer 2</label>
                                 <input type="text" placeholder='Nhập câu trả lời'
                                        className='answer-input'
                                        required
                                        value={answerValue2}
                                        onChange={(e) => setAnswerValue2(e.target.value) }
+                                />
+                                <input type="radio"
+                                        name='option'
+                                       value='2'
+                                       onChange={(e) => setCorrectAnswerValue(e.target.value)}
+                                       checked={correctAnswerValue === '2'}
                                 />
                                 <label className='answer-label'>Answer 3</label>
                                 <input type="text" placeholder='Nhập câu trả lời'
@@ -235,6 +285,12 @@ const AddQuestion = () => {
                                        value={answerValue3}
                                        onChange={(e) => setAnswerValue3(e.target.value) }
                                 />
+                                <input type="radio"
+                                        name='option'
+                                       value='3'
+                                       onChange={(e) => setCorrectAnswerValue(e.target.value)}
+                                       checked={correctAnswerValue === '3'}
+                                />
                                 <label className='answer-label'>Answer 4</label>
                                 <input type="text" placeholder='Nhập câu trả lời'
                                        className='answer-input'
@@ -242,14 +298,21 @@ const AddQuestion = () => {
                                        value={answerValue4}
                                        onChange={(e) => setAnswerValue4(e.target.value) }
                                 />
+                                <input type="radio"
+                                        name='option'
+                                       value='4'
+                                       onChange={(e) => setCorrectAnswerValue(e.target.value)}
+                                       checked={correctAnswerValue === '4'}
+                                />
                             </div>
-                            <div className="correct_answer">
-                                <label className='answer-label'>Correct Answer</label>
-                                <input type="text" placeholder='Nhập câu trả lời đúng'
-                                       className='answer-input'
-                                       value={correctAnswerValue}
-                                       onChange={(e) => setCorrectAnswerValue(e.target.value)} />
-                            </div>
+                            {/*Add answer*/}
+                            {/*<div className="correct_answer">*/}
+                            {/*    <label className='answer-label'>Correct Answer</label>*/}
+                            {/*    <input type="text" placeholder='Nhập câu trả lời đúng'*/}
+                            {/*           className='answer-input'*/}
+                            {/*           value={correctAnswerValue}*/}
+                            {/*           onChange={(e) => setCorrectAnswerValue(e.target.value)} />*/}
+                            {/*</div>*/}
                             <div className='model__nav-add'>
                                 <button onClick={() => setIsShowModelAdd(false)} className='model__btn-add model__btn-add-quit'>Quit</button>
                                 <button type='submit' className='model__btn-add model__btn-add-submit'>Add Question</button>
