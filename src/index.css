@@ -1,3 +1,7 @@
+:root{
+    --primary: #2c9bcb;
+    --primary-hover: #1d7baa
+}
 body{
     padding: 0;
     margin: 0;
@@ -372,4 +376,57 @@ h1,h2{
 }
 .answer-radio-input{
     margin: 0 15px;
+}
+.pagination{
+    display: flex;
+    gap: 5px;
+    justify-content: end;
+    padding-right: 10px;
+    padding-top: 10px;
+}
+.pagination-btn{
+    border: 1px solid #888888;
+    padding: 5px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.pagination-btn:hover{
+    opacity: 0.6;
+}
+.pagination-btn-active{
+    background-color: var(--primary);
+}
+/*form edit*/
+.form__edit-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.edit-header-title{
+    font-size: 1.5rem;
+    padding: 0;
+    line-height: 1;
+    cursor: default;
+}
+.edit-header-icon{
+    margin: 0;
+    padding: 15px 15px;
+    cursor: pointer;
+}
+.question-edit{
+
+}
+.quesion-edit-label{
+    display: block;
+    margin: 10px 0;
+    font-weight: 600;
+}
+.add-question-input{
+    box-sizing: border-box;
+    width: 100%;
+    height: 50px;
+    border: 1px solid #d0d0d0;
+    font-size: 1rem;
+    border-radius: 10px;
+    padding: 0 10px;
 }

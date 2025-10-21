@@ -31,10 +31,9 @@ const Result = ({score, question, questions, correctarray,reset}) => {
 
         ) )}
          <Link to='/'>
-             <button className='result_return'>Làm lại</button>
+             <button className='result_return'>Quay lại Trang Chủ</button>
          </Link>
      </div>
   );
 };
-
 export default Result;
