@@ -1,10 +1,10 @@
 import React from 'react';
 import {Link} from "react-router-dom"
-const Navigation = ({datalength, onPrev, onNext, quenstionnum, handlesubmit}) => {
+const Navigation = ({onPrev, onNext, handlesubmit, isFirstQuestion, isLastQuestion}) => {
     return (
         <div className='nav__btn'>
             {
-                quenstionnum === 0 ? (
+                isFirstQuestion ? (
                     <Link to='/'>
                         <button className='nav nav__pev'>Previous</button>
                     </Link>
@@ -13,8 +13,8 @@ const Navigation = ({datalength, onPrev, onNext, quenstionnum, handlesubmit}) =>
                 >Previous</button>)
             }
             <button className='nav nav__next'
-                    onClick={quenstionnum === datalength - 1 ? handlesubmit : onNext}
-            >{quenstionnum === datalength - 1 ? 'Submit' : 'Next'}</button>
+                    onClick={isLastQuestion ? handlesubmit : onNext}
+            >{isLastQuestion ? 'Submit' : 'Next'}</button>
         </div>
     );
 };

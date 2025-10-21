@@ -1,14 +1,6 @@
 import React, {useState} from 'react';
-import {quizData} from './data.jsx'
 import {Link} from 'react-router-dom'
-const Result = ({score, question, correctarray,reset}) => {
-    // const [home, setHome] = useState(false)
-    //
-    // if (home){
-    //     return (
-    //         <Home/>
-    //     )
-    // }
+const Result = ({score, question, questions, correctarray,reset}) => {
   return (
      <div className='container'>
          <div className='result__heading'>
@@ -20,7 +12,7 @@ const Result = ({score, question, correctarray,reset}) => {
             {/*<span className='result'>/</span> */}
             {/*<span className='result result_question'>{question}</span> */}
         </p>
-        {quizData.map((quiz, numques)  => (
+        {questions.map((quiz, numques)  => (
             <div className='result_container' key={numques} >
 
                 <div className='result_title'>Cau {numques+1}: {quiz.question}</div>
@@ -35,19 +27,13 @@ const Result = ({score, question, correctarray,reset}) => {
                     >{option}</button>
                 ))
                 }
-                {/*{*/}
-                {/*    quiz.options[correctarray[numques]] === quiz.answer ?*/}
-                {/*        (<p>Bạn đã trả lời đúng</p>) :*/}
-                {/*        (<p>Bạn đã trả lời sai, đáp án đúng là {quiz.answer}</p> )*/}
-                {/*}*/}
             </div>
 
         ) )}
          <Link to='/'>
-             <button className='result_return'>Làm lại</button>
+             <button className='result_return'>Quay lại Trang Chủ</button>
          </Link>
      </div>
   );
 };
-
 export default Result;
