@@ -168,33 +168,41 @@ const Quizz = () => {
     }
 
     // --- MAIN RENDER --- //
-
     const currentQuestion = questions[quenstionnum];
+
+    // Thanh tien do cau hoi
+    const precentageQuestions = ((quenstionnum+1) / questions.length) * 100
     return (
-        <div className='container'>
-            <h1>App Quizz học tiếng anh của Triều</h1>
-
-            {/* Component hiển thị câu hỏi hiện tại */}
-            <Question
-                question = {quenstionnum + 1}
-                questionData = {currentQuestion.question}
-            />
-
-            {/* Component hiển thị các phương án trả lời */}
-            <AnswerOptions
-                options = {currentQuestion.options}
-                selectedOptionIndex = {selectedOptionIndex}
-                handleAnswer = {handleAnswer}
-            />
-
-            {/* Component hiển thị các nút điều hướng (Trước, Sau, Nộp bài) */}
-            <Navigation
-                onPrev = {onPrev}
-                onNext = {onNext}
-                handlesubmit = {handlesubmit}
-                isFirstQuestion= {quenstionnum === 0}
-                isLastQuestion= {quenstionnum === questions.length - 1}
-            />
+        <div className="h-full bg-neutral-100 flex flex-col gap-10 justify-start items-center">
+            <div className="w-4/6 p-5 bg-neutral-50 mt-10 flex flex-col rounded-2xl shadow-lg gap-3 max-lg:mt-15 max-lg:w-full max-lg:mx-5">
+                <div className="flex justify-between gap-3">
+                    <p className="font-medium">Question {quenstionnum} of {questions.length}</p>
+                    <p>{Math.floor(precentageQuestions)}%</p>
+                </div>
+                <div className="w-full h-2 bg-neutral-300 rounded-lg">
+                    <div className="bg-linear-to-r from-fuchsia-400 to-sky-400 h-full rounded-lg" style={{width: `${precentageQuestions}%`}}></div>
+                </div>
+            </div>
+            <div className="w-4/6 p-5 bg-neutral-50 flex flex-col rounded-2xl shadow-2xl gap-3 max-lg:mt-15 max-lg:w-full max-lg:mx-5">
+                {/*<h1>App Quizz học tiếng anh của Triều</h1>*/}
+                <Question
+                    question = {quenstionnum + 1}
+                    questionData = {currentQuestion.question}
+                />
+                <AnswerOptions
+                    options = {currentQuestion.options}
+                    selectedOptionIndex = {selectedOptionIndex}
+                    handleAnswer = {handleAnswer}
+                />
+                {/* Component hiển thị các nút điều hướng (Trước, Sau, Nộp bài) */}
+                <Navigation
+                    onPrev = {onPrev}
+                    onNext = {onNext}
+                    handlesubmit = {handlesubmit}
+                    isFirstQuestion= {quenstionnum === 0}
+                    isLastQuestion= {quenstionnum === questions.length - 1}
+                />
+            </div>
         </div>
     );
 };

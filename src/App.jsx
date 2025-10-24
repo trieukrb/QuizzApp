@@ -6,6 +6,7 @@ import Quizz from "./features/quiz/Quizz.jsx";
 import Login from "./components/Login.jsx";
 import {Route} from "react-router-dom";
 import AddQuestion from "./features/question-management/AddQuestion.jsx"
+import QuizzStart from "./features/quiz/QuizzStart.jsx";
 
 const Welcome = () => <h2>Chào mừng đến với Quizzlet!</h2>;
 
@@ -14,10 +15,12 @@ function App() {
       <Routes>
           <Route path='/' element={<Layout/>}>
               <Route index element={<Welcome />} />
+              <Route path='addquestion' element={<AddQuestion/>}/>
+              <Route path='quiz-start' element={<QuizzStart/>}/>
+              <Route path='quiz' element={<Quizz/>}/>
           </Route>
-          <Route path='quiz' element={<Quizz/>}/>
           <Route path='login' element={<Login/>}/>
-          <Route path='addquestion' element={<AddQuestion/>}/>
+
       </Routes>
   )
 }

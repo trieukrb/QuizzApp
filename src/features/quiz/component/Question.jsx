@@ -2,10 +2,8 @@ import React from 'react';
 
 const Question = ({question, questionData}) => {
     return (
-        <>
-            <p className="quizz__content">Question {question}: {questionData}</p>
-        </>
+            <p className="p-3 font-bold w-full">Question {question}: {questionData}</p>
     );
 };
 
-export default Question;
+export default Question

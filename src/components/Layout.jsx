@@ -1,22 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link, Outlet} from "react-router-dom";
 import useUserStore from "../stores/userStore.js";
-import AddQuestion from "../features/question-management/AddQuestion.jsx";
-
+import Header from "./components/Header.jsx"
+import Section from "./components/Section.jsx";
 
 const Layout = () => {
     const userName = useUserStore(state => state.userName)
+    const [nomarlinfo, setNomarlinfo] = useState(true)
+    const shownavinfo = () => {
+        setNomarlinfo(!nomarlinfo)
+    }
     return (
-        <div className='container'>
-            <h1>Quizlet {userName}</h1>
-                <ul className='Home__menu'>
-                    <Link to='/' className='option__link'><li className='menu__option'>Home</li></Link>
-                    <Link to='/quiz' className='option__link'><li className='menu__option'>Play</li></Link>
-                    <Link to='/login' className='option__link'><li className='menu__option'>Login</li></Link>
-                    <Link to='/addquestion' className='option__link'><li className='menu__option'>AddQuestion</li></Link>
-                </ul>
-                <Outlet/>
-        </div>
+        <>
+            <Header
+                shownavinfo={shownavinfo}
+            />
+            <Section
+                nomarlinfo={nomarlinfo}
+            />
+
+        </>
     );
 };
 
