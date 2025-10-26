@@ -5,6 +5,7 @@ import FormAdd from "./component/FormAdd.jsx";
 import FromEdit from "./component/FromEdit.jsx";
 import HeaderAdd from "./component/HeaderAdd.jsx";
 import AddBody from "./component/AddBody.jsx";
+import FormDetail from "./component/FormDetail.jsx";
 
 const AddQuestion = () => {
     const [questions, setQuestions] = useState([]);
@@ -18,7 +19,6 @@ const AddQuestion = () => {
     const [answerValue3, setAnswerValue3] = useState("")
     const [answerValue4, setAnswerValue4] = useState("")
     const [correctAnswerValue, setCorrectAnswerValue] = useState(null)
-    const [correctAnswerEditValue, setCorrectAnswerEditValue] = useState(null)
     const [editingId, setEditingId] = useState(null)
     const [editingData, setEditingData] = useState({
         question: "",
@@ -27,6 +27,7 @@ const AddQuestion = () => {
     })
     const [isShowModelAdd, setIsShowModelAdd] = useState(false)
     const [isShowModelEdit, setIsShowModelEdit] = useState(false)
+    const [isShowModelDetail, setIsShowModelDetail] = useState(false)
     const inputAddRef = useRef(null)
     const [currentPage, setCurrentPage] = useState(1)
     const [questionsPerPage] = useState(10)
@@ -130,7 +131,10 @@ const AddQuestion = () => {
             console.error('xoa cau hoi that bai', err)
         }
     }
-
+    // Show formDetail
+    const handleShowDetailForm = () => {
+        setIsShowModelDetail(true)
+    }
     // Sử lý logic chỉnh sửa
     const handleShowEditForm = (question) => {
         setIsShowModelEdit(true)
@@ -164,6 +168,15 @@ const AddQuestion = () => {
     const handlestopPropagation = (e) => {
         e.stopPropagation()
     }
+    const handleHideAddForm = () => {
+        setQuestionValue("")
+        setAnswerValue1("")
+        setAnswerValue2("")
+        setAnswerValue3("")
+        setAnswerValue4("")
+        setCorrectAnswerValue(null)
+        setIsShowModelAdd(false)
+    }
 
     //Logic phân trang và tìm kiếm
     const filteredQuestions = questions.filter(question =>
@@ -180,23 +193,33 @@ const AddQuestion = () => {
 
     return (
         <>
-            <div className='container'>
-                <HeaderAdd
-                    searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm}
-                    setIsShowModelAdd={() => setIsShowModelAdd(true)}
-                />
-                {/*Show câu hỏi*/}
-                <AddBody
-                    currentQuestions ={currentQuestions}
-                    ShowEditForm ={handleShowEditForm}
-                    handeleDelete ={() =>handeleDelete(question.id)}
-                    totalPages={totalPages}
-                    setCurrentPage={setCurrentPage}
-                    currentPage={currentPage}
+            <div className='h-full bg-neutral-100 flex flex-col gap-10 justify-start items-center'>
+                <div className="w-4/6 p-5 bg-neutral-50 mt-10 flex flex-col rounded-2xl shadow-lg gap-3 max-lg:mt-15 max-lg:w-full max-lg:mx-5">
+                    <HeaderAdd
+                        searchTerm={searchTerm}
+                        setSearchTerm={setSearchTerm}
+                        setIsShowModelAdd={() => setIsShowModelAdd(true)}
+                    />
+                    {/*Show câu hỏi*/}
+                    <AddBody
+                        currentQuestions ={currentQuestions}
+                        ShowEditForm ={handleShowEditForm}
+                        handeleDelete ={handeleDelete}
+                        totalPages={totalPages}
+                        setCurrentPage={setCurrentPage}
+                        currentPage={currentPage}
+                        ShowDetailForm ={handleShowDetailForm}
 
-                />
+                    />
+                </div>
             </div>
+            {
+                isShowModelDetail && <FormDetail
+                    showfalse={() => setIsShowModelDetail(false)}
+                    onClick={showfalse}
+                    handlestopPropagation={handlestopPropagation}
+                />
+            }
             {isShowModelEdit && <FromEdit
                 showfalse={() => setIsShowModelEdit(false)}
                 handleSubmitEditForm={handleSubmitEditForm}
@@ -204,10 +227,11 @@ const AddQuestion = () => {
                 optionsdata={editingData.options}
                 answerdata={editingData.answer}
                 handleEditQuestionChange={handleEditQuestionChange}
-                handleEditOptionChange={(e) => handleEditOptionChange(e, index)}
+                handleEditOptionChange={handleEditOptionChange}
                 handlestopPropagation={handlestopPropagation}/>}
             {isShowModelAdd && <FormAdd
-                 showfalse = {() => setIsShowModelAdd(false)}
+                 showfalse = {handleHideAddForm}
+                 // showfalse = {() => setIsShowModelAdd(false)}
                  handleSubmit={handleSubmit}
                  handlestopPropagation={handlestopPropagation}
                  inputAddRef={inputAddRef}

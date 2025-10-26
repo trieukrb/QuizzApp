@@ -473,5 +473,10 @@
 @utility incorrect_question{
     @apply  bg-red-50/30 border-red-300 border-1 border-solid
 }
-
+@utility pagination-btn{
+    @apply border-1 px-2 cursor-pointer rounded-md
+}
+@utility pagination-btn-active{
+    @apply border-1 px-2 cursor-pointer rounded-md bg-neutral-300
+}
 

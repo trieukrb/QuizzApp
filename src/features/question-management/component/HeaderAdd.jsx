@@ -2,16 +2,26 @@ import React from 'react';
 
 const HeaderAdd = ({searchTerm,setSearchTerm,setIsShowModelAdd}) => {
     return (
-        <div className='add__container'>
-            <h1 className='add__title'>Kết quả</h1>
-            <input type="text"
-                   value={searchTerm}
-                   placeholder='Tìm câu hỏi'
-                   onChange={(e) => setSearchTerm(e.target.value)}
-                   style={{ width: '40%', padding: '8px', marginBottom: '15px', borderRadius: '10px'}}
-            />
-            <button className='add__btn'
-                    onClick={setIsShowModelAdd}>+ Add question</button>
+        <div className='flex items-center justify-between gap-3'>
+            <label className="flex gap-2 items-center w-3/5 p-2 rounded-xl border-1 border-neutral-400 placeholder:text-neutral-400" for='search-bar'>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 cursor-pointer">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+                <input type="text"
+                        id="search-bar"
+                       className="placeholder:text-neutral-400 outline-none "
+                       value={searchTerm}
+                       placeholder='Search Question'
+                       onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </label>
+            <div className='flex gap-2 bg-blue-950 hover:bg-blue-950/70 px-3 py-2 rounded-xl text-neutral-50 font-bold cursor-pointer'
+                    onClick={setIsShowModelAdd}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                <p>Add Question</p>
+            </div>
         </div>
     );
 };
