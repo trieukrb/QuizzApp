@@ -199,8 +199,8 @@ const AddQuestion = () => {
 
     return (
         <>
-            <div className='h-full bg-neutral-100 flex flex-col gap-10 justify-start items-center'>
-                <div className="w-4/6 p-5 bg-neutral-50 mt-10 flex flex-col rounded-2xl shadow-lg gap-3 max-lg:mt-15 max-lg:w-full max-lg:mx-5">
+            <div className='h-full bg-neutral-100 flex flex-col gap-10 justify-start items-center overflow-y-scroll'>
+                <div className="w-4/6 p-5 bg-neutral-50 mt-10 flex flex-col rounded-2xl shadow-lg gap-3 ">
                     <HeaderAdd
                         searchTerm={searchTerm}
                         setSearchTerm={setSearchTerm}
