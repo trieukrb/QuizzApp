@@ -448,7 +448,7 @@
     @apply flex justify-center items-center text-neutral-600 gap-2 py-2 px-4 w-33 bg-neutral-200/50 rounded-lg hover:bg-neutral-300 cursor-pointer
 
 }@utility funtion-btn-disable{
-    @apply min-w-25 px-5 py-2 bg-neutral-200 rounded-lg
+    @apply flex justify-center items-center text-neutral-600 gap-2 py-2 px-4 w-33 bg-neutral-200/50 rounded-lg opacity-40 cursor-default
 }
 
 @utility option{
@@ -456,7 +456,7 @@
 }
 
 @utility option-confirm{
-    @apply  bg-green-200/50 shadow-md border-green-400 hover:bg-green-200/50 hover:border-green-400
+    @apply  bg-sky-200/50 shadow-md border-sky-400
 }
 @utility result__option{
     @apply w-full py-1 mb-2 px-3 text-left border-1 border-solid rounded-xl border-neutral-300 cursor-default

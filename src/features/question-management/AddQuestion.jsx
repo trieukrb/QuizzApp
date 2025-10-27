@@ -25,6 +25,11 @@ const AddQuestion = () => {
         options: ["", "", "", ""],
         answer: ""
     })
+    const [DetailData, setDetailData] = useState({
+        question: "",
+        options: ["", "", "", ""],
+        answer: ""
+    })
     const [isShowModelAdd, setIsShowModelAdd] = useState(false)
     const [isShowModelEdit, setIsShowModelEdit] = useState(false)
     const [isShowModelDetail, setIsShowModelDetail] = useState(false)
@@ -132,8 +137,9 @@ const AddQuestion = () => {
         }
     }
     // Show formDetail
-    const handleShowDetailForm = () => {
+    const handleShowDetailForm = (question) => {
         setIsShowModelDetail(true)
+        setDetailData(question)
     }
     // Sử lý logic chỉnh sửa
     const handleShowEditForm = (question) => {
@@ -216,8 +222,8 @@ const AddQuestion = () => {
             {
                 isShowModelDetail && <FormDetail
                     showfalse={() => setIsShowModelDetail(false)}
-                    onClick={showfalse}
                     handlestopPropagation={handlestopPropagation}
+                    DetailData={DetailData}
                 />
             }
             {isShowModelEdit && <FromEdit

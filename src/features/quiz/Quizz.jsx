@@ -169,7 +169,6 @@ const Quizz = () => {
 
     // --- MAIN RENDER --- //
     const currentQuestion = questions[quenstionnum];
-
     // Thanh tien do cau hoi
     const precentageQuestions = ((quenstionnum+1) / questions.length) * 100
     return (
@@ -201,6 +200,7 @@ const Quizz = () => {
                     handlesubmit = {handlesubmit}
                     isFirstQuestion= {quenstionnum === 0}
                     isLastQuestion= {quenstionnum === questions.length - 1}
+                    selectedAnswers={selectedAnswers[quenstionnum]}
                 />
             </div>
         </div>
