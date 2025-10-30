@@ -4,13 +4,13 @@ import Navigation from "./component/Navigation.jsx";
 import Question from "./component/Question.jsx";
 import AnswerOptions from "./component/AnswerOptions.jsx";
 import axios from "axios";
-
+import {useParams} from 'react-router-dom'
 /**
  * Component Quizz: Chịu trách nhiệm hiển thị và quản lý toàn bộ logic của bài trắc nghiệm.
  */
 const Quizz = () => {
     // --- STATE MANAGEMENT --- //
-
+    const {topicName} = useParams()
     // `questions`: Lưu trữ danh sách các câu hỏi lấy từ API.
     const [questions, setQuestions] = useState([]);
     // `loading`: Cờ xác định trạng thái tải dữ liệu (true khi đang tải).
@@ -34,7 +34,7 @@ const Quizz = () => {
     useEffect(() => {
         const fetchQuestions = async () => {
             try{
-                const res = await axios.get('http://localhost:3000/questions')
+                const res = await axios.get(`http://localhost:3000/${topicName}`)
                 const questionData = res.data;
                 // Trộn ngẫu nhiên các phương án trả lời.
                 // formattedQuestions.forEach(q => q.options.sort(() => Math.random() - 0.5));
@@ -172,8 +172,8 @@ const Quizz = () => {
     // Thanh tien do cau hoi
     const precentageQuestions = ((quenstionnum+1) / questions.length) * 100
     return (
-        <div className="h-full bg-neutral-100 flex flex-col gap-10 justify-start items-center">
-            <div className="w-4/6 p-5 bg-neutral-50 mt-10 flex flex-col rounded-2xl shadow-lg gap-3 max-lg:mt-15 max-lg:w-full max-lg:mx-5">
+        <div className="h-full flex flex-col gap-10 justify-start items-center">
+            <div className="w-5/6 md:w-4/6 p-5 bg-neutral-50 mt-35 flex flex-col rounded-2xl shadow-lg gap-3">
                 <div className="flex justify-between gap-3">
                     <p className="font-medium">Question {quenstionnum} of {questions.length}</p>
                     <p>{Math.floor(precentageQuestions)}%</p>
@@ -182,7 +182,7 @@ const Quizz = () => {
                     <div className="bg-linear-to-r from-fuchsia-400 to-sky-400 h-full rounded-lg" style={{width: `${precentageQuestions}%`}}></div>
                 </div>
             </div>
-            <div className="w-4/6 p-5 bg-neutral-50 flex flex-col rounded-2xl shadow-2xl gap-3 max-lg:mt-15 max-lg:w-full max-lg:mx-5">
+            <div className="w-5/6 md:w-4/6 p-5 bg-neutral-50 flex flex-col rounded-2xl shadow-2xl gap-3">
                 {/*<h1>App Quizz học tiếng anh của Triều</h1>*/}
                 <Question
                     question = {quenstionnum + 1}

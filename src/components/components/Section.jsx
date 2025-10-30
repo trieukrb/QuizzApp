@@ -13,13 +13,13 @@ const Section = ({nomarlinfo}) => {
     }
     return (
         <>
-            <div className="flex h-screen overflow-hidden">
+            <div className="bg-neutral-100 flex h-screen overflow-hidden">
                 <div className="h-full overflow-hidden flex-col justify-between bg-blue-950 text-neutral-50 relative hidden md:flex"
                      style={{width: `${widthside}px`}}>
                     {/*Home*/}
                     <SideBar/>
                 </div>
-                <div className="flex-1 h-full flex flex-col relative">
+                <div className="flex-1 h-screen flex flex-col relative overflow-y-scroll">
                     {/*Show side bar in large screen*/}
                     <button className="absolute top-3 left-4 hidden md:block"
                             onClick={handleHideSideBar}>

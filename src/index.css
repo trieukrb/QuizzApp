@@ -432,6 +432,22 @@
 /*}*/
 
 @import "tailwindcss";
+
+@layer base {
+    :root{
+        --color-cyan-50: #ecfeff;
+        --color-cyan-100: #cefafe;
+        --color-cyan-200: #a2f4fd;
+        --color-cyan-300: #53eafd;
+        --color-cyan-400: #00d3f2;
+        --color-cyan-500: #00b8db;
+        --color-cyan-600: #0092b8;
+        --color-cyan-700: #007595;
+        --color-cyan-800: #005f78;
+        --color-cyan-900: #104e64;
+        --color-cyan-950: #053345;
+    }
+}
 @utility container{
     /*max-width: 700px;*/
     /*background-color: #fafafa;*/
