@@ -5,7 +5,7 @@ const Navigation = ({onPrev, onNext, handlesubmit, isFirstQuestion, isLastQuesti
         <div className='flex justify-between'>
             {
                 isFirstQuestion ? (
-                        <button className='funtion-btn-disable opacity-40 cursor-default' disabled>Previous</button>
+                        <button className='funtion-btn-disable' disabled>Previous</button>
 
                 ) :
                     (<div className='funtion-btn'
@@ -19,7 +19,6 @@ const Navigation = ({onPrev, onNext, handlesubmit, isFirstQuestion, isLastQuesti
             }
             {selectedAnswers !== undefined ?
                 <div className='funtion-btn'
-                // onClick={isLastQuestion ? handlesubmit : onNext}
                   onClick={isLastQuestion ? handlesubmit : onNext}
                 >
                 {isLastQuestion ? 'Submit' : 'Next'}

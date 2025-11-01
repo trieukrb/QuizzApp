@@ -486,10 +486,10 @@
     /*@apply bg-neutral-100/20*/
 }
 @utility funtion-btn{
-    @apply flex justify-center items-center text-neutral-600 gap-2 py-2 px-4 w-33 bg-neutral-200/50 rounded-lg hover:bg-neutral-300 cursor-pointer
+    @apply flex justify-center items-center gap-2 py-2 px-4 w-30 transition duration-400 hover:scale-105 rounded-lg hover:bg-p-200 cursor-pointer border-2 border-p-500
 
 }@utility funtion-btn-disable{
-    @apply flex justify-center items-center text-neutral-600 gap-2 py-2 px-4 w-33 bg-neutral-200/50 rounded-lg opacity-40 cursor-default
+    @apply flex justify-center items-center  gap-2 py-2 px-4 w-30 rounded-lg cursor-default  border-2 border-p-500 opacity-30
 }
 
 @utility option{
