@@ -17,37 +17,28 @@ const QuizzStart = () => {
         fetchData()
     }, []);
     return (
-        <div className="h-full bg-neutral-100 flex justify-center items-center" >
-            <div className="w-4/5 md:w-1/2 p-5 bg-neutral-50 flex items-center flex-col rounded-2xl shadow-2xl gap-3">
+        <div className="h-full flex justify-center items-center" >
+            <div className="w-4/5 md:w-3/5 lg:w-2/5 p-5 bg-neutral-50 flex items-center flex-col rounded-2xl shadow-2xl gap-3">
                 <div className="w-17 h-17 rounded-full overflow-hidden cursor-pointer p-2 bg-linear-to-r from-violet-200 to-fuchsia-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 h-full w-full rounded-full object-cover">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
                     </svg>
                 </div>
                 <div className="flex flex-col items-center text-center">
-                    <h1 className="text-3xl font-bold">Quiz test your knowlege</h1>
-                    <p>Make this quiz make you more smart</p>
+                    <h1 className="text-3xl font-bold text-n-800">Quiz test your knowlege</h1>
+                    <p className="text-n-500">Make this quiz make you more smart</p>
                 </div>
-                {/*<div className="md:flex items-center w-full bg-sky-200/70 px-6 py-4 rounded-xl hidden">*/}
-                {/*    <div className=" w-1/3 text-left">*/}
-                {/*        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8 text-blue-500">*/}
-                {/*            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />*/}
-                {/*        </svg>*/}
-                {/*    </div>*/}
-                {/*    <span className="text-blue-700 font-bold text-xl w-1/3 text-center">{quesionData.length}</span>*/}
-                {/*    <p className="text-xl font-medium w-1/3 text-right">Questions</p>*/}
-                {/*</div>*/}
-                <div className="bg-sky-400 w-full flex justify-between items-center px-5 py-3 rounded-xl">
-                    <div className="w-30">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8 text-blue-500">
+                <div className="bg-p-200 gap-1 flex flex-col items-center px-5 py-3 rounded-xl">
+                    <div className="">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8 ">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
                         </svg>
                     </div>
-                    <span className="text-blue-700 font-bold w-30 text-center">{quesionData.length}</span>
+                    <span className="text-p-500 font-bold text-2xl text-center">{quesionData.length}</span>
                     <div className="text-lg sm:text-xl font-medium">Questions</div>
                 </div>
-                <Link to="/quiz/custom" className="w-1/3">
-                    <div className="flex items-center justify-center gap-3 w-full bg-linear-to-r from-blue-500 to-violet-500 hover:opacity-60 px-6 py-4 rounded-xl text-neutral-50 cursor-pointer">
+                <Link to="/quiz/custom" className="">
+                    <div className="flex items-center justify-center gap-3 w-full bg-linear-to-r from-blue-500 to-violet-500 transition duration-500 hover:scale-105 hover:opacity-60 px-6 py-2 rounded-xl text-neutral-50 cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8 hidden md:block">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
                         </svg>

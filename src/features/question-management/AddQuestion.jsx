@@ -42,7 +42,7 @@ const AddQuestion = () => {
     useEffect(() => {
         const fetchQuestions = async () => {
             try{
-                const res = await axios.get('http://localhost:3000/questions')
+                const res = await axios.get('http://localhost:3000/custom')
                 const questionData = res.data;
                 setQuestions(questionData);
             }
@@ -103,7 +103,7 @@ const AddQuestion = () => {
             answer: answerText
         }
         try {
-            const res = await axios.post('http://localhost:3000/questions', newQuestion)
+            const res = await axios.post('http://localhost:3000/custom', newQuestion)
             const newQues = res.data
             setQuestions([...questions, newQues])
         }
@@ -124,7 +124,7 @@ const AddQuestion = () => {
     // Sử lý lggic xoá
     const handeleDelete = async (id) => {
         try {
-            const res = await axios.delete(`http://localhost:3000/questions/${id}`)
+            const res = await axios.delete(`http://localhost:3000/custom/${id}`)
             // window.location.reload()
             console.log(res)
             if (res.status === 200) {
@@ -160,7 +160,7 @@ const AddQuestion = () => {
     const handleSubmitEditForm = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.put(`http://localhost:3000/questions/${editingId}`, editingData)
+            const response = await axios.put(`http://localhost:3000/custom/${editingId}`, editingData)
             console.log(response.data)
             setQuestions(prevState => prevState.map((q) => q.id === editingId ? response.data: q ))
             setIsShowModelEdit(false)
@@ -199,8 +199,8 @@ const AddQuestion = () => {
 
     return (
         <>
-            <div className='h-full bg-neutral-100 flex flex-col gap-10 justify-start items-center overflow-y-scroll'>
-                <div className="w-4/6 p-5 bg-neutral-50 mt-10 flex flex-col rounded-2xl shadow-lg gap-3 ">
+            <div className='h-full flex flex-col gap-10 justify-center items-center'>
+                <div className="w-8/10 md:w-8/10 p-5 lg:max-w-230 bg-neutral-50 mt-10 flex flex-col rounded-2xl shadow-lg gap-3 ">
                     <HeaderAdd
                         searchTerm={searchTerm}
                         setSearchTerm={setSearchTerm}

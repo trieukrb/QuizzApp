@@ -8,7 +8,8 @@ import {Route} from "react-router-dom";
 import AddQuestion from "./features/question-management/AddQuestion.jsx"
 import QuizzStart from "./features/quiz/QuizzStart.jsx";
 import Notice from "./components/Notice.jsx";
-import VocalHome from "./features/vocal-quiz/VocalHome.jsx";
+import VocabHome from "./features/vocab/VocabHome.jsx";
+import FlashCard from "./features/flashCard/FlashCard.jsx";
 
 const Welcome = () => <h2>Chào mừng đến với Quizzlet!</h2>;
 
@@ -21,7 +22,8 @@ function App() {
               <Route path='quiz-start' element={<QuizzStart/>}/>
               <Route path='quiz/:topicName' element={<Quizz/>}/>
               <Route path='notice' element={<Notice/>}/>
-              <Route path='vocalquiz' element={<VocalHome/>}/>
+              <Route path='vocalquiz' element={<VocabHome/>}/>
+              <Route path='flashcard/:topicName' element={<FlashCard/>}/>
           </Route>
           <Route path='login' element={<Login/>}/>
 

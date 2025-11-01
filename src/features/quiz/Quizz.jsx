@@ -71,14 +71,18 @@ const Quizz = () => {
             }
             // Mũi tên trái: Quay lại câu hỏi trước.
             else if (e.key === 'ArrowLeft') {
-                onPrev();
+                if (quenstionnum !== 0){
+                    onPrev();
+                }
             }
             // Mũi tên phải / Enter: Chuyển câu hỏi tiếp theo hoặc nộp bài.
             else if (e.key === 'ArrowRight' || e.key === 'Enter') {
-                if (quenstionnum === questions.length - 1)
-                    handlesubmit();
-                else {
-                    onNext();
+                if (selectedAnswers[quenstionnum] !== undefined) {
+                    if (quenstionnum === questions.length - 1)
+                        handlesubmit();
+                    else {
+                        onNext();
+                    }
                 }
             }
         };

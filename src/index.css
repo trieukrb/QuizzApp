@@ -431,23 +431,48 @@
 /*    padding: 0 10px;*/
 /*}*/
 
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
+@theme {
+    --color-p-50: #ecfeff;
+    --color-p-100: #cefafe;
+    --color-p-200: #a2f4fd;
+    --color-p-300: #53eafd;
+    --color-p-400: #00d3f2;
+    --color-p-500: #00b8db;
+    --color-p-600: #0092b8;
+    --color-p-700: #007595;
+    --color-p-800: #005f78;
+    --color-p-900: #104e64;
+    --color-p-950: #053345;
 
+    --color-n-50: #fafafa;
+    --color-n-100: #f5f5f5;
+    --color-n-200: #e5e5e5;
+    --color-n-300: #d4d4d4;
+    --color-n-400: #a1a1a1;
+    --color-n-500: #737373;
+    --color-n-600: #525252;
+    --color-n-700: #404040;
+    --color-n-800: #262626;
+    --color-n-900: #171717;
+    --color-n-950: #0a0a0a;
+
+    --font-chakra: "Chakra Petch", sans-serif;
+    --font-roboto: "Roboto", sans-serif
+}
 @layer base {
-    :root{
-        --color-cyan-50: #ecfeff;
-        --color-cyan-100: #cefafe;
-        --color-cyan-200: #a2f4fd;
-        --color-cyan-300: #53eafd;
-        --color-cyan-400: #00d3f2;
-        --color-cyan-500: #00b8db;
-        --color-cyan-600: #0092b8;
-        --color-cyan-700: #007595;
-        --color-cyan-800: #005f78;
-        --color-cyan-900: #104e64;
-        --color-cyan-950: #053345;
+    html {
+        @apply font-chakra
+    }
+    body{
+        background-color: #f5f5f5;
+        background-size: 6px 6px;
+        background-image: repeating-linear-gradient(45deg, #00b8db 0, #00b8db 0.6000000000000001px, #f5f5f5 0, #f5f5f5 50%);
     }
 }
+
+
 @utility container{
     /*max-width: 700px;*/
     /*background-color: #fafafa;*/
@@ -457,7 +482,7 @@
     @apply bg-neutral-100/2 shadow-2xl mx-auto max-w-200 mt-45 rounded-xl p-8
 }
 @utility nav-item{
-    @apply flex gap-3  pr-6 pl-5 py-3 rounded-xl cursor-pointer hover:bg-neutral-50/30
+    @apply flex items-center gap-3 px-1 sm:px-3 py-3 rounded-xl cursor-pointer
     /*@apply bg-neutral-100/20*/
 }
 @utility funtion-btn{
@@ -468,11 +493,11 @@
 }
 
 @utility option{
-    @apply w-full py-2 px-5 text-left border-1 border-solid rounded-xl border-neutral-300 hover:bg-sky-200/50 hover:shadow-md hover:border-sky-400 cursor-pointer
+    @apply w-full py-2 px-5 text-left border-1 border-solid rounded-xl border-neutral-300 hover:shadow-md hover:border-sky-400 cursor-pointer
 }
 
 @utility option-confirm{
-    @apply  bg-sky-200/50 shadow-md border-sky-400
+    @apply  bg-sky-200/70 shadow-md border-sky-400
 }
 @utility result__option{
     @apply w-full py-1 mb-2 px-3 text-left border-1 border-solid rounded-xl border-neutral-300 cursor-default

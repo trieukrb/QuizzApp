@@ -6,7 +6,7 @@ const AnswerOptions = ({options,handleAnswer, selectedOptionIndex}) => {
             {
                 /* Hiển thị các lựa chọn */
                 options.map((option, index) => (
-                    <button className={`option ${selectedOptionIndex === index ? 'option-confirm' : ''} `}
+                    <button className={`option outline-none ${selectedOptionIndex === index ? 'option-confirm' : 'hover:bg-sky-100/30 transition duration-500 hover:scale-101'} `}
                             key={index}
                             onClick={() => handleAnswer(option, index)}
                     >{option}</button>

@@ -2,19 +2,19 @@ import React, {useState} from 'react';
 import {NavLink,Link, Outlet} from "react-router-dom";
 import SideBar from "./SideBar.jsx";
 
-const Section = ({nomarlinfo}) => {
-    const [widthside, setWidthside] = useState(250)
+const Section = () => {
+    const [widthside, setWidthside] = useState(300)
     const [isShowSidebar, setIsShowSidebar] = useState(false)
     const handleHideSideBar = () => {
-        setWidthside(prev => prev === 1 ? 250 : 1 )
+        setWidthside(prev => prev === 1 ? 300 : 1 )
     }
     const handleShowSideBar = () => {
         setIsShowSidebar(!isShowSidebar)
     }
     return (
         <>
-            <div className="bg-neutral-100 flex h-screen overflow-hidden">
-                <div className="h-full overflow-hidden flex-col justify-between bg-blue-950 text-neutral-50 relative hidden md:flex"
+            <div className="flex h-screen overflow-hidden">
+                <div className="h-full overflow-hidden flex-col justify-between z-10 bg-n-50 text-md font-bold text-n-700 relative rounded-r-2xl shadow-2xl hidden md:flex"
                      style={{width: `${widthside}px`}}>
                     {/*Home*/}
                     <SideBar/>
@@ -44,7 +44,7 @@ const Section = ({nomarlinfo}) => {
             {
                 isShowSidebar &&
                 <div className="fixed top-0 right-0 left-0 bottom-0 bg-neutral-500/30 flex justify-start items-center md:hidden" onClick={() => setIsShowSidebar(false)}>
-                    <div className="w-1/2 h-full bg-blue-950 flex flex-col justify-between text-neutral-100">
+                    <div className="w-1/2 h-full bg-n-50 text-md font-bold text-n-700 flex flex-col justify-between">
                         <SideBar/>
                     </div>
                 </div>
