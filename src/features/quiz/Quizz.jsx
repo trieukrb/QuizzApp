@@ -4,7 +4,7 @@ import Navigation from "./component/Navigation.jsx";
 import Question from "./component/Question.jsx";
 import AnswerOptions from "./component/AnswerOptions.jsx";
 import axios from "axios";
-import {useParams} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 /**
  * Component Quizz: Chịu trách nhiệm hiển thị và quản lý toàn bộ logic của bài trắc nghiệm.
  */
@@ -186,7 +186,13 @@ const Quizz = () => {
                     <div className="bg-linear-to-r from-fuchsia-400 to-sky-400 h-full rounded-lg" style={{width: `${precentageQuestions}%`}}></div>
                 </div>
             </div>
-            <div className="w-5/6 md:w-4/6 p-5 bg-neutral-50 flex flex-col rounded-2xl shadow-2xl gap-3">
+            <div className="w-5/6 md:w-4/6 p-5 bg-neutral-50 flex flex-col rounded-2xl shadow-2xl gap-3 relative">
+                <Link to="/vocalquiz" className="absolute left-5 top-3 px-3 py-1 border-2 cursor-pointer border-p-500 transition duration-300 hover:bg-p-200 rounded-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                </Link>
+
                 {/*<h1>App Quizz học tiếng anh của Triều</h1>*/}
                 <Question
                     question = {quenstionnum + 1}
@@ -197,7 +203,7 @@ const Quizz = () => {
                     selectedOptionIndex = {selectedOptionIndex}
                     handleAnswer = {handleAnswer}
                 />
-                <p className="pl-2 text-sm text-neutral-400 cursor-default">Press 1, 2, 3 , 4 , arrow or enter to chose and next</p>
+                <p className="pl-2 text-sm text-neutral-400 cursor-default">Press 1, 2, 3, 4, arrow or enter to chose and next</p>
                 {/* Component hiển thị các nút điều hướng (Trước, Sau, Nộp bài) */}
                 <Navigation
                     onPrev = {onPrev}
