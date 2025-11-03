@@ -1,7 +1,28 @@
-import React from 'react';
-import {NavLink} from "react-router-dom";
-
+import React, {useState} from 'react';
+import {Link, NavLink, useNavigate} from "react-router-dom";
+import useAuthStore from "../../stores/useAuthStore.js";
+import { auth } from '../../firebaseConfig'; // Import auth
+import { signOut } from 'firebase/auth'; // Import hàm đăng xuất
 const SideBar = () => {
+    // Đọc trạng thái từ store
+    const { user, loading } = useAuthStore();
+    const navigate = useNavigate();
+
+    // Hàm xử lý khi nhấn nút Đăng Xuất
+    const handleLogout = async () => {
+        try {
+            await signOut(auth); // Gọi hàm đăng xuất của Firebase
+            // "Người gác cổng" (ở App.jsx) sẽ tự động phát hiện
+            // và cập nhật store, giao diện sẽ tự thay đổi.
+            navigate('/'); // Chuyển về trang login
+        } catch (error) {
+            console.error("Lỗi đăng xuất:", error);
+        }
+    };
+    // Khi "người gác cổng" đang kiểm tra, ta không hiển thị gì
+    if (loading) {
+        return <div>Đang tải...</div>;
+    }
     return (
         <>
             <div className="px-4 flex flex-col gap-3">
@@ -67,11 +88,36 @@ const SideBar = () => {
 
                 </NavLink>
             </div>
-            <div className="flex items-center justify-start px-4 py-2 mb-5 mx-2 gap-2 rounded-xl hover:bg-neutral-500/50 cursor-pointer">
-                <div className="w-10 h-10 rounded-full overflow-hidden cursor-pointer hidden sm:block">
-                    <img className="h-full w-full rounded-full object-cover" src="src/assets/Images/img.png" alt=""/>
-                </div>
-                <p className="font-medium text-sm sm:text-md">sostrieu@gmail.com</p>
+            <div className="px-4 py-2 mb-5">
+                {/*<div className="relative cursor-default" onClick={() => setIsShowLogoutForm(!isShowLogoutForm)}>*/}
+                {/*    <span className="">{user.email}</span>*/}
+                {/*    /!*{isShowLogoutForm && <button className="absolute bg-p-200 rounded-2xl right-0 -top-10 w-full py-2" onClick={handleLogout}>logout</button>}*!/*/}
+                {/*    <button className="bg-p-200 rounded-2xl w-full py-2" onClick={handleLogout}>logout</button>*/}
+                {/*</div>*/}
+                {/*<Link to="/register" className="w-5">*/}
+                {/*    Register*/}
+                {/*</Link>*/}
+                {/*<div className="w-10 h-10 rounded-full overflow-hidden cursor-pointer hidden sm:block">*/}
+                {/*    <img className="h-full w-full rounded-full object-cover" src="src/assets/Images/img.png" alt=""/>*/}
+                {/*</div>*/}
+                {/*<p className="font-medium text-sm sm:text-md">sostrieu@gmail.com</p>*/}
+                {user ? (
+                    // TRƯỜNG HỢP 1: ĐÃ ĐĂNG NHẬP
+                    <div className="px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+                        <span>{user.email}</span> {/* Hiển thị email user */}
+                        <div className="flex justify-center w-full sm:w-auto border-2 border-p-500 p-2 rounded-xl cursor-pointer transition duration-300 hover:bg-p-200 hover:scale-105" onClick={handleLogout}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                            </svg>
+                        </div>
+                    </div>
+                ) : (
+                    // TRƯỜNG HỢP 2: CHƯA ĐĂNG NHẬP
+                    <div className="w-full flex justify-center gap-5">
+                        <NavLink to="/login" className=" px-3 py-1 rounded-xl text-center border-1 bg-p-100 shadow-xl border-p-500 cursor-pointer transition duration-300 hover:shadow-xl/20 hover:scale-105">Đăng Nhập</NavLink>
+                        <NavLink to="/register" className=" px-3 py-1 rounded-xl text-center border-1 bg-p-100 shadow-xl border-p-500 cursor-pointer transition duration-300 hover:shadow-xl/20 hover:scale-105">Đăng Ký</NavLink>
+                    </div>
+                )}
             </div>
         </>
     );
