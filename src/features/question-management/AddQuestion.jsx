@@ -6,12 +6,25 @@ import FromEdit from "./component/FromEdit.jsx";
 import HeaderAdd from "./component/HeaderAdd.jsx";
 import AddBody from "./component/AddBody.jsx";
 import FormDetail from "./component/FormDetail.jsx";
+import { db, auth } from '../../firebaseConfig'; // (Sửa lại đường dẫn nếu cần)
+import {
+    collection,
+    getDocs,
+    addDoc,
+    deleteDoc,
+    updateDoc,
+    doc,
+    query,
+    where
+} from "firebase/firestore";
+import useAuthStore from '../../stores/useAuthStore';
+import { useNavigate } from 'react-router-dom';
 
 const AddQuestion = () => {
+    const { user } = useAuthStore(); // Lấy user đang đăng nhập
+    const navigate = useNavigate();
     const [questions, setQuestions] = useState([]);
-    // `loading`: Cờ xác định trạng thái tải dữ liệu (true khi đang tải).
     const [loading, setLoading] = useState(true);
-    // `error`: Lưu thông báo lỗi nếu không tải được dữ liệu.
     const [error, setError] = useState(null);
     const [questionValue, setQuestionValue] = useState("")
     const [answerValue1, setAnswerValue1] = useState("")
@@ -41,34 +54,61 @@ const AddQuestion = () => {
     // Lấy data câu hỏi
     useEffect(() => {
         const fetchQuestions = async () => {
-            try{
-                const res = await axios.get('http://localhost:3000/custom')
-                const questionData = res.data;
-                setQuestions(questionData);
+            if (!user){
+                setQuestions([])
+                setLoading(false)
+                return
             }
-            catch(err){
-                setError("Không thể tải được câu hỏi, vui lòng thử lại.");
-                console.error("Lỗi khi gọi API:", err);
-            } finally {
-                setLoading(false);
+            setLoading(true)
+            try{
+                const q = query(collection(db, "user_questions"), where("userId", "==", user.uid))
+                const querySnapshot = await getDocs(q);
+                const userQuestions = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
+                setQuestions(userQuestions)
+
+            }
+            catch (err){
+                console.log("Không tải được câu hỏi", err)
+            }
+            finally {
+                setLoading(false)
             }
         }
         fetchQuestions()
-    }, []);
-
-    // Hiển thị màn hình loading trong khi tải dữ liệu.
-    if (loading) {
-        return <div className='container'><h1>Đang tải câu hỏi... ⏳</h1></div>;
-    }
+    }, [user]);
+    // useEffect(() => {
+    //     const fetchQuestions = async () => {
+    //         if(!user){
+    //             setQuestions([])
+    //             setLoading(false)
+    //             return
+    //         }
+    //         try{
+    //             const res = await axios.get('http://localhost:3000/custom')
+    //             const questionData = res.data;
+    //             setQuestions(questionData);
+    //         }
+    //         catch(err){
+    //             setError("Không thể tải được câu hỏi, vui lòng thử lại.");
+    //             console.error("Lỗi khi gọi API:", err);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     }
+    //     fetchQuestions()
+    // }, []);
 
     // Hiển thị lỗi nếu không tải được câu hỏi.
     if (error) {
-        return <div className='container'><h1>{error} 😥</h1></div>;
-    }
+       return  (<div><h1>{error} 😥</h1></div> )}
 
     // Xử lý thêm câu hỏi
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!user){
+            alert("bạn phải đăng nhập để đặt câu hỏi")
+            return
+        }
 
         //Logic kiểm tra 4 đáp án có trùng nhau không
         //Gom các đáp án vào một mảng và bỏ khoảng trống
@@ -100,12 +140,12 @@ const AddQuestion = () => {
         const newQuestion = {
             question: questionValue.trim(),
             options: options,
-            answer: answerText
+            answer: answerText,
+            userId: user.uid
         }
         try {
-            const res = await axios.post('http://localhost:3000/custom', newQuestion)
-            const newQues = res.data
-            setQuestions([...questions, newQues])
+            const docRef = await  addDoc(collection(db, "user_questions"), newQuestion)
+            setQuestions(prevQuestions => [...prevQuestions, { ...newQuestion, id: docRef.id }]);
         }
         catch(err){
             console.error('them cau hỏi that bai', err)
@@ -122,15 +162,14 @@ const AddQuestion = () => {
         }
     }
     // Sử lý lggic xoá
-    const handeleDelete = async (id) => {
+    const handleDelete = async (id) => {
+        if (!user) {
+            alert("Bạn phải đăng nhập để thực hiện việc này!");
+            return;
+        }
         try {
-            const res = await axios.delete(`http://localhost:3000/custom/${id}`)
-            // window.location.reload()
-            console.log(res)
-            if (res.status === 200) {
-                // Cập nhật lại state mà không cần reload trang
-                setQuestions(prevQuestions => prevQuestions.filter(q => q.id !== id));
-            }
+            await deleteDoc(doc(db, "user_questions", id))
+            setQuestions(prevQuestions => prevQuestions.filter(q => q.id !== id));
         }
         catch(err){
             console.error('xoa cau hoi that bai', err)
@@ -154,15 +193,24 @@ const AddQuestion = () => {
     const handleEditOptionChange = (e, index) => {
         const newOptionArray = [...editingData.options]
         newOptionArray[index] = e.target.value
-        console.log(newOptionArray)
         setEditingData(predata => ({...predata, options: newOptionArray}))
     }
+
+
     const handleSubmitEditForm = async (e) => {
         e.preventDefault()
+        if (!user) { // Luôn kiểm tra user
+            alert("Bạn phải đăng nhập để thực hiện việc này!");
+            return;
+        }
         try {
-            const response = await axios.put(`http://localhost:3000/custom/${editingId}`, editingData)
-            console.log(response.data)
-            setQuestions(prevState => prevState.map((q) => q.id === editingId ? response.data: q ))
+            const updateData = {
+                question: editingData.question,
+                options: editingData.options,
+                answer: editingData.answer
+            }
+            await updateDoc(doc(db, "user_questions", editingId), updateData)
+            setQuestions(prevState => prevState.map((q) => q.id === editingId ? {...q, updateData}: q ))
             setIsShowModelEdit(false)
         }
         catch (err){
@@ -201,22 +249,28 @@ const AddQuestion = () => {
         <>
             <div className='h-full flex flex-col gap-10 justify-center items-center'>
                 <div className="w-8/10 md:w-8/10 p-5 lg:max-w-230 bg-neutral-50 mt-10 flex flex-col rounded-2xl shadow-lg gap-3 ">
-                    <HeaderAdd
-                        searchTerm={searchTerm}
-                        setSearchTerm={setSearchTerm}
-                        setIsShowModelAdd={() => setIsShowModelAdd(true)}
-                    />
-                    {/*Show câu hỏi*/}
-                    <AddBody
-                        currentQuestions ={currentQuestions}
-                        ShowEditForm ={handleShowEditForm}
-                        handeleDelete ={handeleDelete}
-                        totalPages={totalPages}
-                        setCurrentPage={setCurrentPage}
-                        currentPage={currentPage}
-                        ShowDetailForm ={handleShowDetailForm}
+                    {loading ?
+                        (<h1 className="text-center">Đang tải câu hỏi... ⏳</h1>)
+                        :
+                        (<>
+                            <HeaderAdd
+                                searchTerm={searchTerm}
+                                setSearchTerm={setSearchTerm}
+                                setIsShowModelAdd={() => setIsShowModelAdd(true)}
+                            />
+                            {/*Show câu hỏi*/}
+                            <AddBody
+                                currentQuestions ={currentQuestions}
+                                ShowEditForm={handleShowEditForm}
+                                handeleDelete={handleDelete}
+                                totalPages={totalPages}
+                                setCurrentPage={setCurrentPage}
+                                currentPage={currentPage}
+                                ShowDetailForm={handleShowDetailForm}
 
-                    />
+                            />
+                        </>)
+                }
                 </div>
             </div>
             {

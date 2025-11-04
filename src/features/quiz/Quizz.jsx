@@ -5,12 +5,19 @@ import Question from "./component/Question.jsx";
 import AnswerOptions from "./component/AnswerOptions.jsx";
 import axios from "axios";
 import {Link, useParams} from 'react-router-dom'
+import useAuthStore from "../../stores/useAuthStore.js";
+import { useNavigate } from 'react-router-dom';
+import { db } from '../../firebaseConfig';
+import { collection, getDocs, query, where } from "firebase/firestore";
 /**
  * Component Quizz: Chịu trách nhiệm hiển thị và quản lý toàn bộ logic của bài trắc nghiệm.
  */
 const Quizz = () => {
+
     // --- STATE MANAGEMENT --- //
     const {topicName} = useParams()
+    const { user } = useAuthStore(); // Lấy user từ store
+    const navigate = useNavigate();
     // `questions`: Lưu trữ danh sách các câu hỏi lấy từ API.
     const [questions, setQuestions] = useState([]);
     // `loading`: Cờ xác định trạng thái tải dữ liệu (true khi đang tải).
@@ -33,28 +40,63 @@ const Quizz = () => {
      */
     useEffect(() => {
         const fetchQuestions = async () => {
+            setLoading(true)
+            setError(null)
             try{
-                const res = await axios.get(`http://localhost:3000/${topicName}`)
-                const questionData = res.data;
-                // Trộn ngẫu nhiên các phương án trả lời.
-                // formattedQuestions.forEach(q => q.options.sort(() => Math.random() - 0.5));
-
-                // Cập nhật state sau khi xử lý dữ liệu thành công.
-                setQuestions(questionData);
-                setSelectedAnswers(Array(questionData.length).fill(undefined));
-
+                let q
+                if (topicName === 'user_questions'){
+                    if (!user) {
+                        alert("Bạn cần đăng nhập để xem chủ đề này")
+                        navigate('/login')
+                        return
+                    }
+                    q = query(
+                        collection(db, "user_questions"),
+                        where("userId", "==", user.uid)
+                    )
+                }
+                else {
+                    q = query(collection(db, topicName))
+                }
+                const querySnapshot = await getDocs(q)
+                const fetchedQuestions = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
+                console.log(fetchedQuestions)
+                setQuestions(fetchedQuestions)
+                setSelectedAnswers(Array(fetchedQuestions.length).fill(undefined))
             }
-            catch(err){
-                setError("Không thể tải được câu hỏi, vui lòng thử lại.");
-                console.error("Lỗi khi gọi API:", err);
-
-            } finally {
-                // Tắt trạng thái loading sau khi hoàn tất (thành công hoặc thất bại).
+            catch (err){
+                console.log(err)
+            }
+            finally {
                 setLoading(false);
             }
         }
         fetchQuestions()
-    }, []);
+    },[topicName, user, navigate])
+    // useEffect(() => {
+    //     const fetchQuestions = async () => {
+    //         try{
+    //             const res = await axios.get(`http://localhost:3000/${topicName}`)
+    //             const questionData = res.data;
+    //             // Trộn ngẫu nhiên các phương án trả lời.
+    //             // formattedQuestions.forEach(q => q.options.sort(() => Math.random() - 0.5));
+    //
+    //             // Cập nhật state sau khi xử lý dữ liệu thành công.
+    //             setQuestions(questionData);
+    //             setSelectedAnswers(Array(questionData.length).fill(undefined));
+    //
+    //         }
+    //         catch(err){
+    //             setError("Không thể tải được câu hỏi, vui lòng thử lại.");
+    //             console.error("Lỗi khi gọi API:", err);
+    //
+    //         } finally {
+    //             // Tắt trạng thái loading sau khi hoàn tất (thành công hoặc thất bại).
+    //             setLoading(false);
+    //         }
+    //     }
+    //     fetchQuestions()
+    // }, []);
 
     /**
      * `useEffect` để lắng nghe sự kiện bàn phím cho việc điều hướng và chọn đáp án.
@@ -169,6 +211,16 @@ const Quizz = () => {
     // Hiển thị lỗi nếu không tải được câu hỏi.
     if (error) {
         return <div className='container'><h1>{error} 😥</h1></div>;
+    }
+    if (questions.length === 0){
+        return (
+            <div>
+                <h1>chu de nay chua co cau hoi nao</h1>
+                <Link to='/addquestion' className="bg-p-200" >Them cau hoi</Link>
+                <Link to='/vocalquiz' className="bg-p-200" >Ve chu de topic</Link>
+            </div>
+
+        )
     }
 
     // --- MAIN RENDER --- //
