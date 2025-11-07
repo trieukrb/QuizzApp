@@ -32,7 +32,7 @@ const FormAdd = ({showfalse,
                 <div className="mb-3">
                     <label className='block mb-1 font-medium'>Question</label>
                     <input type="text" placeholder='Enter Question Title'
-                           className='border-1 border-solid border-neutral-400 px-2 py-3 rounded-lg w-full placeholder:text-neutral-400/90'
+                           className='border-2 border-solid border-neutral-300 px-2 py-3 rounded-lg w-full placeholder:text-neutral-400/90'
                            required
                            ref={inputAddRef}
                            value={questionValue}
@@ -42,9 +42,9 @@ const FormAdd = ({showfalse,
                 {/*Add Option*/}
                 <div className="">
                     <label className='font-medium block mb-1'>Answer 1</label>
-                    <div className='w-full mb-2 flex justify-between border-1 border-solid border-neutral-400 rounded-lg '>
+                    <div className={`w-full mb-2 flex justify-between border-2 border-solid rounded-lg ${correctAnswerValue === '1' ? 'border-green-400 bg-green-100': 'border-neutral-300'}`}>
                         <input type="text" placeholder='Enter Answer'
-                               className='w-full py-3 px-2 border-r-1 border-solid border-neutral-400 placeholder:text-neutral-400/90 outline-none'
+                               className={`w-full py-3 px-2 border-r-2 border-solid placeholder:text-neutral-400/90 outline-none ${correctAnswerValue === '1' ? 'border-green-400': 'border-neutral-300'}`}
                                required
                                value={answerValue1}
                                onChange={setAnswerValue1}
@@ -58,9 +58,9 @@ const FormAdd = ({showfalse,
                         />
                     </div>
                     <label className='font-medium block mb-1'>Answer 2</label>
-                    <div className='w-full mb-2 flex justify-between border-1 border-solid border-neutral-400 rounded-lg'>
+                    <div className={`w-full mb-2 flex justify-between border-2 border-solid rounded-lg ${correctAnswerValue === '2' ? 'border-green-400 bg-green-100': 'border-neutral-300'}`}>
                         <input type="text" placeholder='Enter Answer'
-                               className='w-full py-3 px-2 border-r-1 border-solid border-neutral-400 placeholder:text-neutral-400/90 outline-none'
+                               className={`w-full py-3 px-2 border-r-2 border-solid placeholder:text-neutral-400/90 outline-none ${correctAnswerValue === '2' ? 'border-green-400': 'border-neutral-300'}`}
                                required
                                value={answerValue2}
                                onChange={setAnswerValue2}
@@ -74,9 +74,10 @@ const FormAdd = ({showfalse,
                         />
                     </div>
                     <label className='font-medium block mb-1'>Answer 3</label>
-                    <div className='w-full mb-2 flex justify-between border-1 border-solid border-neutral-400 rounded-lg'>
+                    {/*<div className='w-full mb-2 flex justify-between border-2 border-solid border-neutral-300 rounded-lg'>*/}
+                    <div className={`w-full mb-2 flex justify-between border-2 border-solid rounded-lg ${correctAnswerValue === '3' ? 'border-green-400 bg-green-100': 'border-neutral-300'}`}>
                         <input type="text" placeholder='Enter Answer'
-                               className='w-full py-3 px-2 border-r-1 border-solid border-neutral-400 placeholder:text-neutral-400/90 outline-none'
+                               className={`w-full py-3 px-2 border-r-2 border-solid placeholder:text-neutral-400/90 outline-none ${correctAnswerValue === '3' ? 'border-green-400': 'border-neutral-300'}`}
                                required
                                value={answerValue3}
                                onChange={setAnswerValue3}
@@ -90,9 +91,9 @@ const FormAdd = ({showfalse,
                         />
                     </div>
                     <label className='font-medium block mb-1'>Answer 4</label>
-                    <div className='w-full mb-2 flex justify-between border-1 border-solid border-neutral-400 rounded-lg'>
+                    <div className={`w-full mb-2 flex justify-between border-2 border-solid rounded-lg ${correctAnswerValue === '4' ? 'border-green-400 bg-green-100': 'border-neutral-300'}`}>
                         <input type="text" placeholder='Enter Answer'
-                               className='w-full py-3 px-2 border-r-1 border-solid border-neutral-400 placeholder:text-neutral-400/90 outline-none'
+                               className={`w-full py-3 px-2 border-r-2 border-solid placeholder:text-neutral-400/90 outline-none ${correctAnswerValue === '4' ? 'border-green-400': 'border-neutral-300'}`}
                                required
                                value={answerValue4}
                                onChange={setAnswerValue4}

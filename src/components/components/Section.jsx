@@ -21,20 +21,22 @@ const Section = () => {
                 </div>
                 <div className="flex-1 h-screen flex flex-col relative overflow-y-scroll">
                     {/*Show side bar in large screen*/}
-                    <button className="absolute top-3 left-4 hidden md:block"
+                    {/*<button className="fixed top-3 left-4 hidden md:block"*/}
+                    <button className={`fixed hidden md:block z-10 ${widthside === 1 ? ('top-3 left-4') : ('top-3 left-80')}`}
                             onClick={handleHideSideBar}>
-                        <div className="text-neutral-100 bg-blue-950 p-1 rounded-md cursor-pointer">
+                        <div className="text-n-700 bg-n-100 transition duration-300 hover:scale-105 hover:bg-p-100  border-2 border-p-500 p-1 rounded-md cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                             </svg>
                         </div>
                     </button>
                     {/*Show side bar in small screen*/}
-                    <button className="absolute top-3 left-4 md:hidden"
+                    <button className="fixed top-3 left-4 md:hidden"
                             onClick={handleShowSideBar}>
-                        <div className="text-neutral-100 bg-blue-950 p-1 rounded-md cursor-pointer">
+                        <div className="text-n-700 bg-n-100 border-2 border-p-500 p-1 rounded-md cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                            {/*    "absolute top-3 left-4 md:hidden" */}
                             </svg>
                         </div>
                     </button>

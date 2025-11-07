@@ -33,10 +33,10 @@ const FromEdit = ({showfalse,
                 {optionsdata.map((option, index) => (
                     <div key={index}>
                         <label className='font-medium block mb-1'>Edit option {index + 1}</label>
-                        <div className='w-full mb-2 flex justify-between border-1 border-solid border-neutral-400 rounded-lg'>
+                        <div className={`w-full mb-2 flex justify-between border-2 border-solid  rounded-lg ${option === answerdata ? 'border-green-400 bg-green-100': 'border-neutral-300'}`}>
                             <input type="text"
                                    value={option}
-                                   className='w-full py-3 px-2 border-r-1 border-solid border-neutral-400 placeholder:text-neutral-400/90 outline-none'
+                                   className={`w-full py-3 px-2 border-r-2 border-solid  placeholder:text-neutral-400/90 outline-none ${option === answerdata ? 'border-green-400' : 'border-neutral-300'}`}
                                    required
                                    placeholder='edit option'
                                    onChange={(e) => handleEditOptionChange(e, index)}

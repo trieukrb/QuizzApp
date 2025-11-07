@@ -244,7 +244,6 @@ const AddQuestion = () => {
     // Tính tổng số trang
     const totalPages = Math.ceil(filteredQuestions.length / questionsPerPage);
 
-
     return (
         <>
             <div className='h-full flex flex-col gap-10 justify-center items-center'>

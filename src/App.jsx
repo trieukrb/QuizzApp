@@ -14,9 +14,8 @@ import Login from "./components/Login.jsx";
 import useAuthStore from "./stores/useAuthStore.js";
 import {useEffect} from "react";
 import { onAuthStateChanged } from 'firebase/auth';
-import {auth} from "./firebaseConfig.js"; // Import "người gác cổng"
-
-const Welcome = () => <h2>Chào mừng đến với Quizzlet!</h2>;
+import {auth} from "./firebaseConfig.js";
+import Home from "./components/Home.jsx"; // Import "người gác cổng"
 
 function App() {
     // Lấy hàm setUser từ store
@@ -42,7 +41,7 @@ function App() {
   return (
       <Routes>
           <Route path='/' element={<Layout/>}>
-              <Route index element={<Welcome />} />
+              <Route index element={<Home/>} />
               <Route path='addquestion' element={<AddQuestion/>}/>
               <Route path='quiz-start' element={<QuizzStart/>}/>
               <Route path='quiz/:topicName' element={<Quizz/>}/>
