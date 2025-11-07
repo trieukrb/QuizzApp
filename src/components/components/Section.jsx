@@ -14,7 +14,7 @@ const Section = () => {
     return (
         <>
             <div className="flex h-screen overflow-hidden">
-                <div className="h-full overflow-hidden flex-col justify-between z-10 bg-n-50 text-md font-bold text-n-700 relative rounded-r-2xl shadow-2xl hidden md:flex"
+                <div className="h-full overflow-hidden flex-col justify-between z-10 bg-n-50 text-md font-bold text-n-700 relative shadow-2xl/50 hidden md:flex"
                      style={{width: `${widthside}px`}}>
                     {/*Home*/}
                     <SideBar/>

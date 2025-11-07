@@ -14,7 +14,7 @@ const FormDetail = ({showfalse, handlestopPropagation, DetailData}) => {
                     </div>
                 </div>
                 <div className="p-1">
-                    <h1 className="font-medium text-lg mb-3">{DetailData.question}</h1>
+                    <h1 className="font-medium text-3xl mb-3 text-center">{DetailData.question}</h1>
                     {DetailData.options.map((option, index) => (
                         <p className={` mb-2 rounded-lg px-3 py-2 border-1 border-solid  ${option === DetailData.answer ? "bg-green-200/50 border-green-400" : "border-neutral-400"} `} key={index}>{option}</p>
                     ))}

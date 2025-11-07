@@ -217,7 +217,7 @@ const Quizz = () => {
             <div>
                 <h1>chu de nay chua co cau hoi nao</h1>
                 <Link to='/addquestion' className="bg-p-200" >Them cau hoi</Link>
-                <Link to='/vocalquiz' className="bg-p-200" >Ve chu de topic</Link>
+                <Link to='/vocabquiz' className="bg-p-200" >Ve chu de topic</Link>
             </div>
 
         )
@@ -229,7 +229,7 @@ const Quizz = () => {
     const precentageQuestions = ((quenstionnum+1) / questions.length) * 100
     return (
         <div className="h-full flex flex-col gap-10 justify-start items-center">
-            <div className="w-5/6 md:w-4/6 p-5 bg-neutral-50 mt-35 flex flex-col rounded-2xl shadow-lg gap-3">
+            <div className="w-5/6 md:w-4/6 border-2 border-p-400 p-5 bg-neutral-50 mt-35 flex flex-col rounded-2xl shadow-lg gap-3">
                 <div className="flex justify-between gap-3">
                     <p className="font-medium">Question {quenstionnum} of {questions.length}</p>
                     <p>{Math.floor(precentageQuestions)}%</p>
@@ -238,8 +238,8 @@ const Quizz = () => {
                     <div className="bg-linear-to-r from-fuchsia-400 to-sky-400 h-full rounded-lg" style={{width: `${precentageQuestions}%`}}></div>
                 </div>
             </div>
-            <div className="w-5/6 md:w-4/6 p-5 bg-neutral-50 flex flex-col rounded-2xl shadow-2xl gap-3 relative">
-                <Link to="/vocalquiz" className="absolute left-5 top-3 px-3 py-1 border-2 cursor-pointer border-p-500 transition duration-300 hover:bg-p-200 rounded-xl">
+            <div className="w-5/6 md:w-4/6 p-5 border-2 border-p-400 bg-neutral-50 flex flex-col rounded-2xl shadow-2xl gap-3 relative">
+                <Link to={`${topicName === 'user_questions' ? '/quiz-start' : '/vocabquiz'}`} className="absolute left-5 top-3 px-3 py-1 border-2 cursor-pointer border-p-500 transition duration-300 hover:bg-p-200 rounded-xl">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                         </svg>

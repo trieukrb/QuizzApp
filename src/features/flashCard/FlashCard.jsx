@@ -2,25 +2,70 @@ import React, {useEffect, useState, useRef} from 'react';
 import {Link, useParams} from "react-router-dom";
 import axios from "axios";
 import hoverSound from "../../assets/sound/flipcard-91468.mp3";
+import {collection, getDocs, query, where} from "firebase/firestore";
+import {db} from "../../firebaseConfig.js";
+import useAuthStore from "../../stores/useAuthStore.js";
+import { useNavigate } from 'react-router-dom';
+
 
 const FlashCard = () => {
     const {topicName} = useParams()
+    const {user} = useAuthStore()
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+
     const [vocabs, setVocabs] = useState([]);
     const [isFlipped, setIsFlipped] = useState(false);
     const [vocabsNum, setVocabsNum] = useState(0)
 
     useEffect(() => {
-        const fetchVocabs = async () => {
+        const fetchQuestions = async () => {
+            setLoading(true)
+            setError(null)
             try{
-                const res = await axios.get(`http://localhost:3000/${topicName}`)
-                setVocabs(res.data)
+                let q
+                if (topicName === 'user_questions'){
+                    if (!user) {
+                        alert("Bạn cần đăng nhập để xem chủ đề này")
+                        navigate('/login')
+                        return
+                    }
+                    q = query(
+                        collection(db, "user_questions"),
+                        where("userId", "==", user.uid)
+                    )
+                }
+                else {
+                    q = query(collection(db, topicName))
+                }
+                const querySnapshot = await getDocs(q)
+                const fetchedQuestions = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
+                console.log(fetchedQuestions)
+                setVocabs(fetchedQuestions)
             }
-            catch(err){
-                console.log("loi", err)
+            catch (err){
+                console.log(err)
+            }
+            finally {
+                setLoading(false);
             }
         }
-        fetchVocabs()
-    }, []);
+        fetchQuestions()
+    },[topicName, user, navigate])
+
+    // useEffect(() => {
+    //     const fetchVocabs = async () => {
+    //         try{
+    //             const res = await axios.get(`http://localhost:3000/${topicName}`)
+    //             setVocabs(res.data)
+    //         }
+    //         catch(err){
+    //             console.log("loi", err)
+    //         }
+    //     }
+    //     fetchVocabs()
+    // }, []);
 
     useEffect(() => {
         return () => {
@@ -67,7 +112,7 @@ const FlashCard = () => {
     return (
         <div className="flex justify-center items-center">
             <div className="my-15 md:my-20 w-4/5 md:w-3/4 lg:w-8/10 lg:max-w-6xl  p-5 bg-neutral-50 flex items-center flex-col rounded-2xl shadow-2xl gap-3 relative">
-                <Link to="/vocalquiz" className="absolute left-5 top-3 px-3 py-1 border-2 cursor-pointer border-p-500 transition duration-300 hover:bg-p-200 rounded-xl">
+                <Link to={`${topicName === 'user_questions' ? '/quiz-start' : '/vocabquiz'}`} className="absolute left-5 top-3 px-3 py-1 border-2 cursor-pointer border-p-500 transition duration-300 hover:bg-p-200 rounded-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>

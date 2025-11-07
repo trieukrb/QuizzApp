@@ -4,6 +4,7 @@ import book2 from '../assets/Images/book2.png';
 import book3 from '../assets/Images/book3.png';
 import bg_img from '../assets/Images/note.png'
 import kid_img from '../assets/Images/kid.png'
+import girl_img from '../assets/Images/girl.png'
 import {Link} from "react-router-dom";
 import useAuthStore from "../stores/useAuthStore.js";
 import * as path from "node:path";
@@ -29,14 +30,14 @@ const Home = () => {
     }, [activeIndex]); // Chạy lại effect này mỗi khi activeIndex thay đổi
     //bg-radial from-n-50/50 from-40% to-n-300/50
     return (
-        <div className=" relative w-full h-screen flex justify-center items-center font-playwrite">
+        <div className="z-0 relative w-full h-screen flex justify-center items-center font-playwrite">
             <div className="flex flex-col justify-center text-center">
                 <div className="relative text-6xl md:text-8xl lg:text-9xl">
                     <h1>The best place to</h1>
                     <div className="hidden lg:block w-70 h-70 absolute -top-40 -left-60 rotate-15">
                         <img src={bg_img} alt=""/>
                     </div>
-                    <div className="hidden lg:block w-50 h-50 rounded-full bg-purple-300 absolute -top-45 -right-30">
+                    <div className="hidden lg:block w-50 h-50 rounded-full shadow-xl/20 bg-purple-300 absolute -top-45 -right-30">
                         <div className="relative w-45 h-45"><img className="absolute -top-25 left-2" src={kid_img} alt=""/></div>
                     </div>
                     <div className="hidden lg:block absolute -top-30 right-120">
@@ -55,18 +56,10 @@ const Home = () => {
                 {/*</div>*/}
                 <h1 className="text-5xl md:text-7xl lg:text-8xl mt-10 text-n-600"><span className=" text-shadow-lg text-cyan-400 font-caveat">Learn</span> and <span className="text-shadow-lg text-yellow-400 font-caveat">Practice</span></h1>
                 <p className="mt-5 font-medium text-sm  md:text-lg text-n-500">The latest learning methods to help you remember longer</p>
-                <div className="relative  mt-10">
-                    <button
-                        className="group relative inline-flex items-center justify-center px-8 py-3 text-lg font-bold text-white transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95"
-                    >
-                        <div
-                            className="absolute inset-0 bg-gradient-to-br from-violet-600 via-violet-600/80 to-violet-600 rounded-full transition-all duration-300 group-hover:scale-110 animate-gradient"
-                        ></div>
-
-                        <div
-                            className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-50 transition-opacity duration-300 bg-white blur-xl"
-                        ></div>
-
+                <div className="relative mt-10">
+                    <Link to='/vocabquiz' className="group relative inline-flex items-center justify-center px-8 py-3 text-lg font-bold text-white transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95">
+                        <div className="absolute inset-0 bg-gradient-to-br from-violet-600 via-violet-600/80 to-violet-600 rounded-full transition-all duration-300 group-hover:scale-110 animate-gradient"></div>
+                        <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-50 transition-opacity duration-300 bg-white blur-xl"></div>
                         <div className="absolute inset-0 overflow-hidden rounded-full">
                             <div className="glitter-container">
                                 <div className="glitter"></div>
@@ -74,37 +67,29 @@ const Home = () => {
                                 <div className="glitter"></div>
                             </div>
                         </div>
-
-                        <div
-                            className="absolute inset-0 rounded-full border-2 border-white opacity-20 group-hover:opacity-40 group-hover:scale-105 transition-all duration-300"
-                        ></div>
+                        <div className="absolute inset-0 rounded-full border-2 border-white opacity-20 group-hover:opacity-40 group-hover:scale-105 transition-all duration-300"></div>
 
                         <div className="absolute inset-0 rounded-full overflow-hidden">
                             <div className="wave"></div>
                         </div>
-
                         <span className="relative z-10 flex items-center gap-2">
-    <span className="tracking-wider">Let's get started!</span>
-    <svg
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        fill="none"
-        className="w-5 h-5 transform transition-transform duration-300 group-hover:translate-x-1"
-    >
-      <path
-          d="M13 7l5 5m0 0l-5 5m5-5H6"
-          stroke-width="2"
-          stroke-linejoin="round"
-          stroke-linecap="round"
-      ></path>
-    </svg>
-    <span
-        className="absolute bottom-0 left-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
-    ></span>
-  </span>
-                    </button>
+                            <span className="tracking-wider">Let's get started!</span>
+                            <svg
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                fill="none"
+                                className="w-5 h-5 transform transition-transform duration-300 group-hover:translate-x-1">
+                              <path
+                                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                                  stroke-width="2"
+                                  stroke-linejoin="round"
+                                  stroke-linecap="round"/>
+                            </svg>
+                            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                        </span>
+                    </Link>
                     <div
-                        className="hidden lg:block absolute w-65 h-65 bg-pink-300 rounded-full -bottom-50 -right-10 rotate-10">
+                        className="hidden lg:block absolute w-65 h-65 bg-pink-300 shadow-xl/20 rounded-full -bottom-50 -right-10 rotate-10">
                         <div className="relative w-full h-full overflow-hidden">
                             {images.map((imgSrc, index) => (
                                 <img
@@ -119,15 +104,15 @@ const Home = () => {
                             ))}
                         </div>
                     </div>
-                    <div
-                        className="hidden lg:block absolute bg-sky-300/50 rounded-full w-50 h-50 -top-10 -left-20"></div>
+                    <div className="hidden lg:block absolute bg-purple-200/90 shadow-xl rounded-full w-80 h-80 -top-20 -left-20">
+                        <img src={girl_img} alt=""/>
+                    </div>
                     <div className="hidden lg:block absolute top-30 left-80 animate-spins">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                              stroke="currentColor" className="size-25 text-emerald-400">
                             <path strokeLinecap="round" strokeLinejoin="round"
                                   d="m20.893 13.393-1.135-1.135a2.252 2.252 0 0 1-.421-.585l-1.08-2.16a.414.414 0 0 0-.663-.107.827.827 0 0 1-.812.21l-1.273-.363a.89.89 0 0 0-.738 1.595l.587.39c.59.395.674 1.23.172 1.732l-.2.2c-.212.212-.33.498-.33.796v.41c0 .409-.11.809-.32 1.158l-1.315 2.191a2.11 2.11 0 0 1-1.81 1.025 1.055 1.055 0 0 1-1.055-1.055v-1.172c0-.92-.56-1.747-1.414-2.089l-.655-.261a2.25 2.25 0 0 1-1.383-2.46l.007-.042a2.25 2.25 0 0 1 .29-.787l.09-.15a2.25 2.25 0 0 1 2.37-1.048l1.178.236a1.125 1.125 0 0 0 1.302-.795l.208-.73a1.125 1.125 0 0 0-.578-1.315l-.665-.332-.091.091a2.25 2.25 0 0 1-1.591.659h-.18c-.249 0-.487.1-.662.274a.931.931 0 0 1-1.458-1.137l1.411-2.353a2.25 2.25 0 0 0 .286-.76m11.928 9.869A9 9 0 0 0 8.965 3.525m11.928 9.868A9 9 0 1 1 8.965 3.525" />
                         </svg>
-
                     </div>
                 </div>
                 {/*<div className="mt-10">*/}

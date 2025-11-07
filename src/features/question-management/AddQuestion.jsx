@@ -55,8 +55,10 @@ const AddQuestion = () => {
     useEffect(() => {
         const fetchQuestions = async () => {
             if (!user){
+                alert('Bạn cần đăng nhập để thực hiện chức năng này')
                 setQuestions([])
                 setLoading(false)
+                navigate('/')
                 return
             }
             setLoading(true)
@@ -210,7 +212,7 @@ const AddQuestion = () => {
                 answer: editingData.answer
             }
             await updateDoc(doc(db, "user_questions", editingId), updateData)
-            setQuestions(prevState => prevState.map((q) => q.id === editingId ? {...q, updateData}: q ))
+            setQuestions(prevState => prevState.map((q) => q.id === editingId ? updateData: q ))
             setIsShowModelEdit(false)
         }
         catch (err){
@@ -247,7 +249,7 @@ const AddQuestion = () => {
     return (
         <>
             <div className='h-full flex flex-col gap-10 justify-center items-center'>
-                <div className="w-8/10 md:w-8/10 p-5 lg:max-w-230 bg-neutral-50 mt-10 flex flex-col rounded-2xl shadow-lg gap-3 ">
+                <div className="w-8/10 md:w-8/10 p-5 lg:max-w-230 border-2 border-p-400 bg-neutral-50 mt-10 flex flex-col rounded-2xl shadow-lg gap-3 ">
                     {loading ?
                         (<h1 className="text-center">Đang tải câu hỏi... ⏳</h1>)
                         :

@@ -3,7 +3,7 @@ import {Link, NavLink} from "react-router-dom";
 const Result = ({score, question, questions, correctarray,reset}) => {
   return (
      <div className='h-full flex flex-col gap-10 justify-start items-center'>
-        <div className="w-5/6 md:w-4/6 p-5 bg-neutral-50 mt-20 flex flex-col rounded-2xl shadow-lg gap-3">
+        <div className="w-5/6 md:w-4/6 p-5 border-2 border-p-300 bg-neutral-50 mt-20 flex flex-col rounded-2xl shadow-lg gap-3">
             <div className='w-full flex flex-col items-center gap-2'>
                 <h1 className="font-bold text-3xl">Quiz Completed</h1>
             </div>
@@ -44,7 +44,7 @@ const Result = ({score, question, questions, correctarray,reset}) => {
                 ) )}
             </div>
             <div className="flex gap-5 px-5">
-                <Link to="/vocalquiz" className="flex text-center gap-3 bg-linear-to-r from-blue-500 to-violet-500 w-full justify-center py-3 rounded-xl text-neutral-100 cursor-pointer hover:opacity-50">
+                <Link to="/vocabquiz" className="flex text-center gap-3 bg-linear-to-r from-blue-500 to-violet-500 w-full justify-center py-3 rounded-xl text-neutral-100 cursor-pointer hover:opacity-50">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 hidden sm:block">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                         </svg>

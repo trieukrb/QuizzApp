@@ -45,8 +45,7 @@ function App() {
               <Route path='addquestion' element={<AddQuestion/>}/>
               <Route path='quiz-start' element={<QuizzStart/>}/>
               <Route path='quiz/:topicName' element={<Quizz/>}/>
-              <Route path='notice' element={<Notice/>}/>
-              <Route path='vocalquiz' element={<VocabHome/>}/>
+              <Route path='vocabquiz' element={<VocabHome/>}/>
               <Route path='flashcard/:topicName' element={<FlashCard/>}/>
           </Route>
           <Route path='register' element={<Register/>}/>
