@@ -15,7 +15,8 @@ import useAuthStore from "./stores/useAuthStore.js";
 import {useEffect} from "react";
 import { onAuthStateChanged } from 'firebase/auth';
 import {auth} from "./firebaseConfig.js";
-import Home from "./components/Home.jsx"; // Import "người gác cổng"
+import Home from "./components/Home.jsx";
+import UserScore from "./features/userScore/UserScore.jsx"; // Import "người gác cổng"
 
 function App() {
     // Lấy hàm setUser từ store
@@ -47,6 +48,7 @@ function App() {
               <Route path='quiz/:topicName' element={<Quizz/>}/>
               <Route path='vocabquiz' element={<VocabHome/>}/>
               <Route path='flashcard/:topicName' element={<FlashCard/>}/>
+              <Route path='userscore' element={<UserScore/>}/>
           </Route>
           <Route path='register' element={<Register/>}/>
           <Route path='login' element={<Login/>}/>

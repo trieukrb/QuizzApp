@@ -8,7 +8,7 @@ import {Link, useParams} from 'react-router-dom'
 import useAuthStore from "../../stores/useAuthStore.js";
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebaseConfig';
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {addDoc, collection, getDocs, query, where} from "firebase/firestore";
 /**
  * Component Quizz: Chịu trách nhiệm hiển thị và quản lý toàn bộ logic của bài trắc nghiệm.
  */
@@ -60,7 +60,6 @@ const Quizz = () => {
                 }
                 const querySnapshot = await getDocs(q)
                 const fetchedQuestions = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
-                console.log(fetchedQuestions)
                 setQuestions(fetchedQuestions)
                 setSelectedAnswers(Array(fetchedQuestions.length).fill(undefined))
             }
@@ -163,7 +162,7 @@ const Quizz = () => {
     /**
      * Xử lý khi người dùng nộp bài. Tính điểm và hiển thị màn hình kết quả.
      */
-    const handlesubmit = () => {
+    const handlesubmit = async (e) => {
         let finalScore = 0;
         selectedAnswers.forEach((answerIndex, questionIndex) => {
             // lấy ra đáp án đúng trong db
@@ -177,6 +176,27 @@ const Quizz = () => {
         });
         setScore(finalScore);
         setIsSubmitted(true);
+        if (!user){
+            return
+        }
+        const now = new Date();
+        const scoreData = {
+            score: parseFloat(((finalScore/questions.length)*10).toFixed(1)),
+            day: now.getDate(),
+            month: now.getMonth(),
+            hours: now.getHours(),
+            minutes: now.getMinutes(),
+            topic: topicName,
+            userId: user.uid,
+            email: user.email
+        }
+        try {
+            await addDoc(collection(db, "score"), scoreData)
+        }
+        catch(err){
+            alert('Thêm điểm thất bại', err)
+        }
+
     };
 
     /**

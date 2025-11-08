@@ -37,7 +37,7 @@ export default function VocabHome() {
     }, [user]);
     return (
         <div className="flex justify-center items-center">
-            <div className="my-15 md:my-20 w-4/5 md:w-3/4 lg:w-8/10 border-2 border-p-400 p-5 bg-neutral-50 flex items-center flex-col rounded-2xl shadow-2xl gap-3">
+            <div className="my-15 md:my-20 w-4/5 sm:w-9/10 border-2 border-p-400 p-5 bg-neutral-50 flex items-center flex-col rounded-2xl shadow-2xl gap-3">
                 <h3 className="my-4 text-3xl font-medium">Toeic Topics</h3>
                 {loading ?
                     (<div class="flex-col gap-4 w-full flex items-center justify-center">
@@ -49,18 +49,18 @@ export default function VocabHome() {
                     </div>
                     )
                     :
-                    (<ul className="flex flex-wrap justify-center gap-5 py-4 ">
+                    (<ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 py-4 ">
                         {topics.map(topic =>
                             <li key={topic.id}
-                                className="px-2 py-4 w-60 sm:w-70 border-2 bg-p-100/50 border-p-500 rounded-lg shadow-lg hover:shadow-2xl transition delay-70 duration-300 ease-in-out hover:-translate-y-1 hover:scale-102">
-                               <div className="flex items-center text-lg justify-center h-20 p-2 text-n-700 font-bold ">
+                                className="px-2 py-4 border-2 bg-p-100/50 border-p-500 rounded-lg shadow-lg hover:shadow-2xl transition delay-70 duration-300 ease-in-out hover:-translate-y-1 hover:scale-102">
+                               <div className="flex items-center text-lg text-center text-wrap justify-center h-20 p-2 text-n-700 font-bold ">
                                    {topic.name}
                                </div>
                                <div className="flex gap-3 px-2 text-n-950">
-                                   <Link to={`/flashcard/${topic.path}`} className="bg-p-300/70 shadow-lg py-2 rounded-xl w-full text-center  cursor-pointer hover:bg-p-400">
+                                   <Link to={`/flashcard/${topic.path}`} className="bg-p-300/70 shadow-lg py-2 px-1 text-wrap rounded-xl w-full text-center  cursor-pointer hover:bg-p-400 flex items-center justify-center">
                                        Flash Card
                                    </Link>
-                                   <Link to={`/quiz/${topic.path}`} className="bg-p-300/70 py-2 shadow-lg rounded-xl w-full text-center cursor-pointer hover:bg-p-400">
+                                   <Link to={`/quiz/${topic.path}`} className="bg-p-300/70 py-2 px-1 shadow-lg rounded-xl w-full text-center cursor-pointer hover:bg-p-400 flex items-center justify-center">
                                        Quiz
                                    </Link>
                                </div>
@@ -71,3 +71,4 @@ export default function VocabHome() {
         </div>
     );
 }
+//w-60 sm:w-70

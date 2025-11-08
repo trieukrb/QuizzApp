@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
-import { auth } from '../firebaseConfig'; // Import `auth` từ file config
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from '../firebaseConfig'; // Import `auth` từ file config
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth';
+import { setDoc, doc } from 'firebase/firestore'; // 2. IMPORT HÀM CỦA FIRESTORE
 const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -15,11 +16,14 @@ const Register = () => {
         try {
             // Dùng hàm của Firebase để tạo user mới
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-            // Đăng ký thành công!
-            console.log('User đã được tạo:', userCredential.user);
-            // Chuyển người dùng đến trang đăng nhập
-            navigate('/login');
+            const user = userCredential.user;
+            await setDoc(doc(db, "users", user.uid), {
+                email: user.email,
+                role: "user",
+                uid: user.uid
+            });
+            await signInWithEmailAndPassword(auth, email, password);
+            navigate('/');
 
         } catch (err) {
             // Xử lý lỗi (ví dụ: email đã tồn tại, mật khẩu quá yếu)

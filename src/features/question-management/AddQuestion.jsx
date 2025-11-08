@@ -7,16 +7,7 @@ import HeaderAdd from "./component/HeaderAdd.jsx";
 import AddBody from "./component/AddBody.jsx";
 import FormDetail from "./component/FormDetail.jsx";
 import { db, auth } from '../../firebaseConfig'; // (Sửa lại đường dẫn nếu cần)
-import {
-    collection,
-    getDocs,
-    addDoc,
-    deleteDoc,
-    updateDoc,
-    doc,
-    query,
-    where
-} from "firebase/firestore";
+import {collection, getDocs, addDoc, deleteDoc, updateDoc, doc, query, where} from "firebase/firestore";
 import useAuthStore from '../../stores/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 
