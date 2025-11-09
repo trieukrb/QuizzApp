@@ -2,21 +2,20 @@
 import './App.css'
 import {Routes} from "react-router-dom";
 import Layout from "./components/Layout.jsx";
-import Quizz from "./features/quiz/Quizz.jsx";
-import Register from "./components/Register.jsx";
+import Quiz from "./features/quiz/Quiz.jsx";
+import Register from "./pages/Register.jsx";
 import {Route} from "react-router-dom";
-import AddQuestion from "./features/question-management/AddQuestion.jsx"
-import QuizzStart from "./features/quiz/QuizzStart.jsx";
-import Notice from "./components/Notice.jsx";
-import VocabHome from "./features/vocab/VocabHome.jsx";
-import FlashCard from "./features/flashCard/FlashCard.jsx";
-import Login from "./components/Login.jsx";
+import QuestionManagement from "./features/question-management/QuestionManagement.jsx"
+import QuizStart from "./features/quiz/QuizStart.jsx";
+import VocabHome from "./features/vocab-topics/VocabHome.jsx";
+import FlashCard from "./features/flash-card/FlashCard.jsx";
+import Login from "./pages/Login.jsx";
 import useAuthStore from "./stores/useAuthStore.js";
 import {useEffect} from "react";
 import { onAuthStateChanged } from 'firebase/auth';
 import {auth} from "./firebaseConfig.js";
-import Home from "./components/Home.jsx";
-import UserScore from "./features/userScore/UserScore.jsx"; // Import "người gác cổng"
+import Home from "./pages/Home.jsx";
+import UserScore from "./features/user-score/UserScore.jsx"; // Import "người gác cổng"
 
 function App() {
     // Lấy hàm setUser từ store
@@ -43,9 +42,9 @@ function App() {
       <Routes>
           <Route path='/' element={<Layout/>}>
               <Route index element={<Home/>} />
-              <Route path='addquestion' element={<AddQuestion/>}/>
-              <Route path='quiz-start' element={<QuizzStart/>}/>
-              <Route path='quiz/:topicName' element={<Quizz/>}/>
+              <Route path='addquestion' element={<QuestionManagement/>}/>
+              <Route path='quiz-start' element={<QuizStart/>}/>
+              <Route path='quiz/:topicName' element={<Quiz/>}/>
               <Route path='vocabquiz' element={<VocabHome/>}/>
               <Route path='flashcard/:topicName' element={<FlashCard/>}/>
               <Route path='userscore' element={<UserScore/>}/>

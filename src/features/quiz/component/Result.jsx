@@ -27,7 +27,7 @@ const Result = ({score, question, questions, correctarray,reset}) => {
                     <p>Your Score</p>
                 </div>
             </div>
-            <div className="h-90 overflow-scroll">
+            <div className="h-100 overflow-y-scroll">
                 {questions.map((quiz, numques)  => (
                     <div className={`p-3 rounded-xl mb-5 correct_question ${quiz.options[correctarray[numques]] === quiz.answer ? 'correct_question': 'incorrect_question'}`} key={numques} >
                         <div className='font-bold mb-3 text-center '>{quiz.question}</div>

@@ -43,6 +43,19 @@
 }
 @theme {
     --animate-typing: typing 3s steps(20) infinite alternate, blink .7s infinite;
+    --animate-float: float 5s ease-in-out infinite;
+    @keyframes float {
+        0% {
+            transform: translateY(0px); /* Vị trí ban đầu */
+        }
+        50% {
+            transform: translateY(-15px); /* Di chuyển lên 10px */
+
+        }
+        100% {
+            transform: translateY(0px); /* Trở về vị trí ban đầu */
+        }
+    }
     @keyframes typing {
         0% {
             width: 0;
@@ -66,17 +79,7 @@
         @apply font-roboto
     }
     body{
-        /*@apply bg-linear-to-t from-p-200/40 to-n-100*/
-        background-image: radial-gradient(rgba(73,73,73,0.2 ) 1px, transparent 2px);
-        background-size: 30px 30px;
-        background-color: #fff;
-
-        /*background-color: #ffffff;*/
-        /*background-size: 7px 7px;*/
-        /*background-image: repeating-linear-gradient(45deg, #aeecff 0, #aeecff 0.7000000000000001px, #ffffff 0, #ffffff 50%);*/
-        /*background-color: #f5f5f5;*/
-        /*background-size: 6px 6px;*/
-        /*background-image: repeating-linear-gradient(45deg, #00b8db 0, #00b8db 0.6000000000000001px, #f5f5f5 0, #f5f5f5 50%);*/
+        @apply bg-[url(/bgmm.jpg)] bg-cover bg-center
     }
 }
 

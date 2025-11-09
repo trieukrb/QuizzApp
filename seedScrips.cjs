@@ -11,13 +11,13 @@ const fs = require('fs');
 // (Hãy copy từ file firebaseConfig.js của bạn)
 // =================================================================
 const firebaseConfig = {
-    apiKey: "AIzaSyD-mwTo5O50RMTgBLbLwhrZIm9J5xrQyvc",
-    authDomain: "toeicpratice-21c20.firebaseapp.com",
-    projectId: "toeicpratice-21c20",
-    storageBucket: "toeicpratice-21c20.firebasestorage.app",
-    messagingSenderId: "496678654975",
-    appId: "1:496678654975:web:7a95686bae87ca0a270dca",
-    measurementId: "G-R190EZJ3W8"
+    apiKey: "",
+    authDomain: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: "",
+    measurementId: ""
 };
 
 // =l================================================================
