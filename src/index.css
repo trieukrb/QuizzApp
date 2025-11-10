@@ -79,7 +79,9 @@
         @apply font-roboto
     }
     body{
-        @apply bg-[url(/bgmm.jpg)] bg-cover bg-center
+        background-image: url('./assets/images/background_img/main_bg_img.jpg');
+        background-size: cover;
+        background-position: center;
     }
 }
 

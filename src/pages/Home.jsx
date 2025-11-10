@@ -2,9 +2,13 @@ import React, {useEffect, useState} from 'react';
 import book1 from '../assets/images/items_img/book1.png';
 import book2 from '../assets/images/items_img/book2.png';
 import book3 from '../assets/images/items_img/book3.png';
-import bg_img from '../assets/images/note.png'
 import kid_img from '../assets/images/kid.png'
 import girl_img from '../assets/images/items_img/girl.png'
+import main_bg from '../assets/images/background_img/main_bg_img.jpg'
+import main_book from '../assets/images/items_img/main_book_img.png'
+import main_pencil from '../assets/images/items_img/main_pencil_img.png'
+import main_check from '../assets/images/items_img/main_check_img.png'
+
 import {Link} from "react-router-dom";
 import useAuthStore from "../stores/useAuthStore.js";
 import * as path from "node:path";
@@ -29,17 +33,16 @@ const Home = () => {
         return () => clearInterval(timer);
     }, [activeIndex]); // Chạy lại effect này mỗi khi activeIndex thay đổi
     //bg-radial from-n-50/50 from-40% to-n-300/50
+
     return (<div className="z-0 relative w-full h-screen flex justify-center items-center font-playwrite">
         <div className="flex flex-col justify-center text-center">
             <div className="relative text-shadow-lg/10 text-n-800 text-6xl md:text-8xl lg:text-9xl">
                 <h1>The best place to</h1>
-                <div className="hidden lg:block w-70 h-70 absolute -top-40 -left-60 rotate-15">
-                    <img src={bg_img} alt=""/>
+                <div className="hidden animate-float lg:block w-70 h-70 absolute -top-40 -left-60 rotate-15">
+                    <img src={main_pencil} alt=""/>
                 </div>
-                <div className="hidden lg:block w-50 h-50 rounded-full shadow-xl/20 bg-purple-500/30 absolute animate-float -top-45 -right-30">
-                    <div className="relative w-45 h-45">
-                        <img className="absolute -top-25 left-2" src={kid_img} alt=""/>
-                    </div>
+                <div className="hidden lg:block w-60 h-60 rounded-full absolute animate-float -top-50 -right-30">
+                        <img className=" -top-25 left-2" src={main_book} alt=""/>
                 </div>
                 <div className="hidden lg:block absolute -top-30 right-120">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
@@ -50,18 +53,10 @@ const Home = () => {
 
                 </div>
             </div>
-            {/*<div className="flex justify-center">*/}
-            {/*    <div className="w-max">*/}
-            {/*        <h1 className="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-p-400 pr-5 text-8xl text-p-400">*/}
-            {/*            all in one*/}
-            {/*        </h1>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
             <h1 className="text-5xl md:text-7xl lg:text-8xl mt-10 text-shadow-sm text-n-800"><span
                 className=" text-shadow-sm text-pink-300 font-caveat ">Learn</span> and <span
                 className="text-shadow-sm text-amber-300 font-caveat ">Practice</span></h1>
-            <p className="mt-5 font-medium text-sm  md:text-lg text-shadow-2xs text-n-500">The latest learning methods to help you
-                remember longer</p>
+            <p className="mt-5 font-medium text-sm  md:text-lg text-shadow-2xs text-n-500">Tquizlet is a website designed to learn vocabulary for the TOEIC exam.</p>
             <div className="relative mt-10">
                 <Link to='/vocabquiz'
                       className="group relative inline-flex items-center justify-center px-8 py-3 text-lg font-bold text-white transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95">
@@ -99,7 +94,7 @@ const Home = () => {
                                 className="absolute bottom-0 left-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                         </span>
                 </Link>
-                <div className="animate-float hidden lg:block absolute w-65 h-65 bg-n-700/10 backdrop-blur-sm shadow-xl/20 rounded-full -bottom-50 -right-10 rotate-10">
+                <div className="animate-float hidden lg:block absolute w-55 h-55 rounded-full -bottom-30 -right-10 rotate-10">
                     <div className="relative w-full h-full overflow-hidden">
                         {images.map((imgSrc, index) => (<img
                             key={imgSrc}
@@ -112,9 +107,9 @@ const Home = () => {
                         />))}
                     </div>
                 </div>
-                <div className="hidden lg:block absolute bg-purple-400/20 backdrop-blur-sm animate-float shadow-xl rounded-full w-80 h-80 -top-20 -left-20">
+                <div className="hidden lg:block absolute animate-float rounded-full w-60 h-60 -top-20 -left-20 -rotate-10">
                     <div className="relative">
-                        <img className="absolute" src={girl_img} alt=""/>
+                        <img className="absolute" src={main_check} alt=""/>
                     </div>
                 </div>
                 <div className="hidden lg:block absolute top-30 left-80 animate-spins">

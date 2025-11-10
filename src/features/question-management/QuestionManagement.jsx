@@ -325,6 +325,7 @@ import {
 } from "firebase/firestore";
 import useAuthStore from '../../stores/useAuthStore';
 import { useNavigate } from 'react-router-dom';
+import Loading from "../../components/Loading.jsx";
 
 const QuestionManagement = () => {
     const { user } = useAuthStore(); // Lấy user đang đăng nhập
@@ -558,7 +559,7 @@ const QuestionManagement = () => {
             <div className='h-full flex flex-col gap-10 justify-center items-center'>
                 <div className="w-8/10 md:w-8/10 p-5 lg:max-w-230 border-2 border-p-400 bg-neutral-50 mt-10 flex flex-col rounded-2xl shadow-lg gap-3 ">
                     {loading ?
-                        (<h1 className="text-center">Đang tải câu hỏi... ⏳</h1>)
+                        (<Loading/>)
                         :
                         (<>
                             <HeaderAdd

@@ -60,7 +60,7 @@ const QuizStart = () => {
                     <div className="w-9/10 md:w-4/5 lg:w-3/5 p-8 border-2 border-p-400 bg-neutral-50 flex items-center flex-col rounded-2xl shadow-2xl gap-3">
                         <div className="flex flex-col items-center text-center">
                             <h1 className="text-3xl font-bold text-n-800">Custom quiz and flash card</h1>
-                            <p className="text-n-500">Make this quiz make you more smart</p>
+                            <p className="text-n-500">Have fun with your custom topic</p>
                         </div>
                     <div className="flex gap-5 w-full">
                         <div className="flex flex-col gap-3 w-full">

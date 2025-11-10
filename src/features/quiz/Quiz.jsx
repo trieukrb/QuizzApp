@@ -278,10 +278,7 @@ const Quiz = () => {
                             selectedOptionIndex={selectedOptionIndex}
                             handleAnswer={handleAnswer}
                         />
-                        <p className="pl-2 text-sm text-neutral-400 cursor-default">Press 1, 2, 3, 4, arrow or enter
-                            to
-                            chose
-                            and next</p>
+                        <p className="pl-2 text-sm text-neutral-400 cursor-default">Press 1, 2, 3, 4, arrow or enter to choose and next</p>
                         {/* Component hiển thị các nút điều hướng (Trước, Sau, Nộp bài) */}
                         <Navigation
                             onPrev={onPrev}

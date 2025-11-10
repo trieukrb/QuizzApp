@@ -6,7 +6,7 @@ const FormDetail = ({showfalse, handlestopPropagation, DetailData}) => {
         <div className="fixed top-0 right-0 left-0 bottom-0 bg-neutral-500/30 flex justify-center items-center" onClick={showfalse}>
             <div className="bg-neutral-100 p-5 rounded-xl  shadow-xl sm:min-w-100 md:min-w-120 lg:min-w-150 " onClick={handlestopPropagation}>
                 <div className='flex justify-between font-bold text-lg mb-2'>
-                    <h1 className=''>Detail Question</h1>
+                    <h1 className=''>Question Details</h1>
                     <div className="cursor-pointer" onClick={showfalse}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />

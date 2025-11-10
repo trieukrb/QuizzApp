@@ -21,7 +21,7 @@ export default function VocabHome() {
                     if (topic.isPublic) {
                         return true;
                     }
-                    return user != null;
+                    // return user != null;
                 });
                 setTopics(allowedTopics);
             } catch (err) {

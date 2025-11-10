@@ -20,7 +20,6 @@ const FlashCard = () => {
     const [currentVocabIndex, setCurrentVocabIndex] = useState(0);
     const audioRef = useRef(null);
     const timeoutRef = useRef(null);
-
     useEffect(() => {
         const fetchQuestions = async () => {
             setLoading(true);
