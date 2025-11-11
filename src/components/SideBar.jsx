@@ -156,6 +156,7 @@ const SideBar = () => {
                             </svg>
                         </div>
                     </div>)}
+                {/*{user && user.role === 'admin' ? (<p className="px-4 text-red-400 font-medium text-sm">Quyen admin</p>):''}*/}
                 {!user ? (<p className="px-4 text-red-400 font-medium text-sm">Log in to use all features!</p>):''}
             </div>
             <div className="px-4 py-2 mb-2">

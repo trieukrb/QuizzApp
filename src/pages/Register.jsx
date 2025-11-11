@@ -3,7 +3,10 @@ import {Link, useNavigate} from "react-router-dom";
 import { auth, db } from '../firebaseConfig.js'; // Import `auth` từ file config
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from 'firebase/auth';
 import { setDoc, doc, getDoc } from 'firebase/firestore';
-import Loading from "../components/Loading.jsx"; // 2. IMPORT HÀM CỦA FIRESTORE
+import Loading from "../components/Loading.jsx";
+import auth_img from '../assets/images/background_img/auth_bg_img.jpg'
+import rocket_img from '../assets/images/items_img/auth_rocket_img.png'
+import astron_img from '../assets/images/items_img/auth_astron_img.png'
 const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -73,12 +76,13 @@ const Register = () => {
         }
     };
     return (
-        <div className="w-screen h-screen bg-[url(/auth_bg.jpg)] bg-cover bg-center flex justify-center items-center">
+        <div className="w-screen h-screen bg-cover bg-center flex justify-center items-center"
+             style={{backgroundImage: `url(${auth_img})`}}>
             <div className=" flex flex-col items-center">
                 <div className="relative py-3 sm:max-w-xl sm:mx-auto">
                     <div className="shadow-2xl relative px-4 py-10 bg-white mx-8 md:mx-0 rounded-3xl sm:p-10">
-                        <div className="z-20 absolute w-80 h-80 -top-40 -left-60 rotate-40 animate-float bg-cover bg-center bg-[url(/rocket.png)]"></div>
-                        <div className="z-20 absolute w-80 h-80 top-20 -right-55 -rotate-40 animate-float bg-cover bg-center bg-[url(/astron.png)]"></div>
+                        <div className="z-20 absolute w-80 h-80 -top-40 -left-60 rotate-40 animate-float bg-cover bg-center" style={{backgroundImage:`url(${rocket_img})`}}></div>
+                        <div className="z-20 absolute w-80 h-80 top-20 -right-55 -rotate-40 animate-float bg-cover bg-center" style={{backgroundImage:`url(${astron_img})`}}></div>
                         {loading ?
                             (<Loading/>)
                             :
