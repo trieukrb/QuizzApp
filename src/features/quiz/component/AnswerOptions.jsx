@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import hoverSound from '../../../assets/sound/sharp-pop-328170.mp3'; // <-- THÊM DÒNG NÀY
+import hoverSound from '../../../assets/sound/sharp-pop-328170.mp3';
 
 const AnswerOptions = ({options,handleAnswer, selectedOptionIndex}) => {
     const audioRef = useRef(null);

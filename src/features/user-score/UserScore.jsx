@@ -11,7 +11,6 @@ const UserScore = () => {
     const navigate = useNavigate()
     const [scoreData, setScoreData] = useState([])
     const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
 
     useEffect(() => {
         const fetchScores = async () => {
@@ -36,7 +35,6 @@ const UserScore = () => {
             }
             catch (err){
                 console.log("Không tải được điểm", err)
-                setError("Could not load scores.");
             }
             finally {
                 setLoading(false)

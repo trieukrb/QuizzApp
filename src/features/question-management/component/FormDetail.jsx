@@ -1,10 +1,9 @@
 import React from 'react';
-import question from "../../quiz/component/Question.jsx";
 
 const FormDetail = ({showfalse, handlestopPropagation, DetailData}) => {
     return (
         <div className="fixed top-0 right-0 left-0 bottom-0 bg-neutral-500/30 flex justify-center items-center" onClick={showfalse}>
-            <div className="bg-n-50 p-5 rounded-xl  shadow-xl sm:min-w-100 md:min-w-120 lg:min-w-150 " onClick={handlestopPropagation}>
+            <div className="bg-n-50 p-5 rounded-xl  shadow-xl min-w-9/10 sm:min-w-100 md:min-w-120 lg:min-w-150  " onClick={handlestopPropagation}>
                 <div className='flex justify-between font-bold text-lg mb-2'>
                     <h1 className=''>Question Details</h1>
                     <div className="cursor-pointer" onClick={showfalse}>

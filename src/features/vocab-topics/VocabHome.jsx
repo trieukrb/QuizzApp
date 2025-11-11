@@ -4,7 +4,6 @@ import { collection, getDocs } from "firebase/firestore";
 import useAuthStore from "../../stores/useAuthStore.js";
 import Loading from "../../components/Loading.jsx";
 import TopicList from "./components/TopicList.jsx";
-import Error from "../../components/Error.jsx";
 
 export default function VocabHome() {
     const [topics, setTopics] = useState([]);

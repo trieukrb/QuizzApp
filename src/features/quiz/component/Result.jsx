@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Link, NavLink} from "react-router-dom";
+import React from 'react';
+import {Link} from "react-router-dom";
 const Result = ({score, question, questions, correctarray,reset}) => {
   return (
      <div className='h-full flex flex-col gap-10 justify-start items-center'>

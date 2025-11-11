@@ -93,7 +93,7 @@ const Home = () => {
                                 className="absolute bottom-0 left-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                         </span>
                 </Link>
-                <div className="animate-float hidden lg:block absolute w-55 h-55 rounded-full -bottom-30 -right-10 rotate-10">
+                <div className="animate-float hidden xl:block absolute w-55 h-55 rounded-full -bottom-30 -right-10 rotate-10">
                     <div className="relative w-full h-full overflow-hidden">
                         {images.map((imgSrc, index) => (<img
                             key={imgSrc}

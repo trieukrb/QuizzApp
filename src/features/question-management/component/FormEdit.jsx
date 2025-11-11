@@ -10,7 +10,7 @@ const FormEdit = ({showfalse,
                 }) => {
     return (
         <div className='fixed top-0 right-0 left-0 bottom-0 bg-neutral-500/30 flex justify-center items-center' onClick={showfalse}>
-            <form action="" className="bg-n-50 p-5 rounded-xl  shadow-xl sm:min-w-100 md:min-w-120 lg:min-w-150 " onSubmit={handleSubmitEditForm} onClick={handlestopPropagation}>
+            <form action="" className="bg-n-50 p-5 rounded-xl  shadow-xl min-w-9/10 sm:min-w-100 md:min-w-120 lg:min-w-150 " onSubmit={handleSubmitEditForm} onClick={handlestopPropagation}>
                 <div className='flex justify-between font-bold text-lg pb-1 mb-2 border-b-2 border-solid border-neutral-200'>
                     <h1 className='edit-header-title'>Edit question</h1>
                     <div className="cursor-pointer" onClick={showfalse}>

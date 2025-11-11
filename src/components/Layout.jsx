@@ -30,7 +30,7 @@ const Layout = () => {
                     <SideBar/>
                 </div>
                 <div className={`${baseClass} ${dynamicClass}`}>
-                    {/*Show side bar in large screen*/}
+                    {/*Show sidebar in large screen*/}
                     <button className={`fixed hidden md:block z-10 ${widthside === 1 ? ('top-3 left-4') : ('top-3 left-80')}`}
                             onClick={handleHideSideBar}>
                         <div className="text-n-700 bg-n-100 transition duration-300 hover:scale-105 hover:bg-p-100  border-2 border-p-500 p-1 rounded-md cursor-pointer">
@@ -39,7 +39,7 @@ const Layout = () => {
                             </svg>
                         </div>
                     </button>
-                    {/*Show side bar in small screen*/}
+                    {/*Show sidebar in small screen*/}
                     <button className={`${isShowSidebar ? 'hidden' : 'fixed top-3 left-4 z-10 block md:hidden'}`}
                             onClick={handleShowSideBar}>
                         <div className="text-n-700 bg-n-100 border-2 border-p-500 p-1 rounded-md cursor-pointer">

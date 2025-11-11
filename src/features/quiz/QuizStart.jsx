@@ -4,8 +4,8 @@ import {collection, getDocs, query, where} from "firebase/firestore";
 import {db} from "../../firebaseConfig.js";
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from "../../stores/useAuthStore.js";
-import Login from "../../pages/Login.jsx";
 import Loading from "../../components/Loading.jsx";
+import Error from "../../components/Error.jsx";
 
 const QuizStart = () => {
     const [quesionData, setQuesionData] = useState([])
@@ -32,6 +32,7 @@ const QuizStart = () => {
             }
             catch (err){
                 console.log(err)
+                setError(true)
             }
             finally {
                 setLoading(false);
@@ -39,18 +40,10 @@ const QuizStart = () => {
         }
         fetchQuestions()
     },[user,navigate])
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try{
-    //             const res = await axios.get("http://localhost:3000/custom")
-    //             setQuesionData(res.data)
-    //         }
-    //         catch (err){
-    //             console.log("Lỗi mạng", err)
-    //         }
-    //     }
-    //     fetchData()
-    // }, []);
+
+    if (error){
+        return (<Error/>)
+    }
     return (
         <div className="h-full flex justify-center items-center" >
             {loading ?

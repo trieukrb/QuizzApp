@@ -3,13 +3,13 @@ import Result from "./component/Result.jsx";
 import Navigation from "./component/Navigation.jsx";
 import Question from "./component/Question.jsx";
 import AnswerOptions from "./component/AnswerOptions.jsx";
-import axios from "axios";
 import {Link, useParams} from 'react-router-dom'
 import useAuthStore from "../../stores/useAuthStore.js";
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebaseConfig';
 import {addDoc, collection, getDocs, query, where} from "firebase/firestore";
 import Loading from "../../components/Loading.jsx";
+import Error from "../../components/Error.jsx";
 /**
  * Component Quiz: Chịu trách nhiệm hiển thị và quản lý toàn bộ logic của bài trắc nghiệm.
  */
@@ -19,6 +19,7 @@ const Quiz = () => {
     const {topicName} = useParams()
     const { user } = useAuthStore(); // Lấy user từ store
     const navigate = useNavigate();
+    const [topics, setTopics] = useState()
     // `questions`: Lưu trữ danh sách các câu hỏi lấy từ API.
     const [questions, setQuestions] = useState([]);
     // `loading`: Cờ xác định trạng thái tải dữ liệu (true khi đang tải).
@@ -39,6 +40,30 @@ const Quiz = () => {
      * `useEffect` để lấy dữ liệu câu hỏi từ API khi component được mount.
      * Dữ liệu sau khi lấy về sẽ được xử lý (decode HTML entities, trộn đáp án) và cập nhật vào state.
      */
+    useEffect(() => {
+        const fetchTopics = async () => {
+            setLoading(true);
+            try {
+                const querySnapshot = await getDocs(collection(db, "topics"));
+                const topicslist = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                const allowedTopics = topicslist.filter(topic => {
+                    if (topic.isPublic) {
+                        return true;
+                    }
+                    return user != null
+                });
+                setTopics(allowedTopics);
+            } catch (err) {
+                console.log("loi khi tai du lieu", err);
+                setError(true)
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchTopics();
+    }, [user]);
+
     useEffect(() => {
         const fetchQuestions = async () => {
             setLoading(true)
@@ -73,30 +98,7 @@ const Quiz = () => {
         }
         fetchQuestions()
     },[topicName, user, navigate])
-    // useEffect(() => {
-    //     const fetchQuestions = async () => {
-    //         try{
-    //             const res = await axios.get(`http://localhost:3000/${topicName}`)
-    //             const questionData = res.data;
-    //             // Trộn ngẫu nhiên các phương án trả lời.
-    //             // formattedQuestions.forEach(q => q.options.sort(() => Math.random() - 0.5));
-    //
-    //             // Cập nhật state sau khi xử lý dữ liệu thành công.
-    //             setQuestions(questionData);
-    //             setSelectedAnswers(Array(questionData.length).fill(undefined));
-    //
-    //         }
-    //         catch(err){
-    //             setError("Không thể tải được câu hỏi, vui lòng thử lại.");
-    //             console.error("Lỗi khi gọi API:", err);
-    //
-    //         } finally {
-    //             // Tắt trạng thái loading sau khi hoàn tất (thành công hoặc thất bại).
-    //             setLoading(false);
-    //         }
-    //     }
-    //     fetchQuestions()
-    // }, []);
+
 
     /**
      * `useEffect` để lắng nghe sự kiện bàn phím cho việc điều hướng và chọn đáp án.
@@ -180,14 +182,19 @@ const Quiz = () => {
         if (!user){
             return
         }
+
         const now = new Date();
+
+        const pathList = topics.map(topic  => topic.path)
+        const indexTopics = pathList.indexOf(topicName)
+
         const scoreData = {
             score: parseFloat(((finalScore/questions.length)*10).toFixed(1)),
             day: now.getDate(),
             month: now.getMonth(),
             hours: now.getHours(),
             minutes: now.getMinutes(),
-            topic: topicName,
+            topic: topics[indexTopics].name,
             userId: user.uid,
             email: user.email
         }
@@ -195,7 +202,7 @@ const Quiz = () => {
             await addDoc(collection(db, "score"), scoreData)
         }
         catch(err){
-            alert('Thêm điểm thất bại', err)
+            setError(true)
         }
 
     };
@@ -232,16 +239,13 @@ const Quiz = () => {
                     </div>
                 </div>);
     }
-    // if (questions.length === 0){
-    //     return (
-    //         <div>
-    //             <h1>chu de nay chua co cau hoi nao</h1>
-    //             <Link to='/addquestion' className="bg-p-200" >Them cau hoi</Link>
-    //             <Link to='/vocabquiz' className="bg-p-200" >Ve chu de topic</Link>
-    //         </div>
-    //
-    //     )
-    // }
+    if (error) {
+        return (<div className="h-full flex flex-col gap-10 justify-start items-center">
+            <div className="my-15 md:my-20 w-4/5 md:w-3/4 lg:w-8/10 lg:max-w-6xl  p-5 bg-neutral-50 flex items-center flex-col rounded-2xl shadow-2xl gap-3 relative">
+                <Error/>
+            </div>
+        </div>);
+    }
 
     // --- MAIN RENDER --- //
     const currentQuestion = questions[quenstionnum];
@@ -249,13 +253,15 @@ const Quiz = () => {
     const precentageQuestions = ((quenstionnum+1) / questions.length) * 100
     return (
         <div className="h-full flex flex-col gap-10 justify-start items-center">
-            <div className="w-5/6 md:w-4/6 border-2 border-p-400 p-5 bg-neutral-50 mt-35 flex flex-col rounded-2xl shadow-lg gap-3">
+            <div
+                className="w-5/6 md:w-4/6 border-2 border-p-400 p-5 bg-neutral-50 mt-35 flex flex-col rounded-2xl shadow-lg gap-3">
                 <div className="flex justify-between gap-3">
                     <p className="font-medium">Question {quenstionnum} of {questions.length}</p>
                     <p>{Math.floor(precentageQuestions)}%</p>
                 </div>
                 <div className="w-full h-2 bg-neutral-300 rounded-lg">
-                    <div className="bg-linear-to-r from-fuchsia-400 to-sky-400 h-full rounded-lg" style={{width: `${precentageQuestions}%`}}></div>
+                    <div className="bg-linear-to-r from-fuchsia-400 to-sky-400 h-full rounded-lg"
+                         style={{width: `${precentageQuestions}%`}}></div>
                 </div>
             </div>
             <div
@@ -278,7 +284,8 @@ const Quiz = () => {
                             selectedOptionIndex={selectedOptionIndex}
                             handleAnswer={handleAnswer}
                         />
-                        <p className="pl-2 text-sm text-neutral-400 cursor-default">Press 1, 2, 3, 4, arrow or enter to choose and next</p>
+                        <p className="pl-2 text-sm text-neutral-400 cursor-default">Press 1, 2, 3, 4, arrow or enter to
+                            choose and next</p>
                         {/* Component hiển thị các nút điều hướng (Trước, Sau, Nộp bài) */}
                         <Navigation
                             onPrev={onPrev}
@@ -294,9 +301,6 @@ const Quiz = () => {
                     )
                 }
             </div>
-
-
-
         </div>
     );
 };

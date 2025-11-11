@@ -8,6 +8,7 @@ import hoverSound from "../../assets/sound/flipcard-91468.mp3";
 import ProgressBar from "./components/ProgressBar.jsx";
 import Card from "./components/Card.jsx";
 import CardNavigation from "./components/CardNavigation.jsx";
+import Error from "../../components/Error.jsx";
 
 const FlashCard = () => {
     const { topicName } = useParams();
@@ -28,7 +29,6 @@ const FlashCard = () => {
                 let q;
                 if (topicName === 'user_questions') {
                     if (!user) {
-                        alert("Bạn cần đăng nhập để xem chủ đề này");
                         navigate('/login');
                         return;
                     }
@@ -41,7 +41,7 @@ const FlashCard = () => {
                 setVocabs(fetchedQuestions);
             } catch (err) {
                 console.log(err);
-                setError("Could not fetch questions.");
+                setError(true);
             } finally {
                 setLoading(false);
             }
@@ -66,7 +66,7 @@ const FlashCard = () => {
         if (audioRef.current) {
             audioRef.current.currentTime = 0;
             audioRef.current.play().catch(error => {
-                console.error("Lỗi phát âm thanh:", error);
+                console.error("Error sound", error);
             });
         }
     };
@@ -98,7 +98,15 @@ const FlashCard = () => {
             </div>
         );
     }
-
+    if (error) {
+        return (
+            <div className="flex justify-center items-center">
+                <div className="my-15 md:my-20 w-4/5 md:w-3/4 lg:w-8/10 lg:max-w-6xl p-5 bg-neutral-50 flex items-center flex-col rounded-2xl shadow-2xl gap-3 relative">
+                    <Error/>
+                </div>
+            </div>
+        );
+    }
     return (
         <div className="flex justify-center items-center">
             <div className="my-15 md:my-20 w-4/5 md:w-3/4 lg:w-8/10 lg:max-w-6xl p-5 bg-neutral-50 flex items-center flex-col rounded-2xl shadow-2xl gap-3 relative">
@@ -108,7 +116,7 @@ const FlashCard = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                 </Link>
-                <h3 className="my-4 text-xl font-bold">Toeic Vocabulary</h3>
+                <h3 className="my-4 text-xl font-bold">Topic {topicName}</h3>
                 <ProgressBar current={currentVocabIndex + 1} total={vocabs.length} />
                 
                 {vocabs.length > 0 ? (
