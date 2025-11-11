@@ -1,16 +1,26 @@
 import React, {useState} from 'react';
-import { Outlet } from "react-router-dom";
+import {Outlet, useLocation} from "react-router-dom";
 import SideBar from "./SideBar.jsx";
 
 const Layout = () => {
     const [widthside, setWidthside] = useState(300)
     const [isShowSidebar, setIsShowSidebar] = useState(false)
+    const location = useLocation();
+    const currentPath = location.pathname;
+    const baseClass = "flex-1 h-screen flex flex-col relative";
+    let dynamicClass = "";
+    if (currentPath === '/') {
+        dynamicClass = "overflow-visible";
+    } else  {
+        dynamicClass = "overflow-y-auto";
+    }
     const handleHideSideBar = () => {
         setWidthside(prev => prev === 1 ? 300 : 1 )
     }
     const handleShowSideBar = () => {
         setIsShowSidebar(!isShowSidebar)
     }
+
     return (
         <>
             <div className="flex  bg-radial from-n-500/10 to-n-100/10  h-screen overflow-hidden">
@@ -19,7 +29,7 @@ const Layout = () => {
                     {/*Home*/}
                     <SideBar/>
                 </div>
-                <div className="flex-1 h-screen flex flex-col relative overflow-y-scroll">
+                <div className={`${baseClass} ${dynamicClass}`}>
                     {/*Show side bar in large screen*/}
                     <button className={`fixed hidden md:block z-10 ${widthside === 1 ? ('top-3 left-4') : ('top-3 left-80')}`}
                             onClick={handleHideSideBar}>

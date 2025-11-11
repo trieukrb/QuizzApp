@@ -34,31 +34,30 @@ const Home = () => {
     }, [activeIndex]); // Chạy lại effect này mỗi khi activeIndex thay đổi
     //bg-radial from-n-50/50 from-40% to-n-300/50
 
-    return (<div className="z-0 relative w-full h-screen flex justify-center items-center font-playwrite">
+    return (<div className="z-0 relative w-full h-screen bg-radial from-n-950/10 flex justify-center items-center font-playwrite">
         <div className="flex flex-col justify-center text-center">
-            <div className="relative text-shadow-lg/10 text-n-800 text-6xl md:text-8xl lg:text-9xl">
+            <div className="relative text-shadow-lg/10 text-n-50 text-6xl md:text-8xl lg:text-9xl">
                 <h1>The best place to</h1>
-                <div className="hidden animate-float lg:block w-70 h-70 absolute -top-40 -left-60 rotate-15">
+                <div className="hidden animate-float lg:block w-60 h-60 absolute -top-55 -left-35 rotate-15">
                     <img src={main_pencil} alt=""/>
                 </div>
                 <div className="hidden lg:block w-60 h-60 rounded-full absolute animate-float -top-50 -right-30">
                         <img className=" -top-25 left-2" src={main_book} alt=""/>
                 </div>
-                <div className="hidden lg:block absolute -top-30 right-120">
+                <div className="animate-flzoom hidden lg:block absolute -top-30 right-120">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                          stroke="currentColor" className="size-22 text-purple-400">
                         <path strokeLinecap="round" strokeLinejoin="round"
                               d="M15.042 21.672 13.684 16.6m0 0-2.51 2.225.569-9.47 5.227 7.917-3.286-.672Zm-7.518-.267A8.25 8.25 0 1 1 20.25 10.5M8.288 14.212A5.25 5.25 0 1 1 17.25 10.5"/>
                     </svg>
-
                 </div>
             </div>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl mt-10 text-shadow-sm text-n-800"><span
+            <h1 className="text-5xl md:text-7xl lg:text-8xl mt-10 text-shadow-lg/10 text-n-50"><span
                 className=" text-shadow-sm text-pink-300 font-caveat ">Learn</span> and <span
                 className="text-shadow-sm text-amber-300 font-caveat ">Practice</span></h1>
-            <p className="mt-5 font-medium text-sm  md:text-lg text-shadow-2xs text-n-500">Tquizlet is a website designed to learn vocabulary for the TOEIC exam.</p>
+            <p className="mt-5 font-medium text-sm  md:text-lg text-shadow-lg/10 text-n-50">Tquizlet is a website designed to learn vocabulary for the TOEIC exam.</p>
             <div className="relative mt-10">
-                <Link to='/vocabquiz'
+                <Link to='/vocab-quiz'
                       className="group relative inline-flex items-center justify-center px-8 py-3 text-lg font-bold text-white transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95">
                     <div
                         className="absolute inset-0 bg-gradient-to-l from-indigo-400 to-cyan-400 rounded-full transition-all duration-300 group-hover:scale-110 animate-gradient"></div>

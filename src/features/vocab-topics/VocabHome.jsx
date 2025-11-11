@@ -4,6 +4,7 @@ import { collection, getDocs } from "firebase/firestore";
 import useAuthStore from "../../stores/useAuthStore.js";
 import Loading from "../../components/Loading.jsx";
 import TopicList from "./components/TopicList.jsx";
+import Error from "../../components/Error.jsx";
 
 export default function VocabHome() {
     const [topics, setTopics] = useState([]);
@@ -36,7 +37,7 @@ export default function VocabHome() {
     return (
         <div className="flex justify-center items-center">
             <div className="my-15 md:my-20 w-4/5 sm:w-9/10 border-1 border-p-200/60 p-5 bg-neutral-100/20 backdrop-blur-md flex items-center flex-col rounded-2xl shadow-2xl gap-3">
-                <h3 className="my-4 text-4xl textn-800 text-shadow-sm font-bold">Toeic Topics</h3>
+                {/*<h3 className="my-4 text-4xl text-shadow-lg font-bold text-n-100">Vocabulary Topics</h3>*/}
                 {loading ? <Loading /> : <TopicList topics={topics} />}
             </div>
         </div>

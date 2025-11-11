@@ -260,7 +260,7 @@ const Quiz = () => {
             </div>
             <div
                 className="w-5/6 md:w-4/6 p-5 border-2 border-p-400 bg-neutral-50 flex flex-col rounded-2xl shadow-2xl gap-3 relative">
-                <Link to={`${topicName === 'user_questions' ? '/quiz-start' : '/vocabquiz'}`}
+                <Link to={`${topicName === 'user_questions' ? '/quiz-start' : '/vocab-quiz'}`}
                       className="absolute left-5 top-3 px-3 py-1 border-2 cursor-pointer border-p-500 transition duration-300 hover:bg-p-200 rounded-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                          stroke="currentColor" className="size-6">

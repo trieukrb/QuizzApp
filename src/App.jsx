@@ -55,12 +55,12 @@ function App() {
       <Routes>
           <Route path='/' element={<Layout/>}>
               <Route index element={<Home/>} />
-              <Route path='addquestion' element={<QuestionManagement/>}/>
+              <Route path='question-management' element={<QuestionManagement/>}/>
               <Route path='quiz-start' element={<QuizStart/>}/>
               <Route path='quiz/:topicName' element={<Quiz/>}/>
-              <Route path='vocabquiz' element={<VocabHome/>}/>
-              <Route path='flashcard/:topicName' element={<FlashCard/>}/>
-              <Route path='userscore' element={<UserScore/>}/>
+              <Route path='vocab-quiz' element={<VocabHome/>}/>
+              <Route path='flash-card/:topicName' element={<FlashCard/>}/>
+              <Route path='user-score' element={<UserScore/>}/>
           </Route>
           <Route path='register' element={<Register/>}/>
           <Route path='login' element={<Login/>}/>

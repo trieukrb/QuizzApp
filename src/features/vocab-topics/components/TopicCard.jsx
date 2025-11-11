@@ -8,7 +8,7 @@ const TopicCard = ({ topic }) => {
                 {topic.name}
             </div>
             <div className="flex gap-3 px-2 text-n-950">
-                <Link to={`/flashcard/${topic.path}`} className="bg-p-300/70 shadow-lg py-2 px-1 text-wrap rounded-xl w-full text-center  cursor-pointer hover:bg-p-400 flex items-center justify-center">
+                <Link to={`/flash-card/${topic.path}`} className="bg-p-300/70 shadow-lg py-2 px-1 text-wrap rounded-xl w-full text-center  cursor-pointer hover:bg-p-400 flex items-center justify-center">
                     Flash Card
                 </Link>
                 <Link to={`/quiz/${topic.path}`} className="bg-p-300/70 py-2 px-1 shadow-lg rounded-xl w-full text-center cursor-pointer hover:bg-p-400 flex items-center justify-center">

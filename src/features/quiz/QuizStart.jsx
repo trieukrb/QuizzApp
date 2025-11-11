@@ -54,7 +54,9 @@ const QuizStart = () => {
     return (
         <div className="h-full flex justify-center items-center" >
             {loading ?
-                (<Loading/>)
+                (<div className="w-9/10 md:w-4/5 lg:w-3/5 p-8 border-2 border-p-400 bg-neutral-50 flex items-center flex-col rounded-2xl shadow-2xl gap-3">
+                    <Loading/>
+                </div>)
                 :
                 (
                     <div className="w-9/10 md:w-4/5 lg:w-3/5 p-8 border-2 border-p-400 bg-neutral-50 flex items-center flex-col rounded-2xl shadow-2xl gap-3">
@@ -74,7 +76,7 @@ const QuizStart = () => {
                                 <span className="text-p-500 font-bold text-2xl text-center">{quesionData.length}</span>
                                 <div className="text-lg sm:text-xl font-medium">Flash Card</div>
                             </div>
-                            <Link to="/flashcard/user_questions" className="">
+                            <Link to="/flash-card/user_questions" className="">
                                 <div className="flex items-center justify-center gap-3 w-full bg-linear-to-r from-blue-500 to-violet-500 transition duration-500 hover:scale-105 hover:opacity-60 px-6 py-2 rounded-xl text-neutral-50 cursor-pointer">
                                     <p className="text-xl font-medium text-center">Start !</p>
                                 </div>

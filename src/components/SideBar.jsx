@@ -40,7 +40,7 @@ const SideBar = () => {
                             </svg>
                         </div>)}
                 </NavLink>
-                <NavLink to="/vocabquiz">
+                <NavLink to="/vocab-quiz">
                     {({isActive}) => (
                         <div className={`nav-item ${isActive ? 'bg-p-100/70 border-1 border-solid border-p-500 ' : 'hover:bg-n-300/30 hover:shadow-lg transition delay-70 duration-300 ease-in-out hover:-translate-y-1 hover:scale-102'}`}>
                             <div className="w-9 h-9 sm:w-10 sm:h-10 p-2 bg-p-100 border-solid border-1 shadow-md/30 border-p-400 rounded-full overflow-hidden cursor-pointer">
@@ -55,7 +55,7 @@ const SideBar = () => {
                         </div>)}
                 </NavLink>
                 {user ?
-                    <NavLink to="/addquestion">
+                    <NavLink to="/question-management">
                         {({isActive}) => (
                             <div
                                 className={`nav-item ${isActive ? 'bg-p-100/70 border-1 border-solid border-p-400' : 'hover:bg-n-300/30 hover:shadow-lg transition delay-70 duration-300 ease-in-out hover:-translate-y-1 hover:scale-102 '}`}>
@@ -123,7 +123,7 @@ const SideBar = () => {
                         </div>
                     </div>)}
                 {user ?
-                    <NavLink to="/userscore">
+                    <NavLink to="/user-score">
                         {({isActive}) => (
                             <div
                                 className={`nav-item ${isActive ? 'bg-p-100/70 border-1 border-solid border-p-500' : 'hover:bg-n-300/30 hover:shadow-lg transition delay-70 duration-300 ease-in-out hover:-translate-y-1 hover:scale-102 '}`}>

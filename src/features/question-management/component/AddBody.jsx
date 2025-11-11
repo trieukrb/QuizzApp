@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 const AddBody = ({currentQuestions,ShowEditForm,handeleDelete,totalPages,setCurrentPage,currentPage, ShowDetailForm}) => {
     return (
         <>
-            {currentQuestions.map((question, index)  => (
+            {currentQuestions.map((question)  => (
                 <div className='flex justify-between gap-3 pb-2 px-4 border-b-1 border-neutral-200 border-solid' key={question.id}>
                     <p className='font-medium'>{question.question}</p>
                     <div className="flex gap-3 ">

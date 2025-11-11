@@ -34,16 +34,9 @@
     --font-playwrite: "Playwrite DE Grund", cursive;
 }
 @theme {
-    --animate-spins: spins 5s linear infinite;
-    @keyframes spins {
-        to {
-            transform: rotate(360deg);
-        }
-    }
-}
-@theme {
-    --animate-typing: typing 3s steps(20) infinite alternate, blink .7s infinite;
     --animate-float: float 5s ease-in-out infinite;
+    --animate-spins: spins 5s linear infinite;
+
     @keyframes float {
         0% {
             transform: translateY(0px); /* Vị trí ban đầu */
@@ -56,21 +49,9 @@
             transform: translateY(0px); /* Trở về vị trí ban đầu */
         }
     }
-    @keyframes typing {
-        0% {
-            width: 0;
-            visibility: hidden;
-        }
-        100% {
-            width: 100%;
-        }
-    }
-    @keyframes blink {
-        50% {
-            border-color: transparent;
-        }
-        100% {
-            border-color: #00d3f2;
+    @keyframes spins {
+        to {
+            transform: rotate(360deg);
         }
     }
 }
@@ -79,7 +60,8 @@
         @apply font-roboto
     }
     body{
-        background-image: url('./assets/images/background_img/main_bg_img.jpg');
+        /*background-image: url('./assets/images/background_img/main_bg_img.jpg');*/
+        background-image: url('/40130127_8777552.jpg');
         background-size: cover;
         background-position: center;
     }

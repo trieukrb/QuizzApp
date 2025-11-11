@@ -102,7 +102,7 @@ const FlashCard = () => {
     return (
         <div className="flex justify-center items-center">
             <div className="my-15 md:my-20 w-4/5 md:w-3/4 lg:w-8/10 lg:max-w-6xl p-5 bg-neutral-50 flex items-center flex-col rounded-2xl shadow-2xl gap-3 relative">
-                <Link to={`${topicName === 'user_questions' ? '/quiz-start' : '/vocabquiz'}`}
+                <Link to={`${topicName === 'user_questions' ? '/quiz-start' : '/vocab-quiz'}`}
                       className="absolute left-5 top-3 px-3 py-1 border-2 cursor-pointer border-p-500 transition duration-300 hover:bg-p-200 rounded-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
