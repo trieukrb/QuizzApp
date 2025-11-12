@@ -39,14 +39,14 @@
 
     @keyframes float {
         0% {
-            transform: translateY(0px); /* Vị trí ban đầu */
+            transform: translateY(0px);
         }
         50% {
-            transform: translateY(-15px); /* Di chuyển lên 10px */
+            transform: translateY(-15px);
 
         }
         100% {
-            transform: translateY(0px); /* Trở về vị trí ban đầu */
+            transform: translateY(0px);
         }
     }
     @keyframes spins {
@@ -60,22 +60,12 @@
         @apply font-roboto
     }
     body{
-        /*background-image: url('./assets/images/background_img/main_bg_img.jpg');*/
-        background-image: url('/40130127_8777552.jpg');
+        background-image: url('./assets/images/background_img/main_bg_img.jpg');
         background-size: cover;
         background-position: center;
     }
 }
 
-
-@utility container{
-    /*max-width: 700px;*/
-    /*background-color: #fafafa;*/
-    /*margin: 150px auto;*/
-    /*border-radius: 20px;*/
-    /*padding: 30px;*/
-    @apply bg-neutral-100/2 shadow-2xl mx-auto max-w-200 mt-45 rounded-xl p-8
-}
 @utility bg_pt{
     background-image: radial-gradient(rgba(45,221,242,0.2 ) 2px, transparent 2px);
     background-size: 50px 50px;
@@ -83,7 +73,6 @@
 }
 @utility nav-item{
     @apply flex items-center gap-3 px-1 sm:px-3 py-3 rounded-xl cursor-pointer font-medium text-n-600
-    /*@apply bg-neutral-100/20*/
 }
 @utility funtion-btn{
     @apply flex justify-center items-center gap-2 py-2 px-4 w-30 transition duration-400 hover:scale-105 rounded-lg hover:bg-p-200 cursor-pointer border-2 border-p-500

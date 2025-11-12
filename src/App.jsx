@@ -23,7 +23,7 @@ function App() {
     const setUser = useAuthStore((state) => state.setUser);
     const setLoading = useAuthStore((state) => state.setLoading);
 
-    // Dùng useEffect để lắng nghe trạng thái auth MỘT LẦN KHI APP KHỞI ĐỘNG
+    // Dùng useEffect để lắng nghe trạng thái auth một lần khi khở động
     useEffect(() => {
         setLoading(true)
         // onAuthStateChanged trả về một hàm "unsubscribe"
@@ -48,9 +48,9 @@ function App() {
             }
         });
 
-        // Cleanup: Gỡ bỏ listener khi component bị unmount
+        //Gỡ bỏ listener khi component bị unmount
         return () => unsubscribe();
-    }, [setUser,setLoading]); // Thêm setUser vào dependency array
+    }, [setUser,setLoading]);
   return (
       <Routes>
           <Route path='/' element={<Layout/>}>

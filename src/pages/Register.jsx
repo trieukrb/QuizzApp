@@ -12,17 +12,18 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null);
-    const navigate = useNavigate(); // Hook để điều hướng
+    const navigate = useNavigate();
 
     const handleSetEmail = (e) => {
         setEmail(e.target.value)
         setError(null)
     }
 
+    // --- Handle việc submit form đăng kí ---//
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true)
-        setError(null); // Xóa lỗi cũ
+        setError(null);
         try {
             // Dùng hàm của Firebase để tạo user mới
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -32,12 +33,11 @@ const Register = () => {
                 role: "user",
                 uid: user.uid
             });
+            // đăng nhập ngay sau khi tạo user
             await signInWithEmailAndPassword(auth, email, password);
             navigate('/');
 
         } catch (err) {
-            // Xử lý lỗi (ví dụ: email đã tồn tại, mật khẩu quá yếu)
-            console.log(err.message);
             setError(err.message);
         }
         finally {
@@ -51,28 +51,24 @@ const Register = () => {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
 
-            // BƯỚC QUAN TRỌNG: Kiểm tra xem user đã có hồ sơ trong Firestore chưa
+            // Kiểm tra xem user đã có hồ sơ trong Firestore chưa
             const docRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(docRef);
 
             if (!docSnap.exists()) {
-                // NẾU CHƯA CÓ (Đây là lần đăng ký đầu tiên)
-                // -> Tạo hồ sơ mới cho họ
+                // nếu chưa có
+                // tạo dt user mới
                 await setDoc(docRef, {
                     uid: user.uid,
                     email: user.email,
-                    role: "user" // Gán quyền mặc định
+                    role: "user"
                 });
-                console.log("Đã tạo hồ sơ mới trong Firestore cho user:", user.uid);
+                console.log("is Created")
             }
-
-            // Đăng nhập/Đăng ký thành công, về trang chủ
             navigate('/');
 
         } catch (err) {
             setError(err.message);
-            console.error(err);
-            alert(`Lỗi: ${err.message}`);
         }
     };
     return (

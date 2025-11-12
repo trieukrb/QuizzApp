@@ -13,6 +13,8 @@ const Login = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+
+
     const handleSetEmail = (e) => {
         setEmail(e.target.value)
         setError(null)
@@ -24,16 +26,15 @@ const Login = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
             setLoading(true)
-            setError(null); // Xóa lỗi cũ
+            setError(null);
         try {
             // Dùng hàm của Firebase để tạo user mới
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
-            // Đăng ký thành công!
+            // Đăng ký thành công
             console.log('User đã đăng nhập:', userCredential.user);
             // Chuyển người dùng đến trang đăng nhập
             setLoading(true)
-
             navigate('/');
 
         } catch (err) {
@@ -53,22 +54,21 @@ const Login = () => {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
 
-            // BƯỚC QUAN TRỌNG: Kiểm tra xem user đã có hồ sơ trong Firestore chưa
+            // Kiểm tra xem user đã có hồ sơ trong Firestore chưa
             const docRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(docRef);
 
             if (!docSnap.exists()) {
-                // NẾU CHƯA CÓ (Đây là lần đăng ký đầu tiên)
-                // -> Tạo hồ sơ mới cho họ
+                // nếu chưa có
+                // tạo dt user mới
                 await setDoc(docRef, {
                     uid: user.uid,
                     email: user.email,
-                    role: "user" // Gán quyền mặc định
+                    role: "user"
                 });
                 console.log("Đã tạo hồ sơ mới trong Firestore cho user:", user.uid);
             }
 
-            // Đăng nhập/Đăng ký thành công, về trang chủ
             navigate('/');
 
         } catch (err) {
