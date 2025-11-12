@@ -79,10 +79,6 @@ const QuestionManagement = () => {
         fetchQuestions()
     }, [user]);
 
-    // Hiển thị lỗi nếu không tải được câu hỏi.
-    if (error) {
-        return  (<div><h1>{error} 😥</h1></div> )}
-
     // --- Xử lý việc thêm câu hỏi --- //
     const handleSubmit = async (event) => {
         event.preventDefault();
