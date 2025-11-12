@@ -65,7 +65,7 @@ const QuizStart = () => {
                         </div>
                     <div className="flex gap-5 w-full">
                         <div className="flex flex-col gap-3 w-full">
-                            <div className="bg-p-100 border-2 border-p-400 gap-1 flex flex-col items-center px-5 py-3 rounded-xl">
+                            <div className="bg-p-100 border-2 border-p-400 gap-1 flex flex-col items-center px-3 py-3 rounded-xl">
                                 <div className="">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
@@ -73,7 +73,7 @@ const QuizStart = () => {
 
                                 </div>
                                 <span className="text-p-500 font-bold text-2xl text-center">{quesionData.length}</span>
-                                <div className="text-lg sm:text-xl font-medium">Flash Card</div>
+                                <div className="text-md sm:text-xl font-medium">Flash Card</div>
                             </div>
                             <Link to="/flash-card/user_questions" className="">
                                 <div className="flex items-center justify-center gap-3 w-full bg-linear-to-r from-blue-500 to-violet-500 transition duration-500 hover:scale-105 hover:opacity-60 px-6 py-2 rounded-xl text-neutral-50 cursor-pointer">
@@ -82,14 +82,14 @@ const QuizStart = () => {
                             </Link>
                         </div>
                         <div className="flex flex-col gap-3 w-full">
-                            <div className="bg-p-100 border-2 border-p-400 gap-1 flex flex-col items-center px-5 py-3 rounded-xl">
+                            <div className="bg-p-100 border-2 border-p-400 gap-1 flex flex-col items-center px-3 py-3 rounded-xl">
                                 <div className="">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
                                     </svg>
                                 </div>
                                 <span className="text-p-500 font-bold text-2xl text-center">{quesionData.length}</span>
-                                <div className="text-lg sm:text-xl font-medium">Questions</div>
+                                <div className="text-md sm:text-xl font-medium">Questions</div>
                             </div>
                             <Link to="/quiz/user_questions" className="">
                                 <div

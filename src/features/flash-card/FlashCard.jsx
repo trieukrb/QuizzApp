@@ -137,7 +137,7 @@ const FlashCard = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                 </Link>
-                <h3 className="my-4 text-xl font-bold">Topic {topicName}</h3>
+                <h3 className="mb-2 mt-8 text-xl font-bold">Topic {topicName}</h3>
                 <ProgressBar current={currentVocabIndex + 1} total={vocabs.length} />
                 
                 {vocabs.length > 0 ? (

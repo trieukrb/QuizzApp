@@ -3,7 +3,7 @@ import React from 'react';
 const HeaderAdd = ({searchTerm,setSearchTerm,setIsShowModelAdd}) => {
     return (
         <div className='flex flex-col md:flex-row items-center justify-between gap-3'>
-            <label className="flex gap-2 items-center w-4/5 bg-n-50  md:w-3/5 p-2 rounded-3xl shadow-sm border-2 border-neutral-300 placeholder:text-neutral-400" for='search-bar'>
+            <label className="flex gap-2 items-center w-4/5 bg-n-50  md:w-3/5 p-2 rounded-3xl shadow-sm border-2 border-neutral-300 placeholder:text-neutral-400" htmlFor='search-bar'>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 cursor-pointer">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                 </svg>
