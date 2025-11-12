@@ -1,0 +1,293 @@
+import React, {useEffect, useState} from 'react';
+import Result from "./component/Result.jsx";
+import Navigation from "./component/Navigation.jsx";
+import Question from "./component/Question.jsx";
+import AnswerOptions from "./component/AnswerOptions.jsx";
+import {Link, useParams} from 'react-router-dom'
+import useAuthStore from "../../stores/useAuthStore.js";
+import { useNavigate } from 'react-router-dom';
+import { db } from '../../firebaseConfig';
+import {addDoc, collection, getDocs, query, where} from "firebase/firestore";
+import Loading from "../../components/Loading.jsx";
+import Error from "../../components/Error.jsx";
+
+const Quiz = () => {
+
+    // --- STATE MANAGEMENT --- //
+    const {topicName} = useParams()
+    const { user } = useAuthStore(); // Lấy user từ store
+    const navigate = useNavigate();
+    const [topics, setTopics] = useState()
+    // `questions`: Lưu trữ danh sách các câu hỏi lấy từ API.
+    const [questions, setQuestions] = useState([]);
+    // `loading`: Cờ xác định trạng thái tải dữ liệu (true khi đang tải).
+    const [loading, setLoading] = useState(true);
+    // `error`: Lưu thông báo lỗi nếu không tải được dữ liệu.
+    const [error, setError] = useState(null);
+    // `quenstionnum`: Chỉ số (index) của câu hỏi hiện tại.
+    const [quenstionnum, setQuenstionnum] = useState(0);
+    // `selectedAnswers`: Mảng lưu chỉ số câu trả lời người dùng đã chọn cho mỗi câu hỏi.
+    const [selectedAnswers, setSelectedAnswers] = useState([]);
+    // `score`: Điểm số của người dùng.
+    const [score, setScore] = useState(0);
+    // `isSubmitted`: Cờ xác định người dùng đã nộp bài hay chưa.
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    // `selectedOptionIndex`: Chỉ số của câu trả lời đã chọn cho câu hỏi hiện tại.
+    const selectedOptionIndex = selectedAnswers[quenstionnum];
+
+    // --- Lấy dữ liệu topics từ db để gán name cho db score khi người dùng nộp bài --- //
+    useEffect(() => {
+        const fetchTopics = async () => {
+            setLoading(true);
+            try {
+                const querySnapshot = await getDocs(collection(db, "topics"));
+                const topicslist = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                const allowedTopics = topicslist.filter(topic => {
+                    if (topic.isPublic) {
+                        return true;
+                    }
+                    return user != null
+                });
+                setTopics(allowedTopics);
+            } catch (err) {
+                console.log("loi khi tai du lieu", err);
+                setError(true)
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchTopics();
+    }, [user]);
+    // --- lấy dữ liệu db từ topic người dùng chọn --- //
+    useEffect(() => {
+        const fetchQuestions = async () => {
+            setLoading(true)
+            setError(null)
+            try{
+                // biến q để tách ra hai trường hợp là topic name truyền vào
+                // get câu hỏi user tự tạo
+                // get câu hỏi của topics còn lại
+                let q
+                if (topicName === 'user_questions'){
+                    if (!user) {
+                        alert("Bạn cần đăng nhập để xem chủ đề này")
+                        navigate('/login')
+                        return
+                    }
+                    q = query(
+                        collection(db, "user_questions"),
+                        where("userId", "==", user.uid)
+                    )
+                }
+                else {
+                    q = query(collection(db, topicName))
+                }
+                const querySnapshot = await getDocs(q)
+                const fetchedQuestions = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
+                setQuestions(fetchedQuestions)
+                // tạo một array có độ dài bằng số câu hỏi có giá trị là undefined
+                setSelectedAnswers(Array(fetchedQuestions.length).fill(undefined))
+            }
+            catch (err){
+                console.log(err)
+            }
+            finally {
+                setLoading(false);
+            }
+        }
+        fetchQuestions()
+    },[topicName, user, navigate])
+
+
+    // --- Xử lý việc lắng nghe bàn phím để điều hướng chọn câu hỏi --- //
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            // Phím 1, 2, 3, 4: Chọn đáp án tương ứng.
+            if (['1', '2', '3', '4'].includes(e.key)) {
+                const index = parseInt(e.key) - 1;
+                const option = questions[quenstionnum].options[index];
+                if (option) {
+                    handleAnswer(option, index);
+                }
+            }
+            // Mũi tên trái: Quay lại câu hỏi trước.
+            else if (e.key === 'ArrowLeft') {
+                if (quenstionnum !== 0){
+                    onPrev();
+                }
+            }
+            // Mũi tên phải / Enter: Chuyển câu hỏi tiếp theo hoặc nộp bài.
+            else if (e.key === 'ArrowRight' || e.key === 'Enter') {
+                if (selectedAnswers[quenstionnum] !== undefined) {
+                    if (quenstionnum === questions.length - 1)
+                        handlesubmit();
+                    else {
+                        onNext();
+                    }
+                }
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        // Dọn dẹp event listener khi component unmount.
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [quenstionnum, selectedAnswers]);
+
+    // xử lý việc add đáp án là index vào một array vd: [1,2,3,4,1]
+    const handleAnswer = (option, index) => {
+        const newArrayoptions = [...selectedAnswers];
+        // add index củu câu hỏi vào vị trí quenstionnum
+        newArrayoptions[quenstionnum] = index;
+        setSelectedAnswers(newArrayoptions);
+    };
+
+    // Chuyển đến câu hỏi phía trước
+    const onPrev = () => {
+        setQuenstionnum(prevState => prevState - 1);
+    };
+
+    // Chuyển đến câu hỏi tiếp theo
+    const onNext = () => {
+        setQuenstionnum(prevState => prevState + 1);
+    };
+
+    // Xử lý khi người dùng nộp bài. Tính điểm và hiển thị màn hình kết quả.
+    const handlesubmit = async (e) => {
+        let finalScore = 0;
+        selectedAnswers.forEach((answerIndex, questionIndex) => {
+            // lấy ra đáp án đúng trong db
+            const correctAnswer = questions[questionIndex].answer;
+            // lấy ra đáp án người dùng chọn trong array selectedAnswers
+            const userAnswer = questions[questionIndex].options[answerIndex];
+            // nếu này đúng khớp với nhau thì cộng một điểm
+            if (userAnswer === correctAnswer) {
+                finalScore++;
+            }
+        });
+        setScore(finalScore);
+        setIsSubmitted(true);
+        // --- handle việc gửi data điểm số lên db --- //
+        if (!user){
+            return
+        }
+
+        const now = new Date();
+        // lấy ra path(đường dẫn trong topics)
+        const pathList = topics.map(topic  => topic.path)
+        // Kiểm tra số thứ tự của topicName ở số thứ tự bao nhiêu
+        const indexTopics = pathList.indexOf(topicName)
+        // Sau đó lấy topics name từ vị trí index vừa lấy
+
+        const scoreData = {
+            score: parseFloat(((finalScore/questions.length)*10).toFixed(1)),
+            day: now.getDate(),
+            month: now.getMonth(),
+            hours: now.getHours(),
+            minutes: now.getMinutes(),
+            topic: topics[indexTopics].name, //đây
+            userId: user.uid,
+            email: user.email
+        }
+        try {
+            await addDoc(collection(db, "score"), scoreData)
+        }
+        catch(err){
+            setError(true)
+        }
+
+    };
+
+   // Reset lại toàn bộ trạng thái của bài trắc nghiệm để chơi lại (đề truyền vào component Result)
+    const reset = () => {
+        setQuenstionnum(0);
+        setSelectedAnswers([]);
+        setScore(0);
+        setIsSubmitted(false);
+    };
+
+    // Hiển thị màn hình kết quả nếu đã nộp bài.
+    if (isSubmitted) {
+        return (
+            <Result
+                score={score}
+                questions={questions}
+                question={questions.length}
+                correctarray={selectedAnswers}
+                reset={reset}
+            />)
+    }
+
+    // Hiển thị màn hình loading trong khi tải dữ liệu.
+    if (loading) {
+        return (<div className="h-full flex flex-col gap-10 justify-start items-center">
+                    <div className="my-15 md:my-20 w-4/5 md:w-3/4 lg:w-8/10 lg:max-w-6xl  p-5 bg-neutral-50 flex items-center flex-col rounded-2xl shadow-2xl gap-3 relative">
+                        <Loading/>
+                    </div>
+                </div>);
+    }
+    if (error) {
+        return (<div className="h-full flex flex-col gap-10 justify-start items-center">
+            <div className="my-15 md:my-20 w-4/5 md:w-3/4 lg:w-8/10 lg:max-w-6xl  p-5 bg-neutral-50 flex items-center flex-col rounded-2xl shadow-2xl gap-3 relative">
+                <Error/>
+            </div>
+        </div>);
+    }
+
+    const currentQuestion = questions[quenstionnum];
+    // Thanh tien do cau hoi
+    const precentageQuestions = ((quenstionnum+1) / questions.length) * 100
+    return (
+        <div className="h-full flex flex-col gap-10 justify-start items-center">
+            <div
+                className="w-5/6 md:w-4/6 border-2 border-p-400 p-5 bg-neutral-50 mt-35 flex flex-col rounded-2xl shadow-lg gap-3">
+                <div className="flex justify-between gap-3">
+                    <p className="font-medium">Question {quenstionnum} of {questions.length}</p>
+                    <p>{Math.floor(precentageQuestions)}%</p>
+                </div>
+                <div className="w-full h-2 bg-neutral-300 rounded-lg">
+                    <div className="bg-linear-to-r from-fuchsia-400 to-sky-400 h-full rounded-lg"
+                         style={{width: `${precentageQuestions}%`}}></div>
+                </div>
+            </div>
+            <div
+                className="w-5/6 md:w-4/6 p-5 border-2 border-p-400 bg-neutral-50 flex flex-col rounded-2xl shadow-2xl gap-3 relative">
+                <Link to={`${topicName === 'user_questions' ? '/quiz-start' : '/vocab-quiz'}`}
+                      className="absolute left-5 top-3 px-3 py-1 border-2 cursor-pointer border-p-500 transition duration-300 hover:bg-p-200 rounded-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                         stroke="currentColor" className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+                    </svg>
+                </Link>
+                {questions.length !== 0 ?
+                    <>
+                        <Question
+                            question={quenstionnum + 1}
+                            questionData={currentQuestion.question}
+                        />
+                        <AnswerOptions
+                            options={currentQuestion.options}
+                            selectedOptionIndex={selectedOptionIndex}
+                            handleAnswer={handleAnswer}
+                        />
+                        <p className="pl-2 text-sm text-neutral-400 cursor-default">Press 1, 2, 3, 4, arrow or enter to
+                            choose and next</p>
+                        {/* Component hiển thị các nút điều hướng (Trước, Sau, Nộp bài) */}
+                        <Navigation
+                            onPrev={onPrev}
+                            onNext={onNext}
+                            handlesubmit={handlesubmit}
+                            isFirstQuestion={quenstionnum === 0}
+                            isLastQuestion={quenstionnum === questions.length - 1}
+                            selectedAnswers={selectedAnswers[quenstionnum]}
+                        />
+                    </> :
+                    (
+                        <p className="text-center">This topic has no questions.</p>
+                    )
+                }
+            </div>
+        </div>
+    );
+};
+
+export default Quiz;

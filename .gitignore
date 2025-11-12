@@ -1,4 +1,6 @@
 # Logs
+seedData.json
+seedScrips.cjs
 .env
 logs
 *.log
