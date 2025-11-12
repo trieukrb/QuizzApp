@@ -83,12 +83,12 @@ const Register = () => {
                 {
                     loading ? (<Loading/>) :
                         (<>
-                            <form action="" className="w-full">
+                            <form action="" className="w-full" onSubmit={handleSubmit}>
                                 <div className="px-3 sm:px-5">
                                     <label className="font-semibold text-sm text-gray-600 pb-1"
                                            htmlFor="login">E-mail</label>
                                     <input
-                                        className="border-2 border-neutral-300 rounded-lg py-2 mt-1 mb-5 text-sm w-full"
+                                        className="border-2 border-neutral-300 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
                                         type="text"
                                         id="login"
                                         value={email}
@@ -112,10 +112,9 @@ const Register = () => {
                                         required
                                     />
                                     {error === 'Firebase: Error (auth/email-already-in-use).' ?
-                                        <p className="mb-3 text-red-500 text-sm">Tài khoản đã tồn tại</p> : ''}
+                                        <p className="mb-3 text-red-500 text-sm">Account already exists</p> : ''}
                                     {error === 'Firebase: Error (auth/invalid-email).' ?
-                                        <p className="mb-3 text-red-500 text-sm">Bạn hãy nhập email hợp
-                                            lệ</p> : ''}
+                                        <p className="mb-3 text-red-500 text-sm">Invalid email</p> : ''}
                                     <button
                                         className="py-2 px-4 cursor-pointer bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
                                         type="submit">
