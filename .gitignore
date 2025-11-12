@@ -1,4 +1,7 @@
 # Logs
+seedData.json
+seedScrips.cjs
+.env
 logs
 *.log
 npm-debug.log*
