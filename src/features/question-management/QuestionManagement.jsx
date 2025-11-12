@@ -14,30 +14,38 @@ import Error from "../../components/Error.jsx";
 const QuestionManagement = () => {
     const { user } = useAuthStore();
     const navigate = useNavigate();
+    // "questions" data chính
     const [questions, setQuestions] = useState([]);
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
     const [questionValue, setQuestionValue] = useState("")
     const [answerValue1, setAnswerValue1] = useState("")
     const [answerValue2, setAnswerValue2] = useState("")
     const [answerValue3, setAnswerValue3] = useState("")
     const [answerValue4, setAnswerValue4] = useState("")
     const [correctAnswerValue, setCorrectAnswerValue] = useState(null)
+
     const [editingId, setEditingId] = useState(null)
     const [editingData, setEditingData] = useState({
         question: "",
         options: ["", "", "", ""],
         answer: ""
     })
+
     const [DetailData, setDetailData] = useState({
         question: "",
         options: ["", "", "", ""],
         answer: ""
     })
+
     const [isShowModelAdd, setIsShowModelAdd] = useState(false)
     const [isShowModelEdit, setIsShowModelEdit] = useState(false)
     const [isShowModelDetail, setIsShowModelDetail] = useState(false)
+
     const inputAddRef = useRef(null)
+    // state handle việc phân trang và tìm kiếm
     const [currentPage, setCurrentPage] = useState(1)
     const [questionsPerPage] = useState(10)
     const [searchTerm, setSearchTerm] = useState("")
@@ -75,45 +83,49 @@ const QuestionManagement = () => {
     if (error) {
         return  (<div><h1>{error} 😥</h1></div> )}
 
-    // Xử lý thêm câu hỏi
+    // --- Xử lý việc thêm câu hỏi --- //
     const handleSubmit = async (event) => {
         event.preventDefault();
+        // Kiểm tra người dùng đã đăng nhập chưa
         if (!user){
-            alert("bạn phải đăng nhập để đặt câu hỏi")
+            alert("You must log in to use this function.")
             return
         }
 
+        // --- 'options' array chưa đáp án
         //Logic kiểm tra 4 đáp án có trùng nhau không
         //Gom các đáp án vào một mảng và bỏ khoảng trống
         const options = [answerValue1.trim(), answerValue2.trim(), answerValue3.trim(), answerValue4.trim()];
 
-        // Kiểm tra trùng lặp bằng Set
+        // Kiểm tra trùng lặp bằng Set(Set chỉ lưu một giá trị duy nhất không lặp)
         const uniqueOptions = new Set(options);
+        //Dùng size kiểm tra số lượng phần tử có trong uniqueOptions
         if (uniqueOptions.size < options.length) {
             alert("Các đáp án không được trùng nhau!");
             return;
         }
-
+        // --- 'answerText' Lấy dữ liệu từ đáp án
         //Logic lấy value answer từ radio
-        let answerText = "";
+        let answer = "";
         if (correctAnswerValue === '1') {
-            answerText = answerValue1;
+            answer = answerValue1;
         } else if (correctAnswerValue === '2') {
-            answerText = answerValue2;
+            answer = answerValue2;
         } else if (correctAnswerValue === '3') {
-            answerText = answerValue3;
+            answer = answerValue3;
         } else if (correctAnswerValue === '4') {
-            answerText = answerValue4;
+            answer = answerValue4;
         }
         // Kiểm tra có radio có được chọn chưa
         if (correctAnswerValue === null){
-            alert('Vui lòng chọn đáp án đúng')
+            alert('Please choose the correct answer')
             return;
         }
+        // Data hoàn chỉnh để add
         const newQuestion = {
             question: questionValue.trim(),
             options: options,
-            answer: answerText,
+            answer: answer,
             userId: user.uid
         }
         try {
@@ -133,10 +145,10 @@ const QuestionManagement = () => {
             setAnswerValue4("")
             setCorrectAnswerValue(null)
             inputAddRef.current?.focus()
-
         }
     }
-    // Sử lý lggic xoá
+
+    // --- Xử lý việc xóa câu hỏi --- //
     const handleDelete = async (id) => {
         if (!user) {
             return;
@@ -151,34 +163,43 @@ const QuestionManagement = () => {
             setError(true)
         }
     }
-    // Show formDetail
+
+    // Hiển thị formDetail
     const handleShowDetailForm = (question) => {
         setIsShowModelDetail(true)
+        //gán dữ liệu vào formDT
         setDetailData(question)
     }
-    // Sử lý logic chỉnh sửa
+
+    // --- Xử lý việc edit câu hỏi --- //
+    // Hiển thị formEdit
     const handleShowEditForm = (question) => {
         setIsShowModelEdit(true)
+        // same
         setEditingId(question.id)
         setEditingData(question)
     }
+
+    // handle cả hai việc thay đổi của question và answer
     const handleEditQuestionChange = (e) => {
         const {name, value} = e.target
         setEditingData(predata => ({...predata, [name]: value}))
     }
+
+    // handle xử lý option
     const handleEditOptionChange = (e, index) => {
         const newOptionArray = [...editingData.options]
         newOptionArray[index] = e.target.value
         setEditingData(predata => ({...predata, options: newOptionArray}))
     }
-
-
+    // xử lý việt submit formEdit
     const handleSubmitEditForm = async (e) => {
         e.preventDefault()
-        if (!user) { // Luôn kiểm tra user
+        if (!user) {
             return;
         }
         try {
+            // chỉ lấy nhưng thứ cần thay đổi vì data có cả id của user không cần lấy
             const updateData = {
                 question: editingData.question,
                 options: editingData.options,
@@ -199,6 +220,7 @@ const QuestionManagement = () => {
     const handlestopPropagation = (e) => {
         e.stopPropagation()
     }
+    // Khi tắt form cần clear dữ liệu
     const handleHideAddForm = () => {
         setQuestionValue("")
         setAnswerValue1("")
@@ -210,11 +232,12 @@ const QuestionManagement = () => {
     }
 
     //Logic phân trang và tìm kiếm
+    // logic tiền kiếm
     const filteredQuestions = questions.filter(question =>
         question.question.toLowerCase().includes(searchTerm?.toLowerCase()));
-    // Tính toán chỉ số của câu hỏi cuối cùng trên trang hiện tại
+    // Tính toán số của câu hỏi cuối cùng trên trang hiện tại
     const indexOfLastQuestion = currentPage * questionsPerPage;
-    // Tính toán chỉ số của câu hỏi đầu tiên trên trang hiện tại
+    // Tính toán số của câu hỏi đầu tiên trên trang hiện tại
     const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
     // "Cắt" mảng questions để lấy ra đúng các câu hỏi cho trang hiện tại
     const currentQuestions = filteredQuestions.slice(indexOfFirstQuestion, indexOfLastQuestion);

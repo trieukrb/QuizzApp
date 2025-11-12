@@ -10,6 +10,7 @@ export default function VocabHome() {
     const [loading, setLoading] = useState(true);
     const { user } = useAuthStore();
 
+    // Lấy dữ liệu từ cl db topics
     useEffect(() => {
         const fetchTopics = async () => {
             setLoading(true);
@@ -21,7 +22,6 @@ export default function VocabHome() {
                     if (topic.isPublic) {
                         return true;
                     }
-                    // return user != null;
                 });
                 setTopics(allowedTopics);
             } catch (err) {

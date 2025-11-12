@@ -8,11 +8,15 @@ import Loading from "../../components/Loading.jsx";
 import Error from "../../components/Error.jsx";
 
 const QuizStart = () => {
-    const [quesionData, setQuesionData] = useState([])
     const navigate = useNavigate()
     const {user} = useAuthStore()
+    // state chứa data chính
+    const [quesionData, setQuesionData] = useState([])
+
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
+
+    // Lấy dữ liệu từ data user
     useEffect(() => {
         const fetchQuestions = async () => {
             setLoading(true)
@@ -22,6 +26,8 @@ const QuizStart = () => {
                     navigate('/')
                     return
                 }
+                // dùng where để lọc lấy dữ liệu từ những data co userId
+                // trùng với userid người dùng đang đăng nhập
                 const q = query(
                     collection(db, "user_questions"),
                     where("userId", "==", user.uid)

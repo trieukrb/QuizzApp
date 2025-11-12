@@ -3,20 +3,32 @@ import {Outlet, useLocation} from "react-router-dom";
 import SideBar from "./SideBar.jsx";
 
 const Layout = () => {
+    // widthside: chiều dài của sidebar
     const [widthside, setWidthside] = useState(300)
+    // isShowSidebar: trạng thái của sidebar
     const [isShowSidebar, setIsShowSidebar] = useState(false)
+
+    // --- Logic thay đổi class --- //
+    // gọi hook location
     const location = useLocation();
+    // currentPath lấy ra vị trí hiện tại đừng dẫn đang ở
     const currentPath = location.pathname;
+    // tạo một class mặt định và một class linh hoạt để gán khi đường dẫn thay đổi
     const baseClass = "flex-1 h-screen flex flex-col relative";
     let dynamicClass = "";
+    // nếu đường dẫn là / thì áp dụng và còn lại
     if (currentPath === '/') {
         dynamicClass = "overflow-visible";
     } else  {
         dynamicClass = "overflow-y-auto";
     }
+
+    // --- Logic của sidebar --- //
+    // Màn hình lớn: Điều kiệu nếu giá trị cũ là 1 thì return 300 và ngược lại là 1
     const handleHideSideBar = () => {
         setWidthside(prev => prev === 1 ? 300 : 1 )
     }
+    //Màn hình nhỏ: ẩn hiện sidebar
     const handleShowSideBar = () => {
         setIsShowSidebar(!isShowSidebar)
     }

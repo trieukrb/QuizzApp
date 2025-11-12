@@ -10,9 +10,7 @@ import { db } from '../../firebaseConfig';
 import {addDoc, collection, getDocs, query, where} from "firebase/firestore";
 import Loading from "../../components/Loading.jsx";
 import Error from "../../components/Error.jsx";
-/**
- * Component Quiz: Chịu trách nhiệm hiển thị và quản lý toàn bộ logic của bài trắc nghiệm.
- */
+
 const Quiz = () => {
 
     // --- STATE MANAGEMENT --- //
@@ -36,10 +34,8 @@ const Quiz = () => {
     const [isSubmitted, setIsSubmitted] = useState(false);
     // `selectedOptionIndex`: Chỉ số của câu trả lời đã chọn cho câu hỏi hiện tại.
     const selectedOptionIndex = selectedAnswers[quenstionnum];
-    /**
-     * `useEffect` để lấy dữ liệu câu hỏi từ API khi component được mount.
-     * Dữ liệu sau khi lấy về sẽ được xử lý (decode HTML entities, trộn đáp án) và cập nhật vào state.
-     */
+
+    // --- Lấy dữ liệu topics từ db để gán name cho db score khi người dùng nộp bài --- //
     useEffect(() => {
         const fetchTopics = async () => {
             setLoading(true);
@@ -63,12 +59,15 @@ const Quiz = () => {
         };
         fetchTopics();
     }, [user]);
-
+    // --- lấy dữ liệu db từ topic người dùng chọn --- //
     useEffect(() => {
         const fetchQuestions = async () => {
             setLoading(true)
             setError(null)
             try{
+                // biến q để tách ra hai trường hợp là topic name truyền vào
+                // get câu hỏi user tự tạo
+                // get câu hỏi của topics còn lại
                 let q
                 if (topicName === 'user_questions'){
                     if (!user) {
@@ -87,6 +86,7 @@ const Quiz = () => {
                 const querySnapshot = await getDocs(q)
                 const fetchedQuestions = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
                 setQuestions(fetchedQuestions)
+                // tạo một array có độ dài bằng số câu hỏi có giá trị là undefined
                 setSelectedAnswers(Array(fetchedQuestions.length).fill(undefined))
             }
             catch (err){
@@ -100,9 +100,7 @@ const Quiz = () => {
     },[topicName, user, navigate])
 
 
-    /**
-     * `useEffect` để lắng nghe sự kiện bàn phím cho việc điều hướng và chọn đáp án.
-     */
+    // --- Xử lý việc lắng nghe bàn phím để điều hướng chọn câu hỏi --- //
     useEffect(() => {
         const handleKeyDown = (e) => {
             // Phím 1, 2, 3, 4: Chọn đáp án tương ứng.
@@ -135,36 +133,25 @@ const Quiz = () => {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [quenstionnum, selectedAnswers]);
 
-    // --- EVENT HANDLERS --- //
-
-    /**
-     * Xử lý khi người dùng chọn một câu trả lời.
-     * @param {string} option - Nội dung câu trả lời được chọn.
-     * @param {number} index - Chỉ số của câu trả lời trong mảng options.
-     */
+    // xử lý việc add đáp án là index vào một array vd: [1,2,3,4,1]
     const handleAnswer = (option, index) => {
         const newArrayoptions = [...selectedAnswers];
+        // add index củu câu hỏi vào vị trí quenstionnum
         newArrayoptions[quenstionnum] = index;
         setSelectedAnswers(newArrayoptions);
     };
 
-    /**
-     * Chuyển đến câu hỏi phía trước.
-     */
+    // Chuyển đến câu hỏi phía trước
     const onPrev = () => {
         setQuenstionnum(prevState => prevState - 1);
     };
 
-    /**
-     * Chuyển đến câu hỏi tiếp theo.
-     */
+    // Chuyển đến câu hỏi tiếp theo
     const onNext = () => {
         setQuenstionnum(prevState => prevState + 1);
     };
 
-    /**
-     * Xử lý khi người dùng nộp bài. Tính điểm và hiển thị màn hình kết quả.
-     */
+    // Xử lý khi người dùng nộp bài. Tính điểm và hiển thị màn hình kết quả.
     const handlesubmit = async (e) => {
         let finalScore = 0;
         selectedAnswers.forEach((answerIndex, questionIndex) => {
@@ -179,14 +166,17 @@ const Quiz = () => {
         });
         setScore(finalScore);
         setIsSubmitted(true);
+        // --- handle việc gửi data điểm số lên db --- //
         if (!user){
             return
         }
 
         const now = new Date();
-
+        // lấy ra path(đường dẫn trong topics)
         const pathList = topics.map(topic  => topic.path)
+        // Kiểm tra số thứ tự của topicName ở số thứ tự bao nhiêu
         const indexTopics = pathList.indexOf(topicName)
+        // Sau đó lấy topics name từ vị trí index vừa lấy
 
         const scoreData = {
             score: parseFloat(((finalScore/questions.length)*10).toFixed(1)),
@@ -194,7 +184,7 @@ const Quiz = () => {
             month: now.getMonth(),
             hours: now.getHours(),
             minutes: now.getMinutes(),
-            topic: topics[indexTopics].name,
+            topic: topics[indexTopics].name, //đây
             userId: user.uid,
             email: user.email
         }
@@ -207,17 +197,13 @@ const Quiz = () => {
 
     };
 
-    /**
-     * Reset lại toàn bộ trạng thái của bài trắc nghiệm để chơi lại.
-     */
+   // Reset lại toàn bộ trạng thái của bài trắc nghiệm để chơi lại (đề truyền vào component Result)
     const reset = () => {
         setQuenstionnum(0);
         setSelectedAnswers([]);
         setScore(0);
         setIsSubmitted(false);
     };
-
-    // --- CONDITIONAL RENDERING --- //
 
     // Hiển thị màn hình kết quả nếu đã nộp bài.
     if (isSubmitted) {
@@ -247,7 +233,6 @@ const Quiz = () => {
         </div>);
     }
 
-    // --- MAIN RENDER --- //
     const currentQuestion = questions[quenstionnum];
     // Thanh tien do cau hoi
     const precentageQuestions = ((quenstionnum+1) / questions.length) * 100

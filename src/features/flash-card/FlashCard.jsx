@@ -11,31 +11,45 @@ import CardNavigation from "./components/CardNavigation.jsx";
 import Error from "../../components/Error.jsx";
 
 const FlashCard = () => {
+    //topicName: là đường dẫn từ component VocabHome truyền vào
     const { topicName } = useParams();
     const { user } = useAuthStore();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    // vocabs: là dữ liệu của data
     const [vocabs, setVocabs] = useState([]);
+    // isFlipped trạng thái của thẻ
     const [isFlipped, setIsFlipped] = useState(false);
+    // currentVocabIndex: số thứ tự câu hỏi hiện tại
     const [currentVocabIndex, setCurrentVocabIndex] = useState(0);
+
     const audioRef = useRef(null);
     const timeoutRef = useRef(null);
+
+    // --- Lấy dữ liệu câu hỏi từ db --- //
     useEffect(() => {
         const fetchQuestions = async () => {
             setLoading(true);
             setError(null);
+            // tại biến q để lọc điều kiện nếu người dùng chưa đăng nhập (!user)
+            // thì không tải dữ liệu từ collection(db) user_questions (dự liệu ca nhân mỗi user)
             try {
                 let q;
                 if (topicName === 'user_questions') {
+                    //không phải user (chưa đang nhập) thì trả về login và dùng
                     if (!user) {
                         navigate('/login');
                         return;
                     }
+                    // nếu topic là user_questions thì tải câu hỏi từ collection user_questions
                     q = query(collection(db, "user_questions"), where("userId", "==", user.uid));
                 } else {
+                    //tải cau hỏi từ topicName truyền vào
                     q = query(collection(db, topicName));
                 }
+                // lấy câu hỏi từ db và set và state 'vocabs'
                 const querySnapshot = await getDocs(q);
                 const fetchedQuestions = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 setVocabs(fetchedQuestions);
@@ -55,14 +69,18 @@ const FlashCard = () => {
         };
     }, []);
 
+    //xử lý mức âm lượng khi lật thẻ
     useEffect(() => {
         if (audioRef.current) {
             audioRef.current.volume = 0.3;
         }
     }, []);
 
+    //xử lý viện click vào thẻ
     const handleCardClick = () => {
+        // set trạng thái lật
         setIsFlipped(!isFlipped);
+        // xử lý âm thanh
         if (audioRef.current) {
             audioRef.current.currentTime = 0;
             audioRef.current.play().catch(error => {
@@ -71,14 +89,17 @@ const FlashCard = () => {
         }
     };
 
+    // xử lý lùi thẻ
     const handlePrev = () => {
         setIsFlipped(false);
         clearTimeout(timeoutRef.current);
+        // xử lý việc delay khi tiến thẻ vì hiệu ứng lậy card có duration nên cần delay
+        // việc lậy thẻ lại trước khi tiến sang thẻ khác để tránh lộ nội dung thẻ tiếp theo
         timeoutRef.current = setTimeout(() => {
             setCurrentVocabIndex(prev => prev - 1);
         }, 200);
     };
-
+    // xử lý tiến thẻ
     const handleNext = () => {
         setIsFlipped(false);
         clearTimeout(timeoutRef.current);

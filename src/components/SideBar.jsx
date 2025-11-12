@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavLink, useNavigate} from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
 import useAuthStore from "../stores/useAuthStore.js";
 import { auth } from '../firebaseConfig.js';
 import { signOut } from 'firebase/auth';
@@ -23,7 +23,7 @@ const SideBar = () => {
     return (
         <>
             <div className="px-4 flex flex-col gap-3">
-                <h1 className="font-bold text-3xl text-center py-6">TQuizlet</h1>
+                <Link to="/" className="font-bold text-3xl text-center py-6 cursor-pointer">TQuizlet</Link>
                 <NavLink to="/">
                     {({isActive}) => (
                         <div className={`nav-item ${isActive ? 'bg-p-100/70 border-1 border-solid border-p-500' : 'hover:bg-n-300/30 hover:shadow-lg transition delay-70 duration-300 ease-in-out hover:-translate-y-1 hover:scale-102'}`}>

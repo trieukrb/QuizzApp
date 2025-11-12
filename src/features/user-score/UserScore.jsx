@@ -12,6 +12,7 @@ const UserScore = () => {
     const [scoreData, setScoreData] = useState([])
     const [loading, setLoading] = useState(true)
 
+    // Lấy data từ score
     useEffect(() => {
         const fetchScores = async () => {
             if (!user){
@@ -24,6 +25,8 @@ const UserScore = () => {
                 const q = query(collection(db, "score"), where("userId", "==", user.uid))
                 const querySnapshot = await getDocs(q);
                 const userScore = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
+
+                // short lại theo ngày giờ từ mới đến cũ
                 const sortedScores = userScore.sort((a, b) => {
                     const year = new Date().getFullYear();
                     const dateA = new Date(year, a.month - 1, a.day, a.hours, a.minutes);

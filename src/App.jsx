@@ -16,12 +16,12 @@ import { onAuthStateChanged } from 'firebase/auth';
 import {auth, db} from "./firebaseConfig.js";
 import Home from "./pages/Home.jsx";
 import UserScore from "./features/user-score/UserScore.jsx";
-import {doc, getDoc} from "firebase/firestore"; // Import "người gác cổng"
+import {doc, getDoc} from "firebase/firestore";
 
 function App() {
     // Lấy hàm setUser từ store
     const setUser = useAuthStore((state) => state.setUser);
-    const setLoading = useAuthStore((state) => state.setLoading); // Lấy hàm setLoading
+    const setLoading = useAuthStore((state) => state.setLoading);
 
     // Dùng useEffect để lắng nghe trạng thái auth MỘT LẦN KHI APP KHỞI ĐỘNG
     useEffect(() => {

@@ -2,9 +2,6 @@ import React, {useEffect, useState} from 'react';
 import book1 from '../assets/images/items_img/book1.png';
 import book2 from '../assets/images/items_img/book2.png';
 import book3 from '../assets/images/items_img/book3.png';
-import kid_img from '../assets/images/kid.png'
-import girl_img from '../assets/images/items_img/girl.png'
-import main_bg from '../assets/images/background_img/main_bg_img.jpg'
 import main_book from '../assets/images/items_img/main_book_img.png'
 import main_pencil from '../assets/images/items_img/main_pencil_img.png'
 import main_check from '../assets/images/items_img/main_check_img.png'
@@ -36,7 +33,7 @@ const Home = () => {
 
     return (<div className="z-0 relative w-full h-screen bg-radial from-n-950/10 flex justify-center items-center font-playwrite">
         <div className="flex flex-col justify-center text-center">
-            <div className="relative text-shadow-lg/10 text-n-50 text-6xl md:text-8xl lg:text-9xl">
+            <div className="relative text-shadow-lg/10 text-n-50 font-bold text-6xl md:text-8xl lg:text-9xl">
                 <h1>The best place to</h1>
                 <div className="hidden animate-float lg:block w-60 h-60 absolute -top-55 -left-35 rotate-15">
                     <img src={main_pencil} alt=""/>
@@ -52,10 +49,10 @@ const Home = () => {
                     </svg>
                 </div>
             </div>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl mt-10 text-shadow-lg/10 text-n-50"><span
+            <h1 className="text-5xl md:text-7xl lg:text-8xl mt-13 text-shadow-lg/10 font-bold text-n-50"><span
                 className=" text-shadow-sm text-pink-300 font-caveat ">Learn</span> and <span
                 className="text-shadow-sm text-amber-300 font-caveat ">Practice</span></h1>
-            <p className="mt-5 font-medium text-sm  md:text-lg text-shadow-lg/10 text-n-50">Tquizlet is a website designed to learn vocabulary for the TOEIC exam.</p>
+            <p className="mt-7 font-bold text-sm md:text-lg text-shadow-lg/20 text-n-50">Tquizlet is a website designed to learn vocabulary for the TOEIC exam.</p>
             <div className="relative mt-10">
                 <Link to='/vocab-quiz'
                       className="group relative inline-flex items-center justify-center px-8 py-3 text-lg font-bold text-white transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95">
