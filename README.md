@@ -1,16 +1,48 @@
-# React + Vite
+TQuizlet: A Full-Stack TOEIC Quiz Application
+TQuizlet is a serverless web application built to help users practice TOEIC vocabulary through interactive quizzes and flashcards. This project leverages React and Tailwind CSS for the front end and utilizes the full power of Firebase (Authentication and Firestore) for the backend.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Key Features
+Full Authentication System: Users can sign up and log in using the traditional Email/Password method or conveniently via social providers like Google and GitHub (signInWithPopup).
 
-Currently, two official plugins are available:
+Role-Based Access Control (Authorization):
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+User: Can take public quizzes, track their scores, and manage their own private collection of questions.
 
-## React Compiler
+Advanced Firestore Database:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Features a dual-collection strategy: Public collections (for shared topic data) and Private collections (for user-specific data like user_questions and scores).
 
-## Expanding the ESLint configuration
+Secured using Firestore Security Rules to ensure users can only read/write their own data.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Modern State Management:
+
+Uses Zustand (useAuthStore) to manage global user authentication status and profile data (including role) across the entire application.
+
+Employs local useState/useRef for component-level state (e.g., forms, modals).
+
+Rich User Experience (UX):
+
+Fully responsive UI built from scratch using Tailwind CSS.
+
+Seamless client-side routing (no page refresh) with React Router v6, including dynamic routes (/quiz/:topicPath) and shared layouts (<Outlet />).
+
+Features advanced UI patterns such as Search, Pagination, modal forms, and animations.
+
+Professional Deployment Workflow:
+
+Code managed with Git/GitHub using feature branches.
+
+Automated CI/CD pipeline via Vercel.
+
+All sensitive keys (Firebase config) are secured using Environment Variables (.env) and Google Cloud API Key restrictions.
+
+Tech Stack
+Front-End: React (Vite), JavaScript (ES6+), React Router, Tailwind CSS
+
+State Management: Zustand
+
+Back-End (BaaS): Firebase Authentication, Cloud Firestore
+
+Deployment: Vercel
+
+Tools: Git/GitHub
