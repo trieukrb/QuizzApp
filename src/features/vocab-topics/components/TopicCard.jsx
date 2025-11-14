@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const TopicCard = ({ topic }) => {
+const TopicCard = ({ topic, topicLength }) => {
     return (
-        <li className="px-2 py-4 border-2 bg-n-50 border-p-400 rounded-lg shadow-lg hover:shadow-2xl transition delay-70 duration-300 ease-in-out hover:-translate-y-1 hover:scale-102">
+        <li className={`${topicLength === 1 ? 'min-w-57' : ''} px-2 py-4 border-2 bg-n-50 border-p-400 rounded-lg shadow-lg hover:shadow-2xl transition delay-70 duration-300 ease-in-out hover:-translate-y-1 hover:scale-102`}>
             <div className="flex items-center text-lg text-center text-wrap justify-center h-20 p-2 text-n-700 font-bold ">
                 {topic.name}
             </div>
